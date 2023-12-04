@@ -15,6 +15,11 @@ body {
 }
 
 .by {
-    font-size: 12px;
-    color: #ffffff;
+    font-size: 6px;
+    color: #c7c5c5;
+}
+
+.by a {
+    color: #c7c5c5;
+    text-decoration: none;
 }
