@@ -14,6 +14,10 @@ body {
     max-width:380px;
 }
 
+audio {
+    display: none;
+}
+
 .by {
     font-size: 6px;
     color: #c7c5c5;
@@ -22,4 +26,52 @@ body {
 .by a {
     color: #c7c5c5;
     text-decoration: none;
+}
+
+.fartSoundBox {
+    display: inline-block;
+    width: 80%;
+    height: 20px;
+    padding: 20px 10px;
+    border-radius : 10px;
+    margin-bottom: 5px;
+}
+
+.fartSoundBox.color1 {
+    background: #fa7968;
+    border: 1px solid #fff;
+}
+
+.fartSoundBox.color2 {
+    background: #faaa68;
+    border: 1px solid #fff;
+}
+
+.fartSoundBox.color3 {
+    background: #facc68;
+    border: 1px solid #fff;
+}
+
+.fartSoundBox.color4 {
+    background: #dffa68;
+    border: 1px solid #fff;
+}
+
+.fartSoundBox.color5 {
+    background: #68b1fa;
+    border: 1px solid #fff;
+}
+
+#email img {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#email span {
+    font-size: 11px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #ffffff;
 }
