@@ -10,56 +10,65 @@
     <link href="src/css/index.css" rel="stylesheet" />
 </head>
 <body>
-<div id="container">
-    <div>
-        <!--
-        <ins class="kakao_ad_area" style="display:none;"
-             data-ad-unit = "DAN-1H1VhFP2Pf3C719g"
-             data-ad-width = "320"
-             data-ad-height = "50"></ins>
-        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>-->
+    <div id="container">
+        <div>
+            <!--
+            <ins class="kakao_ad_area" style="display:none;"
+                 data-ad-unit = "DAN-1H1VhFP2Pf3C719g"
+                 data-ad-width = "320"
+                 data-ad-height = "50"></ins>
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>-->
+        </div>
+        <div class="fartSoundBox color1" id="sound1" onclick="soundPlay(1)"> Sound1 </div>
+         <audio id="fart1" controls>
+            <source src="src/audio/wet-fart-6139.mp3" type="audio/mpeg">
+        </audio>
+    <!--    <div class="by">-->
+    <!--    Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6139">Pixabay</a>-->
+    <!--    </div>-->
+        <div class="fartSoundBox color2" id="sound2" onclick="soundPlay(2)"> Sound2 </div>
+        <audio id="fart2" controls>
+            <source src="src/audio/vegan-fart-voice-003-11981.mp3" type="audio/mpeg">
+        </audio>
+    <!--    <div class="by">-->
+    <!--    Sound Effect by <a href="https://pixabay.com/ko/users/24687763-24687763/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11981">24687763</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11981">Pixabay</a>-->
+    <!--    </div>-->
+        <div class="fartSoundBox color3" id="sound3" onclick="soundPlay(3)"> Sound3 </div>
+        <audio id="fart3" controls>
+            <source src="src/audio/fart-83471.mp3" type="audio/mpeg">
+        </audio>
+    <!--    <div class="by">-->
+    <!--        Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=83471">Pixabay</a>-->
+    <!--    </div>-->
+        <div class="fartSoundBox color4" id="sound4" onclick="soundPlay(4)"> Sound4 </div>
+        <audio id="fart4" controls>
+            <source src="src/audio/vegan-fart-voice-014-11829.mp3" type="audio/mpeg">
+        </audio>
+    <!--    <div class="by">-->
+    <!--        Sound Effect by <a href="https://pixabay.com/ko/users/24687763-24687763/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11829">24687763</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11829">Pixabay</a>-->
+    <!--    </div>-->
+        <div class="fartSoundBox color5" id="sound5" onclick="soundPlay(5)"> Sound5 </div>
+        <audio id="fart5" controls>
+            <source src="src/audio/fart-sound-effect-16-11093.mp3" type="audio/mpeg">
+        </audio>
+    <!--    <div class="by">-->
+    <!--        Sound Effect by <a href="https://pixabay.com/ko/users/beetpro-16097074/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11093">beetpro</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11093">Pixabay</a>-->
+    <!--    </div>-->
+        <div id="email">
+            <img src="src/images/email_black.png" alt="이메일 이미지">
+            <span id="sendEmail">devmango1128@gmail.com</span>
+        </div>
+        <div class="">
+            <h1>방귀 소리로 건강 체크</h1>
+            <form id="fart-form">
+                <input type="file" accept="audio/*" id="audio-input" required>
+                <label for="audio-input" class="custom-file-upload">
+                    오디오 파일 선택
+                </label>
+            </form>
+            <p id="result"></p>
+        </div>
     </div>
-    <div class="fartSoundBox color1" id="sound1" onclick="soundPlay(1)"> Sound1 </div>
-     <audio id="fart1" controls>
-        <source src="src/audio/wet-fart-6139.mp3" type="audio/mpeg">
-    </audio>
-<!--    <div class="by">-->
-<!--    Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6139">Pixabay</a>-->
-<!--    </div>-->
-    <div class="fartSoundBox color2" id="sound2" onclick="soundPlay(2)"> Sound2 </div>
-    <audio id="fart2" controls>
-        <source src="src/audio/vegan-fart-voice-003-11981.mp3" type="audio/mpeg">
-    </audio>
-<!--    <div class="by">-->
-<!--    Sound Effect by <a href="https://pixabay.com/ko/users/24687763-24687763/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11981">24687763</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11981">Pixabay</a>-->
-<!--    </div>-->
-    <div class="fartSoundBox color3" id="sound3" onclick="soundPlay(3)"> Sound3 </div>
-    <audio id="fart3" controls>
-        <source src="src/audio/fart-83471.mp3" type="audio/mpeg">
-    </audio>
-<!--    <div class="by">-->
-<!--        Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=83471">Pixabay</a>-->
-<!--    </div>-->
-    <div class="fartSoundBox color4" id="sound4" onclick="soundPlay(4)"> Sound4 </div>
-    <audio id="fart4" controls>
-        <source src="src/audio/vegan-fart-voice-014-11829.mp3" type="audio/mpeg">
-    </audio>
-<!--    <div class="by">-->
-<!--        Sound Effect by <a href="https://pixabay.com/ko/users/24687763-24687763/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11829">24687763</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11829">Pixabay</a>-->
-<!--    </div>-->
-    <div class="fartSoundBox color5" id="sound5" onclick="soundPlay(5)"> Sound5 </div>
-    <audio id="fart5" controls>
-        <source src="src/audio/fart-sound-effect-16-11093.mp3" type="audio/mpeg">
-    </audio>
-<!--    <div class="by">-->
-<!--        Sound Effect by <a href="https://pixabay.com/ko/users/beetpro-16097074/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11093">beetpro</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=11093">Pixabay</a>-->
-<!--    </div>-->
-    <div id="email">
-        <img src="src/images/email.png" alt="이메일 이미지">
-        <span id="sendEmail">devmango1128@gmail.com</span>
-    </div>
-    <br/>
-</div>
 </body>
 <script src="src/js/index.js"></script>
 </html>
