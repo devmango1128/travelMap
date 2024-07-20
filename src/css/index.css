@@ -26,9 +26,9 @@ audio {
 .fartSoundBox {
     display: inline-block;
     width: 80%;
-    padding: 15px 10px;
+    padding: 10px 10px;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -44,9 +44,10 @@ audio {
 .fartSoundBox.color3 { background: #facc68; }
 .fartSoundBox.color4 { background: #dffa68; }
 .fartSoundBox.color5 { background: #68b1fa; }
+.fartSoundBox.color6 { background: #6e68fa; }
 
 #email {
-    margin: 20px 0;
+    margin: 5px 0;
 }
 
 #email img {
@@ -77,13 +78,14 @@ input[type="file"] {
 
 .custom-file-upload {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 5px 10px;
     cursor: pointer;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s, transform 0.3s;
+    font-size: 0.8em;
 }
 
 .custom-file-upload:hover {
@@ -92,7 +94,7 @@ input[type="file"] {
 }
 
 button {
-    padding: 10px 20px;
+    padding: 5px 10px;
     background-color: #28a745;
     color: white;
     border: none;
@@ -106,21 +108,52 @@ button:hover {
     transform: scale(1.05);
 }
 
-#result {
-    font-size: 1.2em;
-    color: #333;
-}
-
 .result-details {
-    font-size: 0.8em;
+    font-size: 0.6em;
     color: #666;
 }
 
 .healthy {
     color: green;
+    font-size: 0.8em;
 }
 
 .unhealthy {
     color: red;
+    font-size: 0.8em;
+}
+
+.fartSoundHealthBox {
+    border: solid 2px #b4b3b3;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.fartSoundHealthBox h3 {
+    display: inline-block;
+    margin:5px 0px;
+}
+
+.fartSoundHealthBox form#fart-form {
+    margin-bottom:5px;
+}
+
+.fartSoundHealthBox #result {
+    margin:5px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.goToGame h5 {
+    display: inline-block;
+    color: #fff;
+    margin: 0px;
+}
+
+.goToGame img {
+    display: inline-block;
+    vertical-align: sub;
 }
 

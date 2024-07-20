@@ -3,107 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Falling Poop Game</title>
+    <title>Poop Dodging Game</title>
     <style>
-        /* 기본 스타일 설정 */
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            width: 100vw;
             background-color: #f0f0f0;
         }
-
-        /* 캔버스 설정 */
-        #gameCanvas {
-            display: block;
+        .game-container {
+            position: relative;
             width: 100%;
             height: 100%;
         }
-
-        /* 이미지 설정 */
-        img {
+        #player {
             position: absolute;
-            max-width: 100px; /* 필요 시 조정 */
-            max-height: 100px; /* 필요 시 조정 */
+            bottom: 20px;
+            width: 80px; /* Adjusted width */
+            height: 80px; /* Adjusted height */
+            background: url('src/images/person.png') no-repeat center center;
+            background-size: contain; /* Ensures the image fits within the specified dimensions */
         }
-
-        /* 엉덩이 이미지 설정 */
-        #buttocks {
-            top: 0;
-            width: 15%;
+        .poop {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: url('src/images/poop_icon.png') no-repeat center center;
         }
-
-        /* 변기 이미지 설정 */
-        #toilet {
-            bottom: 0;
-            width: 25%;
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: black;
         }
     </style>
 </head>
 <body>
-<canvas id="gameCanvas"></canvas>
-<img id="buttocks" src="src/images/ung.png" alt="Buttocks">
-<img id="poop" src="src/images/ddong.webp" alt="Poop">
-<img id="toilet" src="src/images/toilet.webp" alt="Toilet">
-<script>
-    const canvas = document.getElementById('gameCanvas');
-    const poop = document.getElementById('poop');
-    const buttocks = document.getElementById('buttocks');
-    const toilet = document.getElementById('toilet');
-    const ctx = canvas.getContext('2d');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let poopY = 0;
-    let poopX = canvas.width / 2 - poop.width / 2;
-
-    const buttocksX = canvas.width / 2 - buttocks.width / 2;
-    buttocks.style.left = `${buttocksX}px`;
-
-    const toiletX = canvas.width / 2 - toilet.width / 2;
-    toilet.style.left = `${toiletX}px`;
-
-    canvas.addEventListener('click', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-
-        if (clickX < canvas.width / 2) {
-            poopX -= 20; // 왼쪽으로 이동
-        } else {
-            poopX += 20; // 오른쪽으로 이동
-        }
-
-        // 똥이 화면 밖으로 나가지 않도록 제한
-        if (poopX < 0) poopX = 0;
-        if (poopX > canvas.width - poop.width) poopX = canvas.width - poop.width;
-
-        poopY += 10; // 똥이 내려오는 거리
-
-        poop.style.left = `${poopX}px`;
-    });
-
-    function gameLoop() {
-        if (poopY > canvas.height - toilet.height) {
-            if (poopX > toiletX && poopX < toiletX + toilet.width) {
-                alert('Success!'); // 성공하면 경고창 띄우기
-            }
-            poopY = 0;
-            poopX = canvas.width / 2 - poop.width / 2;
-        }
-
-        poop.style.top = `${poopY}px`;
-
-        requestAnimationFrame(gameLoop);
-    }
-
-    gameLoop();
-</script>
+<div class="game-container" id="gameContainer">
+    <div id="player"></div>
+    <div id="score">Score: 0</div>
+</div>
+<script src="src/js/game.js"></script>
 </body>
 </html>

@@ -34,11 +34,11 @@ document.getElementById('audio-input').addEventListener('change', function(event
                 result = '건강한 방귀';
                 resultClass = 'healthy';
             } else {
-                result = '건강에 문제가 있을 수 있습니다';
+                result = '건강에 문제가 있을 수 있습니다.';
                 resultClass = 'unhealthy';
             }
 
-            resultElement.innerHTML = `<span class="${resultClass}">결과: ${result}</span><br><span class="result-details">(길이: ${duration.toFixed(2)}초, RMS: ${rms.toFixed(5)})</span>`;
+            resultElement.innerHTML = `<div class="${resultClass}">${result}</div><div class="result-details">(길이: ${duration.toFixed(2)}초, RMS: ${rms.toFixed(5)})</div>`;
         });
     };
     reader.readAsArrayBuffer(audioFile);
