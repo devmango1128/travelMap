@@ -10,7 +10,7 @@ request.onerror = function(event) {
 
 request.onsuccess = function(event) {
     db = event.target.result;
-    if(gubun === 5) loadGeoJSON(); // 데이터베이스가 열렸을 때 지역 정보 불러오기
+    if(gubun === 2) loadGeoJSON();
 };
 
 request.onupgradeneeded = function(event) {
