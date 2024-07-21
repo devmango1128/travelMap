@@ -250,7 +250,8 @@ function goSidoDetail(obj, code) {
             if (feature.properties.SIG_CD.startsWith(code)) {
                 var li = document.createElement('li');
                 li.textContent = feature.properties.SIG_KOR_NM;
-                li.onclick = function() {
+                li.onclick = function(e) {
+                    e.stopPropagation();
                     nextPage(1);
                     document.getElementById('sigunguCd').value = code + feature.properties.SIG_CD;
                 };
