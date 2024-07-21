@@ -1,0 +1,327 @@
+
+body {
+    font-family: 'NanumGothicExtraBold', sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    background: #fff;
+}
+
+.main-container {
+    background: #3496ff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.main-container div {
+    color: #fff;
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.main-container .main-smail-text {
+    font-size: 1em;
+}
+
+.map-name-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.map-name-container {
+    background-color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.map-name-container input {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #282828;
+    width: 315px;
+    font-size: 1.0em;
+    border: 1px solid #e2e2e2;
+    height: 25px;
+    padding: 10px 5px;
+    border-radius: 5px;
+}
+
+.map-name-container button {
+    font-weight: bold;
+    color: #fff;
+    width: 329px;
+    font-size: 1.0em;
+    border: 1px solid #3496ff;
+    background-color: #3496ff;
+    height: 40px;
+    padding: 15px 20px;
+    line-height: 10px;
+    border-radius: 5px;
+}
+
+.sigungu-container {
+    font-family: 'NanumGothicExtraBold', sans-serif;
+    background-color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    overflow-y: scroll;
+    margin-top: 45px;
+}
+
+.sigungu-container img {
+    position: absolute;
+    top: 12px;
+    left: 5px;
+}
+
+.sigungu-container ul {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.sigungu-container ul li {
+    padding: 7px 10px;
+    margin: 2px 0;
+    background-color: #3496ff;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;
+    width: 90%;
+    display: inline-block;
+    transition: background-color 0.3s;
+    text-align: left;
+}
+
+.sigungu-container ul li ul {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.sigungu-container ul li ul li {
+    padding: 7px 10px;
+    margin: 2px 0;
+    background-color: #fff;
+    color: #282828;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;
+    width: 90%;
+    display: inline-block;
+    transition: background-color 0.3s;
+    text-align: left;
+}
+
+.color-date-container {
+    font-family: 'NanumGothicExtraBold', sans-serif;
+    background-color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    overflow-y: scroll;
+    margin-top: 45px;
+}
+
+.color-date-container img {
+    position: absolute;
+    top: 12px;
+    left: 5px;
+}
+
+.color-date-container .color-area {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #282828;
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+.color-date-container span {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.color-date-container input[type="color"] {
+    width: 330px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.color-date-container input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 10px;
+}
+
+.color-date-container input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 10px;
+}
+
+.color-date-container .date-area {
+    position: absolute;
+    top: 200px;
+    left: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #282828;
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+.flatpickr-input {
+    border: 2px solid whitesmoke;
+    border-radius: 20px;
+    padding: 12px 10px;
+    text-align: center;
+    width: 300px;
+}
+
+.color-date-container .desc-area {
+    position: absolute;
+    top: 330px;
+    left: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #282828;
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+.color-date-container .desc-area textarea {
+    width: 320px;
+    height: 80px;
+}
+
+.color-date-container button {
+    font-weight: bold;
+    color: #fff;
+    width: 329px;
+    font-size: 1.0em;
+    border: 1px solid #3496ff;
+    background-color: #3496ff;
+    height: 40px;
+    padding: 15px 20px;
+    line-height: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    top: 480px;
+    position: absolute;
+}
+
+#map {
+    height: 90vh;
+    background: #9cd6f4; /* 지도 배경을 파란색으로 설정 */
+}
+
+.leaflet-container {
+    background: #9cd6f4; /* 지도 컨테이너의 배경을 파란색으로 설정 */
+}
+
+.form-container {
+    padding: 10px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-container select, .form-container input, .form-container textarea {
+    margin-right: 10px;
+}
+
+.control_map {
+    top: 8px;
+    left: 12px;
+}
+
+.set_map {
+    position: absolute;
+    top: 130px;
+    z-index: 10;
+    width: 30px;
+}
+
+.set_map .btn_control {
+    margin-bottom: 9px;
+}
+
+.btn_control {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.1), 0 0 3px 0 rgba(0, 0, 0, 0.32);
+    border: 1px solid #fff;
+}
+
+.control_map .ico_now {
+    width: 16px;
+    height: 16px;
+    background-position: -22px -2px;
+}
+
+.set_map .ico_comm {
+    margin: auto;
+}
+
+.ico_comm {
+    display: block;
+    overflow: hidden;
+    font-size: 1px;
+    line-height: 0;
+    color: transparent;
+    vertical-align: top;
+}
+
+.ico_comm {
+    background: url('../images/map.png') no-repeat;
+    background-size: 250px auto;
+}
+
+.color-blue {
+    color: #3496ff;
+}
+
+.map-top {
+    display: inline-block;
+    height: 45px;
+    background-color: #fff;
+}
+
+.map-top img {
+    position: absolute;
+    top: 12px;
+    left: 5px;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>땅따먹기 - 대한민국, 어디까지 가봤니?</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/index.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="color-date-container">
+    <img src="src/images/back.png" />
+    <div class="color-area">
+        <span>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</span>
+        <br>
+        <input type="color" id="colorPicker"/>
+    </div>
+    <div class="date-area">
+        <span><span class="color-blue">날짜</span>를 선택해주세요.</span>
+        <br>
+        <input type="text" id="datePicker" placeholder="날짜 선택" />
+    </div>
+    <div class="desc-area">
+        <span>간단한 <span class="color-blue">메모</span>를 입력해주세요.</span>
+        <br>
+        <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
+    </div>
+    <button onclick="saveRegion()">등록</button>
+</div>
+<script src="src/js/index.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#datePicker", {
+            dateFormat: "Y-m-d",
+            defaultDate: new Date()
+        });
+    });
+</script>
+</body>
+</html>
