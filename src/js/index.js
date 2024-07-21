@@ -51,7 +51,7 @@ let geojsonLayer;
 
 function loadGeoJSON() {
 
-    $.getJSON("src/data/sigungu.json", function(data) {
+    $.getJSON("src/data/sigungu_new.json", function(data) {
         // 시군구 단위로 필터링된 GeoJSON 데이터 생성
         const mergedFeatures = {};
 
@@ -245,7 +245,7 @@ function goSidoDetail(obj, code) {
     const ul = document.createElement('ul');
     ul.id = 'detailList';
 
-    $.getJSON("src/data/sigungu.json", function(data) {
+    $.getJSON("src/data/sigungu_new.json", function(data) {
         data.features.forEach(function (feature) {
             if (feature.properties.SIG_CD.startsWith(code)) {
                 var li = document.createElement('li');
