@@ -236,7 +236,7 @@ function detailSave() {
 
 function goSidoDetail(obj, code) {
 
-    let element = document.getElementById('detailList')
+    let element = document.getElementById('detailList');
 
     if (element) {
         element.parentNode.removeChild(element);
@@ -250,11 +250,18 @@ function goSidoDetail(obj, code) {
             if (feature.properties.SIG_CD.startsWith(code)) {
                 var li = document.createElement('li');
                 li.textContent = feature.properties.SIG_KOR_NM;
-                li.onclick = function(e) {
+
+                // 이벤트를 처리하는 함수
+                function handleEvent(e) {
                     e.stopPropagation();
                     nextPage(1);
                     document.getElementById('sigunguCd').value = code + feature.properties.SIG_CD;
-                };
+                }
+
+                // click과 touchstart 이벤트 모두에 핸들러를 추가
+                li.addEventListener('click', handleEvent);
+                li.addEventListener('touchstart', handleEvent);
+
                 ul.appendChild(li);
             }
         });
