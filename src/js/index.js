@@ -16,7 +16,6 @@ request.onsuccess = function(event) {
 request.onupgradeneeded = function(event) {
     db = event.target.result;
     db.createObjectStore("regions", { keyPath: "region" });
-    //const objectStore = db.createObjectStore("regions", { keyPath: "region" });
 };
 
 function initMap() {
@@ -146,6 +145,24 @@ function geoLayer() {
     }
 }
 
+function deleteRegions() {
+
+    const deleteRequest = indexedDB.deleteDatabase("RegionsDB");
+
+    deleteRequest.onerror = function(event) {
+        console.error("Error deleting database:", event.target.errorCode);
+    };
+
+    deleteRequest.onsuccess = function(event) {
+        alert('데이터 초기화가 완료되었습니다.');
+        console.log("Database deleted successfully");
+    };
+
+    deleteRequest.onblocked = function(event) {
+        console.warn("Database deletion blocked:", event.target.errorCode);
+    };
+}
+
 function saveRegions() {
 
     const transaction = db.transaction(["regions"], "readwrite");
@@ -260,4 +277,8 @@ function goSidoDetail(obj, code) {
 
         obj.appendChild(ul);
     });
+}
+
+function goMenu(url) {
+    window.location.href = url;
 }
