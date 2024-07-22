@@ -147,19 +147,35 @@ function geoLayer() {
 
 function deleteRegions() {
 
-    const deleteRequest = indexedDB.deleteDatabase("RegionsDB");
+    const dbName = "RegionsDB";
+    const request = indexedDB.open(dbName, 1);
 
-    deleteRequest.onerror = function(event) {
-        console.error("Error deleting database:", event.target.errorCode);
+    request.onerror = function(event) {
+        console.error("Database error: " + event.target.errorCode);
     };
 
-    deleteRequest.onsuccess = function(event) {
-        alert('데이터 초기화가 완료되었습니다.');
-        console.log("Database deleted successfully");
+    request.onsuccess = function(event) {
+        const db = event.target.result;
+        const transaction = db.transaction(["regions"], "readwrite");
+        const objectStore = transaction.objectStore("regions");
+
+        const clearRequest = objectStore.clear();
+
+        clearRequest.onsuccess = function(event) {
+            console.log("All data cleared successfully.");
+            alert("All data has been cleared from the database.");
+        };
+
+        clearRequest.onerror = function(event) {
+            console.error("Error clearing data: " + event.target.errorCode);
+        };
     };
 
-    deleteRequest.onblocked = function(event) {
-        console.warn("Database deletion blocked:", event.target.errorCode);
+    request.onupgradeneeded = function(event) {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains("regions")) {
+            db.createObjectStore("regions", { keyPath: "region" });
+        }
     };
 }
 
