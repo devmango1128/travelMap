@@ -299,7 +299,8 @@ function goSidoDetail(obj, code) {
             }
         });
 
-        obj.appendChild(ul);
+        // UL을 OBJ 아래에 추가
+        obj.parentNode.insertBefore(ul, obj.nextSibling);
     });
 }
 
