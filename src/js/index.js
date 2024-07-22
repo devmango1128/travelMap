@@ -10,7 +10,7 @@ request.onerror = function(event) {
 
 request.onsuccess = function(event) {
     db = event.target.result;
-    if(gubun === 5) loadGeoJSON(); // 데이터베이스가 열렸을 때 지역 정보 불러오기
+    if(gubun === 2) loadGeoJSON();
 };
 
 request.onupgradeneeded = function(event) {
@@ -50,7 +50,7 @@ let geojsonLayer;
 
 function loadGeoJSON() {
 
-    $.getJSON("src/data/sigungu.json", function(data) {
+    $.getJSON("src/data/sigungu_new.json", function(data) {
         // 시군구 단위로 필터링된 GeoJSON 데이터 생성
         const mergedFeatures = {};
 
@@ -253,7 +253,7 @@ function detailSave() {
 
 function goSidoDetail(obj, code) {
 
-    let element = document.getElementById('detailList')
+    let element = document.getElementById('detailList');
 
     if (element) {
         element.parentNode.removeChild(element);
@@ -262,15 +262,23 @@ function goSidoDetail(obj, code) {
     const ul = document.createElement('ul');
     ul.id = 'detailList';
 
-    $.getJSON("src/data/sigungu.json", function(data) {
+    $.getJSON("src/data/sigungu_new.json", function(data) {
         data.features.forEach(function (feature) {
             if (feature.properties.SIG_CD.startsWith(code)) {
                 var li = document.createElement('li');
                 li.textContent = feature.properties.SIG_KOR_NM;
-                li.onclick = function() {
+
+                // 이벤트를 처리하는 함수
+                function handleEvent(e) {
+                    e.stopPropagation();
                     nextPage(1);
                     document.getElementById('sigunguCd').value = code + feature.properties.SIG_CD;
-                };
+                }
+
+                // click과 touchstart 이벤트 모두에 핸들러를 추가
+                li.addEventListener('click', handleEvent);
+                li.addEventListener('touchstart', handleEvent);
+
                 ul.appendChild(li);
             }
         });
