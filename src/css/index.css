@@ -4,6 +4,7 @@ body {
     margin: 0 auto;
     padding: 0;
     background: #fff;
+    max-width:1023px;
 }
 
 .main-container {
@@ -17,6 +18,7 @@ body {
 }
 
 .main-container div {
+    font-family: 'NanumGothicExtraBold', sans-serif;
     color: #fff;
     font-size: 3em;
     font-weight: bold;
@@ -28,15 +30,6 @@ body {
 }
 
 .map-name-container {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.map-name-container {
     background-color: #fff;
     text-align: center;
     display: flex;
@@ -44,50 +37,58 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    padding: 0px 10px;
 }
 
 .map-name-container input {
     font-weight: bold;
     margin-bottom: 10px;
     color: #282828;
-    width: 315px;
     font-size: 1.0em;
     border: 1px solid #e2e2e2;
     height: 25px;
     padding: 10px 5px;
     border-radius: 5px;
+    width: 100%;
 }
 
-.map-name-container button {
+.map-name-container .next-btn {
     font-weight: bold;
     color: #fff;
-    width: 329px;
     font-size: 1.0em;
     border: 1px solid #3496ff;
     background-color: #3496ff;
-    height: 40px;
-    padding: 15px 20px;
-    line-height: 10px;
+    height: 25px;
+    padding: 15px 5px;
+    line-height: 25px;
     border-radius: 5px;
+    width: 100%;
+}
+
+.map-name-container .typing {
+    display: inline-block;
+    border-right: 2px solid white;
+    animation: blink 0.7s infinite;
+    font-weight: bold;
+    color: #282828;
+    font-size: 1.5em;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+@keyframes blink {
+    0% { border-color: transparent; }
+    50% { border-color: white; }
+    100% { border-color: transparent; }
 }
 
 .sigungu-container {
-    font-family: 'NanumGothicExtraBold', sans-serif;
     background-color: #fff;
-    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 150px;
-    overflow-y: scroll;
-    margin-top: 45px;
-}
-
-.sigungu-container img {
-    position: absolute;
-    top: 12px;
-    left: 5px;
+    padding: 55px 10px;
 }
 
 .sigungu-container ul {
@@ -97,62 +98,66 @@ body {
 }
 
 .sigungu-container ul li {
-    padding: 7px 10px;
+    padding: 7px 0px 7px 5px;
     margin: 2px 0;
     background-color: #3496ff;
     color: #fff;
     border-radius: 5px;
     font-size: 0.8em;
     cursor: pointer;
-    width: 90%;
+    width: 100%;
     display: inline-block;
     transition: background-color 0.3s;
     text-align: left;
+    box-sizing: border-box;
 }
 
-.sigungu-container ul li ul {
-    list-style: none; /* 기본 리스트 스타일 제거 */
+.sigungu-container ul.detailList {
+    list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(175px, 1fr));
+    gap: 5px;
 }
 
-.sigungu-container ul li ul li {
+.sigungu-container ul.detailList li.full-width {
+    grid-column: span 2;
+}
+
+.sigungu-container ul.detailList li {
     padding: 7px 10px;
-    margin: 2px 0;
-    background-color: #fff;
+    margin: 2px 0px;
+    background-color: #e5e5e5;
     color: #282828;
     border-radius: 5px;
     font-size: 0.8em;
     cursor: pointer;
-    width: 90%;
+    width: 100%;
     display: inline-block;
     transition: background-color 0.3s;
     text-align: left;
 }
 
+.sigungu-container ul.detailList li .point{
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: #ff8800;
+}
+
 .color-date-container {
-    font-family: 'NanumGothicExtraBold', sans-serif;
     background-color: #fff;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 150px;
-    overflow-y: scroll;
-    margin-top: 45px;
-}
-
-.color-date-container img {
-    position: absolute;
-    top: 12px;
-    left: 5px;
+    height: 100vh;
+    padding: 0px 10px;
 }
 
 .color-date-container .color-area {
-    position: absolute;
-    top: 50px;
-    left: 10px;
     font-size: 1em;
     font-weight: bold;
     color: #282828;
@@ -188,9 +193,6 @@ body {
 }
 
 .color-date-container .date-area {
-    position: absolute;
-    top: 200px;
-    left: 10px;
     font-size: 1em;
     font-weight: bold;
     color: #282828;
@@ -208,9 +210,6 @@ body {
 }
 
 .color-date-container .desc-area {
-    position: absolute;
-    top: 330px;
-    left: 10px;
     font-size: 1em;
     font-weight: bold;
     color: #282828;
@@ -227,7 +226,7 @@ body {
 .color-date-container button {
     font-weight: bold;
     color: #fff;
-    width: 329px;
+    width: 100%;
     font-size: 1.0em;
     border: 1px solid #3496ff;
     background-color: #3496ff;
@@ -236,8 +235,6 @@ body {
     line-height: 10px;
     border-radius: 5px;
     display: inline-block;
-    top: 480px;
-    position: absolute;
 }
 
 #map {
@@ -376,4 +373,11 @@ body {
 
 .menu-container ul {
     list-style: none;
+}
+
+.page-title {
+    display: inline-block;
+    margin: 10px 0px 10px 0px;
+    font-weight: bold;
+    width: 100%;
 }

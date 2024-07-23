@@ -10,8 +10,13 @@
     <link rel="stylesheet" href="src/css/index.css" />
 </head>
     <body>
+        <div class="header-container">
+            <img src="src/images/back.png" class="back" onclick="goMenu('mapName.html')"/>
+            <span>땅따먹기</span>
+            <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
+        </div>
         <div class="sigungu-container">
-            <img src="src/images/back.png" />
+            <span class="page-title" id="pageTitle"></span>
             <ul class="sigunguList">
                 <li onclick="goSidoDetail(this, 11)">서울특별시</li>
                 <li onclick="goSidoDetail(this, 26)">부산광역시</li>
@@ -39,3 +44,9 @@
         <script src="src/js/index.js"></script>
     </body>
 </html>
+<script>
+
+    let mapName = localStorage.getItem("mapName");
+    document.getElementById('pageTitle').innerText = mapName;
+
+</script>

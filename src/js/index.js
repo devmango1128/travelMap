@@ -210,7 +210,7 @@ function loadRegions() {
             regions[item.region] = item.data;
         });
 
-        if (geojsonLayer) { // geojsonLayer가 정의된 후에 실행
+        if (geojsonLayer) {
             geojsonLayer.eachLayer(function(layer) {
                 const districtCode = layer.feature.properties.SIG_CD; // 구 코드 가져오기
                 const region = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
@@ -249,6 +249,11 @@ function nextPage(reqGubun) {
 
     switch(gubun) {
         case 0 :
+            if(document.getElementById('mapName').value === '') {
+                alert('땅따먹기 주제를 입력해주세요.');
+                document.getElementById('mapName').focus();
+                return;
+            }
             localStorage.setItem("mapName", document.getElementById('mapName').value);
             window.location.href = "sigungu.html";
             break;
@@ -277,21 +282,29 @@ function goSidoDetail(obj, code) {
 
     const ul = document.createElement('ul');
     ul.id = 'detailList';
+    ul.classList.add('detailList');
 
     $.getJSON("src/data/sigungu_new.json", function(data) {
         data.features.forEach(function (feature) {
+
+            if(feature.properties.SIG_CD.startsWith('42')) feature.properties.SIG_CD = '51000';
+            if(feature.properties.SIG_CD.startsWith('45')) feature.properties.SIG_CD = '52000';
+
             if (feature.properties.SIG_CD.startsWith(code)) {
                 var li = document.createElement('li');
                 li.textContent = feature.properties.SIG_KOR_NM;
 
-                // 이벤트를 처리하는 함수
                 function handleEvent(e) {
                     e.stopPropagation();
-                    nextPage(1);
+
                     document.getElementById('sigunguCd').value = code + feature.properties.SIG_CD;
+
+                    localStorage.setItem('sigunguCd', code + feature.properties.SIG_CD);
+                    localStorage.setItem('sigunguNm', obj.innerText + ' ' + feature.properties.SIG_KOR_NM);
+
+                    nextPage(1);
                 }
 
-                // click과 touchstart 이벤트 모두에 핸들러를 추가
                 li.addEventListener('click', handleEvent);
                 li.addEventListener('touchstart', handleEvent);
 
@@ -299,8 +312,14 @@ function goSidoDetail(obj, code) {
             }
         });
 
-        // UL을 OBJ 아래에 추가
         obj.parentNode.insertBefore(ul, obj.nextSibling);
+
+        const dlUl = document.getElementById('detailList');
+        const lis = dlUl.querySelectorAll('li');
+
+        if (lis.length % 2 !== 0) {
+            lis[lis.length - 1].classList.add('full-width');
+        }
     });
 }
 

@@ -13,33 +13,37 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div class="color-date-container">
-    <img src="src/images/back.png" />
-    <div class="color-area">
-        <span>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</span>
-        <br>
-        <input type="color" id="colorPicker"/>
+    <div class="header-container">
+        <img src="src/images/back.png" class="back" onclick="goMenu('sigungu.html')"/>
+        <span>땅따먹기</span>
+        <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
     </div>
-    <div class="date-area">
-        <span><span class="color-blue">날짜</span>를 선택해주세요.</span>
-        <br>
-        <input type="text" id="datePicker" placeholder="날짜 선택" />
+    <div class="color-date-container">
+        <div class="color-area">
+            <span>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</span>
+            <br>
+            <input type="color" id="colorPicker"/>
+        </div>
+        <div class="date-area">
+            <span><span class="color-blue">날짜</span>를 선택해주세요.</span>
+            <br>
+            <input type="text" id="datePicker" placeholder="날짜 선택" />
+        </div>
+        <div class="desc-area">
+            <span>간단한 <span class="color-blue">메모</span>를 입력해주세요.</span>
+            <br>
+            <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
+        </div>
+        <button onclick="saveRegion()">등록</button>
     </div>
-    <div class="desc-area">
-        <span>간단한 <span class="color-blue">메모</span>를 입력해주세요.</span>
-        <br>
-        <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
-    </div>
-    <button onclick="saveRegion()">등록</button>
-</div>
-<script src="src/js/index.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        flatpickr("#datePicker", {
-            dateFormat: "Y-m-d",
-            defaultDate: new Date()
+    <script src="src/js/index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#datePicker", {
+                dateFormat: "Y-m-d",
+                defaultDate: new Date()
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

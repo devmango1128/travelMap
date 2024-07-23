@@ -13,8 +13,9 @@
             <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="map-name-container">
+            <span id="animated-text">만나서 반가워요 :)</span>
             <input type="text" id="mapName" placeholder="땅따먹기 주제를 입력해주세요." maxlength="10"/>
-            <button onclick="nextPage(0)">다음</button>
+            <div class="next-btn" role="button" onclick="nextPage(0)">다음</div>
         </div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -22,3 +23,20 @@
         <script src="src/js/index.js"></script>
     </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const text = document.getElementById('animated-text').textContent;
+        const animatedText = document.getElementById('animated-text');
+        animatedText.textContent = '';
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                animatedText.textContent += text.charAt(i);
+                animatedText.classList.add('typing');
+                i++;
+                setTimeout(type, 150);
+            }
+        }
+        type();
+    });
+</script>
