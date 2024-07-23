@@ -287,9 +287,6 @@ function goSidoDetail(obj, code) {
     $.getJSON("src/data/sigungu_new.json", function(data) {
         data.features.forEach(function (feature) {
 
-            if(feature.properties.SIG_CD.startsWith('42')) feature.properties.SIG_CD = '51000';
-            if(feature.properties.SIG_CD.startsWith('45')) feature.properties.SIG_CD = '52000';
-
             if (feature.properties.SIG_CD.startsWith(code)) {
                 var li = document.createElement('li');
                 li.textContent = feature.properties.SIG_KOR_NM;
