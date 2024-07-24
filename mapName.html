@@ -13,7 +13,7 @@
             <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="map-name-container">
-            <span id="animated-text">만나서 반가워요 :)</span>
+            <span id="animated-text"></span>
             <input type="text" id="mapName" placeholder="땅따먹기 주제를 입력해주세요." maxlength="10"/>
             <div class="next-btn" role="button" onclick="nextPage(0)">다음</div>
         </div>
@@ -25,7 +25,7 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const text = document.getElementById('animated-text').textContent;
+        const text = '만나서 반가워요 :)';
         const animatedText = document.getElementById('animated-text');
         animatedText.textContent = '';
         let i = 0;
