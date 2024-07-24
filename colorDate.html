@@ -31,7 +31,6 @@
         <br>
         <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
     </div>
-    <div role="button" class="next-btn" onclick="saveRegion()">등록</div>
     <div class="color-area">
         <div>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</div>
         <div class="circle-container">
@@ -79,6 +78,7 @@
             <div class="circle" style="background-color: #e4e1ff;" onclick="circleClicked(this, '#e4e1ff')"></div>
         </div>
         <input type="hidden" id="selectedColor" />
+         <div role="button" class="next-btn" onclick="saveRegion()">등록</div>
     </div>
 </div>
 <script src="src/js/index.js"></script>
