@@ -292,8 +292,6 @@ function goSidoDetail(obj, code) {
                 li.textContent = feature.properties.SIG_KOR_NM;
 
                 function handleEvent(e) {
-                    e.stopPropagation();
-
                     document.getElementById('sigunguCd').value = code + feature.properties.SIG_CD;
 
                     localStorage.setItem('sigunguCd', code + feature.properties.SIG_CD);
@@ -303,8 +301,6 @@ function goSidoDetail(obj, code) {
                 }
 
                 li.addEventListener('click', handleEvent);
-                li.addEventListener('touchstart', handleEvent);
-
                 ul.appendChild(li);
             }
         });
