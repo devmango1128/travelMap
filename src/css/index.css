@@ -98,7 +98,7 @@ body {
 }
 
 .sigungu-container ul li {
-    padding: 7px 0px 7px 5px;
+    padding: 10px 0px 10px 5px;
     margin: 2px 0;
     background-color: #3496ff;
     color: #fff;
@@ -128,7 +128,7 @@ body {
 .sigungu-container ul.detailList li {
     padding: 7px 10px;
     margin: 2px 0px;
-    background-color: #e5e5e5;
+    background-color: #fff;
     color: #282828;
     border-radius: 5px;
     font-size: 0.8em;
@@ -139,22 +139,25 @@ body {
     text-align: left;
 }
 
-.sigungu-container ul.detailList li .point{
+.sigungu-container ul.detailList li.point:after {
+    content: "";
+    display: inline-block;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    background-color: #ff8800;
+    width: 5px;
+    height: 5px;
+    background-color: #58c101;
+    margin-left: 3px;
+    vertical-align: middle;
+    margin-bottom : 3px;
 }
 
 .color-date-container {
     background-color: #fff;
-    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding: 0px 10px;
+    padding: 55px 10px;
 }
 
 .color-date-container .color-area {
@@ -164,32 +167,33 @@ body {
     display: inline-block;
     width: 100%;
     text-align: left;
-}
-
-.color-date-container span {
-    display: inline-block;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.color-date-container input[type="color"] {
-    width: 330px;
+.circle-container {
+    display: grid;
+    grid-template-columns: repeat(6, 50px);
+    gap: 5px;
+    width: 100%;
+}
+.circle {
+    width: 50px;
     height: 50px;
-    border: none;
-    border-radius: 10px;
-    padding: 0;
+    border-radius: 50%;
     cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
+    position: relative; /* 부모 요소를 기준으로 절대 위치를 설정합니다 */
 }
 
-.color-date-container input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
-    border-radius: 10px;
-}
-
-.color-date-container input[type="color"]::-webkit-color-swatch {
-    border: none;
-    border-radius: 10px;
+.circle.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
 }
 
 .color-date-container .date-area {
@@ -206,7 +210,7 @@ body {
     border-radius: 20px;
     padding: 12px 10px;
     text-align: center;
-    width: 300px;
+    width: 40%;
 }
 
 .color-date-container .desc-area {
@@ -219,22 +223,22 @@ body {
 }
 
 .color-date-container .desc-area textarea {
-    width: 320px;
+    width: 100%;
     height: 80px;
 }
 
-.color-date-container button {
+.color-date-container .next-btn {
     font-weight: bold;
     color: #fff;
-    width: 100%;
     font-size: 1.0em;
     border: 1px solid #3496ff;
     background-color: #3496ff;
-    height: 40px;
-    padding: 15px 20px;
-    line-height: 10px;
+    height: 25px;
+    padding: 15px 5px;
+    line-height: 25px;
     border-radius: 5px;
-    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
 #map {

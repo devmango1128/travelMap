@@ -13,37 +13,101 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="header-container">
-        <img src="src/images/back.png" class="back" onclick="goMenu('sigungu.html')"/>
-        <span>땅따먹기</span>
-        <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
+<div class="header-container">
+    <img src="src/images/back.png" class="back" onclick="goMenu('sigungu.html')"/>
+    <span>땅따먹기</span>
+    <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
+</div>
+<div class="color-date-container">
+    <div class="color-area">
+        <div>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</div>
+        <div class="circle-container">
+            <!-- Red shades -->
+            <div class="circle" style="background-color: #ff004e;" onclick="circleClicked(this, '#ff004e')"></div>
+            <div class="circle" style="background-color: #ff3b5d;" onclick="circleClicked(this, '#ff3b5d')"></div>
+            <div class="circle" style="background-color: #ff5c72;" onclick="circleClicked(this, '#ff5c72')"></div>
+            <div class="circle" style="background-color: #ff8292;" onclick="circleClicked(this, '#ff8292')"></div>
+            <div class="circle" style="background-color: #ffa4b4;" onclick="circleClicked(this, '#ffa4b4')"></div>
+            <div class="circle" style="background-color: #ffc8d4;" onclick="circleClicked(this, '#ffc8d4')"></div>
+            <!-- Orange shades -->
+            <div class="circle" style="background-color: #ff6d00;" onclick="circleClicked(this, '#ff6d00')"></div>
+            <div class="circle" style="background-color: #ff8e00;" onclick="circleClicked(this, '#ff8e00')"></div>
+            <div class="circle" style="background-color: #ffaa00;" onclick="circleClicked(this, '#ffaa00')"></div>
+            <div class="circle" style="background-color: #ffc340;" onclick="circleClicked(this, '#ffc340')"></div>
+            <div class="circle" style="background-color: #ffd77e;" onclick="circleClicked(this, '#ffd77e')"></div>
+            <div class="circle" style="background-color: #ffe8b1;" onclick="circleClicked(this, '#ffe8b1')"></div>
+            <!-- Yellow shades -->
+            <div class="circle" style="background-color: #fff000;" onclick="circleClicked(this, '#fff000')"></div>
+            <div class="circle" style="background-color: #fff333;" onclick="circleClicked(this, '#fff333')"></div>
+            <div class="circle" style="background-color: #fff666;" onclick="circleClicked(this, '#fff666')"></div>
+            <div class="circle" style="background-color: #fff999;" onclick="circleClicked(this, '#fff999')"></div>
+            <div class="circle" style="background-color: #fffccc;" onclick="circleClicked(this, '#fffccc')"></div>
+            <div class="circle" style="background-color: #fffddd;" onclick="circleClicked(this, '#fffddd')"></div>
+            <!-- Green shades -->
+            <div class="circle" style="background-color: #00a851;" onclick="circleClicked(this, '#00a851')"></div>
+            <div class="circle" style="background-color: #34b37e;" onclick="circleClicked(this, '#34b37e')"></div>
+            <div class="circle" style="background-color: #66caa3;" onclick="circleClicked(this, '#66caa3')"></div>
+            <div class="circle" style="background-color: #99ddc7;" onclick="circleClicked(this, '#99ddc7')"></div>
+            <div class="circle" style="background-color: #ccebdb;" onclick="circleClicked(this, '#ccebdb')"></div>
+            <div class="circle" style="background-color: #e4f7ef;" onclick="circleClicked(this, '#e4f7ef')"></div>
+            <!-- Blue shades -->
+            <div class="circle" style="background-color: #0077ff;" onclick="circleClicked(this, '#0077ff')"></div>
+            <div class="circle" style="background-color: #3390ff;" onclick="circleClicked(this, '#3390ff')"></div>
+            <div class="circle" style="background-color: #66aaff;" onclick="circleClicked(this, '#66aaff')"></div>
+            <div class="circle" style="background-color: #99ccff;" onclick="circleClicked(this, '#99ccff')"></div>
+            <div class="circle" style="background-color: #cce6ff;" onclick="circleClicked(this, '#cce6ff')"></div>
+            <div class="circle" style="background-color: #e4f2ff;" onclick="circleClicked(this, '#e4f2ff')"></div>
+            <!-- Purple shades -->
+            <div class="circle" style="background-color: #6100ff;" onclick="circleClicked(this, '#6100ff')"></div>
+            <div class="circle" style="background-color: #7b34ff;" onclick="circleClicked(this, '#7b34ff')"></div>
+            <div class="circle" style="background-color: #9966ff;" onclick="circleClicked(this, '#9966ff')"></div>
+            <div class="circle" style="background-color: #bb99ff;" onclick="circleClicked(this, '#bb99ff')"></div>
+            <div class="circle" style="background-color: #ddccff;" onclick="circleClicked(this, '#ddccff')"></div>
+            <div class="circle" style="background-color: #e4e1ff;" onclick="circleClicked(this, '#e4e1ff')"></div>
+        </div>
+        <input type="hidden" id="selectedColor" />
     </div>
-    <div class="color-date-container">
-        <div class="color-area">
-            <span>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</span>
-            <br>
-            <input type="color" id="colorPicker"/>
-        </div>
-        <div class="date-area">
-            <span><span class="color-blue">날짜</span>를 선택해주세요.</span>
-            <br>
-            <input type="text" id="datePicker" placeholder="날짜 선택" />
-        </div>
-        <div class="desc-area">
-            <span>간단한 <span class="color-blue">메모</span>를 입력해주세요.</span>
-            <br>
-            <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
-        </div>
-        <button onclick="saveRegion()">등록</button>
+    <div class="date-area">
+        <span><span class="color-blue">날짜</span>를 선택해주세요.</span>
+        <br>
+        <input type="text" id="strDatePicker" placeholder="날짜 선택" />
+        ~
+        <input type="text" id="endDatePicker" placeholder="날짜 선택" />
     </div>
-    <script src="src/js/index.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            flatpickr("#datePicker", {
-                dateFormat: "Y-m-d",
-                defaultDate: new Date()
-            });
+    <div class="desc-area">
+        <span>간단한 <span class="color-blue">메모</span>를 입력해주세요.</span>
+        <br>
+        <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
+    </div>
+    <div role="button" class="next-btn" onclick="saveRegion()">등록</div>
+</div>
+<script src="src/js/index.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#strDatePicker", {
+            dateFormat: "Y-m-d",
+            defaultDate: new Date(),
+            onChange: function(selectedDates, dateStr, instance) {
+                flatpickr("#endDatePicker", {
+                    dateFormat: "Y-m-d",
+                    minDate: selectedDates[0]
+                });
+            }
         });
-    </script>
+
+        flatpickr("#endDatePicker", {
+            dateFormat: "Y-m-d",
+            defaultDate: new Date()
+        });
+    });
+
+    function circleClicked(element, color) {
+        document.getElementById("selectedColor").value = color;
+        document.querySelectorAll('.circle').forEach((circle) => {
+            circle.classList.remove('checked');
+        });
+        element.classList.add('checked');
+    }
+</script>
 </body>
-</html>
+

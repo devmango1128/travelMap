@@ -88,7 +88,7 @@ function loadGeoJSON() {
                     click: function (e) {
                         const region = regions[feature.properties.SIG_CD.substring(0, 2) +feature.properties.SIG_CD];
                         const popupContent = "<b>" + feature.properties.SIG_KOR_NM + "</b><br>"
-                            + (region ? region[0].date : "") + "<br>"
+                            + (region ? region[0].strDate + '~' + region[0].endDate : "") + "<br>"
                             + (region ? region[0].description : "");
                         layer.bindPopup(popupContent).openPopup();
                     }
@@ -115,15 +115,16 @@ function saveRegion() {
 
     const mapName = localStorage.getItem("mapName");
     const region = localStorage.getItem("sigunguCd");
-    const color = document.getElementById('colorPicker').value;
-    const date = document.getElementById('datePicker').value;
+    const color = document.getElementById('selectedColor').value;
+    const strDate = document.getElementById('strDatePicker').value;
+    const endDate = document.getElementById('endDatePicker').value;
     const description = document.getElementById('description').value;
 
     if (!regions[region]) {
         regions[region] = [];
     }
 
-    regions[region].push({ mapName: mapName, color: color, date: date, description: description });
+    regions[region].push({ mapName: mapName, color: color, strDate: strDate, endDate: endDate, description: description });
     saveRegions();
 
     nextPage(2);
@@ -280,24 +281,40 @@ function goSidoDetail(obj, code) {
         element.parentNode.removeChild(element);
     }
 
+    const transaction = db.transaction(["regions"], "readonly");
+    const objectStore = transaction.objectStore("regions");
+    const request = objectStore.getAll();
+
+    request.onsuccess = function(event) {
+        const results = event.target.result;
+        results.forEach(function(item) {
+            regions[item.region] = item.data;
+        });
+    };
+
     const ul = document.createElement('ul');
     ul.id = 'detailList';
     ul.classList.add('detailList');
 
     $.getJSON("src/data/sigungu_new.json", function(data) {
-        data.features.forEach(function (feature) {
 
+        data.features.forEach(function (feature) {
             if (feature.properties.SIG_CD.startsWith(code)) {
-                var li = document.createElement('li');
+
+                let li = document.createElement('li');
                 li.textContent = feature.properties.SIG_KOR_NM;
 
+                const gigunguCd = code + feature.properties.SIG_CD;
+
                 function handleEvent(e) {
-                    document.getElementById('sigunguCd').value = code + feature.properties.SIG_CD;
-
-                    localStorage.setItem('sigunguCd', code + feature.properties.SIG_CD);
+                    document.getElementById('sigunguCd').value = gigunguCd;
+                    localStorage.setItem('sigunguCd', gigunguCd);
                     localStorage.setItem('sigunguNm', obj.innerText + ' ' + feature.properties.SIG_KOR_NM);
-
                     nextPage(1);
+                }
+
+                if(regions[gigunguCd]) {
+                    li.classList.add('point');
                 }
 
                 li.addEventListener('click', handleEvent);

@@ -18,23 +18,23 @@
         <div class="sigungu-container">
             <span class="page-title" id="pageTitle"></span>
             <ul class="sigunguList">
-                <li onclick="goSidoDetail(this, 11)">서울특별시</li>
-                <li onclick="goSidoDetail(this, 26)">부산광역시</li>
-                <li onclick="goSidoDetail(this, 27)">대구광역시</li>
-                <li onclick="goSidoDetail(this, 28)">인천광역시</li>
-                <li onclick="goSidoDetail(this, 29)">광주광역시</li>
-                <li onclick="goSidoDetail(this, 30)">대전광역시</li>
-                <li onclick="goSidoDetail(this, 31)">울산광역시</li>
-                <li onclick="goSidoDetail(this, 36)">세종특별자치시</li>
-                <li onclick="goSidoDetail(this, 41)">경기도</li>
-                <li onclick="goSidoDetail(this, 43)">충청북도</li>
-                <li onclick="goSidoDetail(this, 44)">충청남도</li>
-                <li onclick="goSidoDetail(this, 46)">전라남도</li>
-                <li onclick="goSidoDetail(this, 47)">경상북도</li>
-                <li onclick="goSidoDetail(this, 48)">경상남도</li>
-                <li onclick="goSidoDetail(this, 50)">제주특별자치도</li>
-                <li onclick="goSidoDetail(this, 42)">강원특별자치도</li>
-                <li onclick="goSidoDetail(this, 45)">전북특별자치도</li>
+                <li data-sgg=11 onclick="goSidoDetail(this, 11)">서울특별시</li>
+                <li data-sgg=26 onclick="goSidoDetail(this, 26)">부산광역시</li>
+                <li data-sgg=27 onclick="goSidoDetail(this, 27)">대구광역시</li>
+                <li data-sgg=28 onclick="goSidoDetail(this, 28)">인천광역시</li>
+                <li data-sgg=29 onclick="goSidoDetail(this, 29)">광주광역시</li>
+                <li data-sgg=30 onclick="goSidoDetail(this, 30)">대전광역시</li>
+                <li data-sgg=31 onclick="goSidoDetail(this, 31)">울산광역시</li>
+                <li data-sgg=36 onclick="goSidoDetail(this, 36)">세종특별자치시</li>
+                <li data-sgg=41 onclick="goSidoDetail(this, 41)">경기도</li>
+                <li data-sgg=43 onclick="goSidoDetail(this, 43)">충청북도</li>
+                <li data-sgg=44 onclick="goSidoDetail(this, 44)">충청남도</li>
+                <li data-sgg=46 onclick="goSidoDetail(this, 46)">전라남도</li>
+                <li data-sgg=47 onclick="goSidoDetail(this, 47)">경상북도</li>
+                <li data-sgg=48 onclick="goSidoDetail(this, 48)">경상남도</li>
+                <li data-sgg=50 onclick="goSidoDetail(this, 50)">제주특별자치도</li>
+                <li data-sgg=42 onclick="goSidoDetail(this, 42)">강원특별자치도</li>
+                <li data-sgg=45 onclick="goSidoDetail(this, 45)">전북특별자치도</li>
             </ul>
             <input type="hidden" id="sigunguCd" value="" />
         </div>
@@ -45,8 +45,64 @@
     </body>
 </html>
 <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        let mapName = localStorage.getItem("mapName");
+        document.getElementById('pageTitle').innerText = mapName;
 
-    let mapName = localStorage.getItem("mapName");
-    document.getElementById('pageTitle').innerText = mapName;
+        const db = await openIndexedDB("RegionsDB", 1);
+        const regions = await getAllRegions(db, "regions");
+        const sigunguData = await fetchJSON("src/data/sigungu_new.json");
+
+        updateSigunguList(regions, sigunguData);
+    });
+
+    function openIndexedDB(name, version) {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(name, version);
+
+            request.onsuccess = function(event) {
+                resolve(event.target.result);
+            };
+
+            request.onerror = function(event) {
+                reject("Database error: " + event.target.errorCode);
+            };
+        });
+    }
+
+    function getAllRegions(db, storeName) {
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction([storeName], "readonly");
+            const objectStore = transaction.objectStore(storeName);
+            const request = objectStore.getAll();
+
+            request.onsuccess = function(event) {
+                resolve(event.target.result);
+            };
+
+            request.onerror = function(event) {
+                reject("Transaction error: " + event.target.errorCode);
+            };
+        });
+    }
+
+    function fetchJSON(url) {
+        return new Promise((resolve, reject) => {
+            $.getJSON(url).done(resolve).fail((jqxhr, textStatus, error) => {
+                reject(`Request Failed: ${textStatus}, ${error}`);
+            });
+        });
+    }
+
+    function updateSigunguList(regions, sigunguData) {
+        document.querySelectorAll(".sigunguList li").forEach((li) => {
+            const sgg = li.getAttribute('data-sgg');
+            const cnt = regions.filter(item => item.region.startsWith(sgg)).length;
+            const text = li.textContent.replace(/\s\(\d+\/\d+\)$/, '');
+
+            const totCnt = sigunguData.features.filter(feature => feature.properties.SIG_CD.startsWith(sgg)).length;
+            li.innerText = `${text} (${cnt}/${totCnt})`;
+        });
+    }
 
 </script>
