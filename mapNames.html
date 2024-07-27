@@ -1,96 +1,96 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>대동색칠지도 - 대한민국, 어디까지 가봤니?</title>
-    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
-    <link rel="stylesheet" href="src/css/index.css" />
-</head>
-<body>
-<div class="header-container">
-    <span onclick="goMenu('mapName.html')">대동색칠지도</span>
-    <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
-</div>
-<div class="map-names-container" id="mapNames"></div>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="src/js/index.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', async function() {
-        const db = await openIndexedDB("MapColorDB", 1);
-        const allDatas = await getAllData(db, "mapNames");
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>대동색칠지도 - 대한민국, 어디까지 가봤니?</title>
+        <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+        <link rel="stylesheet" href="src/css/index.css" />
+    </head>
+    <body>
+        <div class="header-container">
+            <span onclick="goMenu('mapName.html')">대동색칠지도</span>
+            <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
+        </div>
+        <div class="map-names-container" id="mapNames"></div>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="src/js/index.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', async function() {
+                const db = await openIndexedDB("MapColorDB", 1);
+                const allDatas = await getAllData(db, "mapNames");
 
-        const mapNamesContainer = document.getElementById("mapNames");
-        const sigunguData = await fetchJSON();
+                const mapNamesContainer = document.getElementById("mapNames");
+                const sigunguData = await fetchJSON();
 
-        allDatas.forEach((data) => {
-            const div = document.createElement("div");
-            div.className = 'name-box';
-            div.addEventListener('click', () => mapNamesNextPage(data.mapName));
+                allDatas.forEach((data) => {
+                    const div = document.createElement("div");
+                    div.className = 'name-box';
+                    div.addEventListener('click', () => mapNamesNextPage(data.mapName));
 
-            const titDiv = document.createElement("div");
-            titDiv.textContent = data.mapName;
-            titDiv.className = 'tit-name';
+                    const titDiv = document.createElement("div");
+                    titDiv.textContent = data.mapName;
+                    titDiv.className = 'tit-name';
 
-            div.appendChild(titDiv);
+                    div.appendChild(titDiv);
 
-            const menuDiv = document.createElement("div");
-            menuDiv.textContent = '...';
-            menuDiv.className = 'menu-div';
+                    const menuDiv = document.createElement("div");
+                    menuDiv.textContent = '...';
+                    menuDiv.className = 'menu-div';
 
-            div.appendChild(menuDiv);
+                    div.appendChild(menuDiv);
 
-            const hrDiv = document.createElement("div");
-            hrDiv.className = 'hr-div';
+                    const hrDiv = document.createElement("div");
+                    hrDiv.className = 'hr-div';
 
-            div.appendChild(hrDiv);
+                    div.appendChild(hrDiv);
 
-            const imgDiv = document.createElement("div");
-            imgDiv.className = 'img-div';
+                    const imgDiv = document.createElement("div");
+                    imgDiv.className = 'img-div';
 
-            const img = document.createElement("img");
-            img.src = 'src/images/pin.png';
-            img.className = 'pin';
-            imgDiv.appendChild(img);
+                    const img = document.createElement("img");
+                    img.src = 'src/images/pin.png';
+                    img.className = 'pin';
+                    imgDiv.appendChild(img);
 
-            const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
-            const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
-                const key = current.data ? current.data.sigungu : '';
-                if (key && !acc.has(key)) {
-                    acc.add(key);
-                }
-                return acc;
-            }, new Set());
+                    const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
+                    const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
+                        const key = current.data ? current.data.sigungu : '';
+                        if (key && !acc.has(key)) {
+                            acc.add(key);
+                        }
+                        return acc;
+                    }, new Set());
 
-            const pointCnt = uniqueSigunguSet.size;
+                    const pointCnt = uniqueSigunguSet.size;
 
-            const count = document.createElement("div");
-            count.innerHTML = '<span class="point">' + sigunguData.features.length + '</span><span>개의 지역 중 </span><span class="point">' + pointCnt + '</span><span>개를 정복했어요!</span>';
-            count.className = 'count';
-            imgDiv.appendChild(count);
+                    const count = document.createElement("div");
+                    count.innerHTML = '<span>' + sigunguData.features.length + '개의 지역 중 </span><span class="point-cnt">' + pointCnt + '</span><span>개를 </span><span class="point">정복</span><span>했어요!</span>';
+                    count.className = 'count';
+                    imgDiv.appendChild(count);
 
-            div.appendChild(imgDiv);
+                    div.appendChild(imgDiv);
 
-            const progPer = (pointCnt / sigunguData.features.length) * 100;
+                    const progPer = (pointCnt / sigunguData.features.length) * 100;
 
-            const progress = document.createElement("div");
-            progress.className = 'progress-container';
+                    const progress = document.createElement("div");
+                    progress.className = 'progress-container';
 
-            const bar = document.createElement("div");
-            bar.className = 'progress-bar';
-            bar.style.width = `${progPer}%`;
-            progress.appendChild(bar);
+                    const bar = document.createElement("div");
+                    bar.className = 'progress-bar';
+                    bar.style.width = `${progPer}%`;
+                    progress.appendChild(bar);
 
-            div.appendChild(progress);
-            mapNamesContainer.appendChild(div);
-        });
-    });
+                    div.appendChild(progress);
+                    mapNamesContainer.appendChild(div);
+                });
+            });
 
-    async function mapNamesNextPage(mapName) {
-        nextPage(1, mapName);
-    }
-</script>
-</body>
+            function mapNamesNextPage(mapName) {
+                nextPage(1, mapName);
+            }
+        </script>
+    </body>
 </html>
