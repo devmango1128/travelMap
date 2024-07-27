@@ -1,42 +1,48 @@
-
 let db;
-let gubun;
-const request = indexedDB.open("RegionsDB", 1);
+let transaction;
+let objectStore;
+
+const request = indexedDB.open("MapColorDB", 1);
+
+request.onerror = (event) => console.error("Start Database error:", event.target.errorCode);
+
+request.onsuccess = (event) => {
+
+    db = event.target.result;
+
+    transaction = db.transaction("mapNames", "readwrite");
+    objectStore = transaction.objectStore("mapNames");
+
+    if (gubun === 3) loadGeoJSON();
+};
+
+request.onupgradeneeded = (event) => {
+    db = event.target.result;
+    db.createObjectStore("mapNames", { keyPath: "mapName" });
+};
+
+const sigunguJsonUrl = "src/data/sigungu_new.json";
 const center = [35.9665, 127.6780];
-
-request.onerror = function(event) {
-    console.error("Database error: " + event.target.errorCode);
-};
-
-request.onsuccess = function(event) {
-    db = event.target.result;
-    if(gubun === 2) loadGeoJSON();
-};
-
-request.onupgradeneeded = function(event) {
-    db = event.target.result;
-    db.createObjectStore("regions", { keyPath: "region" });
-};
+const mapNames = {};
+let geojsonLayer;
+let gubun;
+let map;
 
 function initMap() {
     map = L.map('map', {
-        center: center, // 대한민국 중심 좌표
+        center: center,
         zoom: 7,
-        crs: L.CRS.EPSG3857, // 좌표 참조 시스템 설정
-        zoomControl: true, // 줌 컨트롤 활성화
-        attributionControl: false, // 저작권 정보 비활성화
-        layers: [] // 빈 타일 레이어 제거
+        crs: L.CRS.EPSG3857,
+        zoomControl: true,
+        attributionControl: false,
+        layers: []
     });
 
-    // 흰색 배경 설정
-    const whiteBackground = L.tileLayer('', {
-        attribution: '',
-        maxZoom: 18
-    });
+    const whiteBackground = L.tileLayer('', { attribution: '', maxZoom: 18 });
 
-    whiteBackground.getContainer = function() {
+    whiteBackground.getContainer = () => {
         const container = document.createElement('div');
-        container.style.background = '#75c8f3'; // 배경을 파란색으로 설정
+        container.style.background = '#75c8f3';
         container.style.width = '100%';
         container.style.height = '100%';
         return container;
@@ -45,182 +51,88 @@ function initMap() {
     whiteBackground.addTo(map);
 }
 
-let regions = {}; // 지역별 정보 저장
-let geojsonLayer;
-
 function loadGeoJSON() {
 
-    $.getJSON("src/data/sigungu_new.json", function(data) {
-        // 시군구 단위로 필터링된 GeoJSON 데이터 생성
-        const mergedFeatures = {};
+    const mapName = localStorage.getItem("mapName");
 
-        data.features.forEach(function(feature) {
-            let sgg = feature.properties.SIG_CD;
-            if (!mergedFeatures[sgg]) {
-                mergedFeatures[sgg] = {
+    $.getJSON(sigunguJsonUrl, function(data) {
+        const mergedFeatures = data.features.reduce((acc, feature) => {
+            const sgg = feature.properties.SIG_CD;
+            if (!acc[sgg]) {
+                acc[sgg] = {
                     type: "Feature",
                     properties: feature.properties,
-                    geometry: {
-                        type: "MultiPolygon",
-                        coordinates: []
-                    }
+                    geometry: { type: "MultiPolygon", coordinates: [] }
                 };
             }
-            mergedFeatures[sgg].geometry.coordinates.push(feature.geometry.coordinates);
-        });
+            acc[sgg].geometry.coordinates.push(feature.geometry.coordinates);
+            return acc;
+        }, {});
 
-        const filteredData = {
-            type: "FeatureCollection",
-            features: Object.values(mergedFeatures)
-        };
+        const filteredData = { type: "FeatureCollection", features: Object.values(mergedFeatures) };
 
         geojsonLayer = L.geoJson(filteredData, {
-            style: function (feature) {
-                return {
-                    color: "#282727",
-                    weight: 1,
-                    fillColor: "#ffffff", // 지도 영역을 흰색으로 설정
-                    fillOpacity: 1
-                };
-            },
-            onEachFeature: function (feature, layer) {
+            style: () => ({
+                color: "#282727",
+                weight: 1,
+                fillColor: "#ffffff",
+                fillOpacity: 1
+            }),
+            onEachFeature: (feature, layer) => {
                 layer.on({
-                    click: function (e) {
-                        const region = regions[feature.properties.SIG_CD.substring(0, 2) +feature.properties.SIG_CD];
-                        const popupContent = "<b>" + feature.properties.SIG_KOR_NM + "</b><br>"
-                            + (region ? region[0].strDate + '~' + region[0].endDate : "") + "<br>"
-                            + (region ? region[0].description : "");
+                    click: (e) => {
+                        const sigCd = feature.properties.SIG_CD;
+                        const data = mapNames[mapName];
+                        const popupContent = `<b>${feature.properties.SIG_KOR_NM}</b><br>` +
+                            (data ? `${data.strDate}~${data.endDate}` : "") + "<br>" +
+                            (data ? data.description : "");
                         layer.bindPopup(popupContent).openPopup();
                     }
                 });
             }
         }).addTo(map);
 
-        loadRegions();
+        loadRegions(mapName);
     });
 }
 
-function saveRegion() {
-
-    const transaction = db.transaction(["regions"], "readonly");
-    const objectStore = transaction.objectStore("regions");
-    const request = objectStore.getAll();
-
-    request.onsuccess = function(event) {
-        const results = event.target.result;
-        results.forEach(function(item) {
-            regions[item.region] = item.data;
-        });
-    };
-
-    const mapName = localStorage.getItem("mapName");
-    const region = localStorage.getItem("sigunguCd");
-    const color = document.getElementById('selectedColor').value;
-    const strDate = document.getElementById('strDatePicker').value;
-    const endDate = document.getElementById('endDatePicker').value;
-    const description = document.getElementById('description').value;
-
-    if (!regions[region]) {
-        regions[region] = [];
-    }
-
-    regions[region].push({ mapName: mapName, color: color, strDate: strDate, endDate: endDate, description: description });
-    saveRegions();
-
-    nextPage(2);
-}
-
 function geoLayer() {
+    const sigunguCd = localStorage.getItem("sigunguCd");
 
-    const region = localStorage.getItem("sigunguCd");
-
-    if(geojsonLayer) {
-        geojsonLayer.eachLayer(function(layer) {
-            if (layer.feature.properties.SIG_CD === region.substring(2, region.length - 1)) {
-                layer.setStyle({
-                    fillColor: color,
-                    fillOpacity: 0.7
-                });
+    if (geojsonLayer) {
+        geojsonLayer.eachLayer(layer => {
+            if (layer.feature.properties.SIG_CD === sigunguCd.substring(2, region.length - 1)) {
+                layer.setStyle({ fillColor: color, fillOpacity: 1 });
             }
         });
     }
 }
 
-function deleteRegions() {
+function loadRegions(mapName) {
 
-    const dbName = "RegionsDB";
-    const request = indexedDB.open(dbName, 1);
-
-    request.onerror = function(event) {
-        console.error("Database error: " + event.target.errorCode);
-    };
-
-    request.onsuccess = function(event) {
-        const db = event.target.result;
-        const transaction = db.transaction(["regions"], "readwrite");
-        const objectStore = transaction.objectStore("regions");
-
-        const clearRequest = objectStore.clear();
-
-        clearRequest.onsuccess = function(event) {
-            console.log("All data cleared successfully.");
-            alert("All data has been cleared from the database.");
-        };
-
-        clearRequest.onerror = function(event) {
-            console.error("Error clearing data: " + event.target.errorCode);
-        };
-    };
-
-    request.onupgradeneeded = function(event) {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains("regions")) {
-            db.createObjectStore("regions", { keyPath: "region" });
-        }
-    };
-}
-
-function saveRegions() {
-
-    const transaction = db.transaction(["regions"], "readwrite");
-    const objectStore = transaction.objectStore("regions");
-
-    Object.keys(regions).forEach(function(region) {
-        objectStore.put({ region: region, data: regions[region] });
-    });
-
-    transaction.oncomplete = function() {
-        console.log("All regions have been saved successfully.");
-    };
-
-    transaction.onerror = function(event) {
-        console.error("Transaction error: " + event.target.errorCode);
-    };
-}
-
-function loadRegions() {
-
-    const transaction = db.transaction(["regions"], "readonly");
-    const objectStore = transaction.objectStore("regions");
+    const transaction = db.transaction(["mapNames"], "readonly");
+    const objectStore = transaction.objectStore("mapNames");
     const request = objectStore.getAll();
 
     request.onsuccess = function(event) {
 
         const results = event.target.result;
+
         results.forEach(function(item) {
-            regions[item.region] = item.data;
+            if(item.mapName === mapName) {
+                mapNames[mapName] = item.data;
+            }
         });
 
         if (geojsonLayer) {
             geojsonLayer.eachLayer(function(layer) {
                 const districtCode = layer.feature.properties.SIG_CD; // 구 코드 가져오기
-                const region = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
+                const sigunguCd = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
 
-                if (regions[region]) {
-                    const color = regions[region][0].color;
+                if (mapNames[mapName].sigunguCd === sigunguCd && mapNames[mapName].color) {
                     layer.setStyle({
-                        fillColor: color,
-                        fillOpacity: 0.7
+                        fillColor: mapNames[mapName].color,
+                        fillOpacity: 1
                     });
                 }
             });
@@ -228,92 +140,241 @@ function loadRegions() {
     };
 
     request.onerror = function(event) {
-        console.error("Error loading regions from IndexedDB: " + event.target.errorCode);
+        console.error("LoadRegions Error loading regions from IndexedDB: " + event.target.errorCode);
     };
 }
 
 function moveToCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
-        function(position) {
-            map.setView([position.coords.latitude, position.coords.longitude], 12);
-        },
-        function(error) {
-            console.error("Error Code = " + error.code + " - " + error.message);
+        (position) => map.setView([position.coords.latitude, position.coords.longitude], 12),
+        (error) => {
+            console.error("Error Code =", error.code, "-", error.message);
             map.setView(center, 7); // 대한민국 중심 좌표로 이동
         }
     );
 }
 
-function nextPage(reqGubun) {
+function saveMapName(db, mapName) {
 
+    const transaction = db.transaction(["mapNames"], "readwrite");
+    const objectStore = transaction.objectStore("mapNames");
+
+    const mapNameObject = { mapName: mapName };
+
+    const request = objectStore.put(mapNameObject);
+
+    request.onsuccess = function(event) {
+        console.log("Map name saved successfully.");
+        nextPage(0, mapName);
+    };
+
+    request.onerror = function(event) {
+        console.error("Error saving map name:", event.target.errorCode);
+    };
+}
+
+function saveMapInfo() {
+    const mapName = localStorage.getItem("mapName");
+    const sigunguCd = localStorage.getItem("sigunguCd");
+    const color = document.getElementById('selectedColor').value;
+    const strDate = document.getElementById('strDatePicker').value;
+    const endDate = document.getElementById('endDatePicker').value;
+    const description = document.getElementById('description').value;
+
+    const data = {
+        sigunguCd: sigunguCd,
+        color: color,
+        strDate: strDate,
+        endDate: endDate,
+        description: description
+    }
+    saveMapInfos(mapName, data);
+
+    nextPage(3);
+}
+
+function saveMapInfos(mapName, data) {
+    const transaction = db.transaction(["mapNames"], "readwrite");
+    const objectStore = transaction.objectStore("mapNames");
+    const request = objectStore.getAll();
+
+    request.onsuccess = function(event) {
+        const allData = event.target.result;
+        const resultMapInfo = allData.filter(item => item.mapName === mapName);
+
+        if (resultMapInfo.length > 0) {
+            const itemToUpdate = resultMapInfo[0];
+            itemToUpdate.data = data;
+
+            const updateRequest = objectStore.put(itemToUpdate);
+
+            updateRequest.onsuccess = function() {
+                console.log("saveMapInfos Data updated successfully:", itemToUpdate);
+            };
+
+            updateRequest.onerror = function(event) {
+                console.error("saveMapInfos infos Update error: " + event.target.errorCode);
+            };
+        }
+    };
+
+    request.onerror = function(event) {
+        console.error("saveMapInfos Request error: " + event.target.errorCode);
+    };
+
+    transaction.onerror = function(event) {
+        console.error("saveMapInfos Transaction error: " + event.target.errorCode);
+    };
+}
+
+function deleteMapInfo() {
+    const request = indexedDB.open("MapColorDB", 1);
+
+    request.onerror = (event) => console.error("Database error:", event.target.errorCode);
+
+    request.onsuccess = (event) => {
+        const db = event.target.result;
+        const transaction = db.transaction(["mapNames"], "readwrite");
+        const objectStore = transaction.objectStore("mapNames");
+
+        const clearRequest = objectStore.clear();
+
+        clearRequest.onsuccess = () => {
+            console.log("All data cleared successfully.");
+            alert("All data has been cleared from the database.");
+        };
+
+        clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
+    };
+
+    request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains("mapNames")) {
+            db.createObjectStore("mapNames", { keyPath: "mapName" });
+        }
+    };
+}
+
+function nextPage(reqGubun, data) {
     gubun = reqGubun;
 
-    switch(gubun) {
-        case 0 :
-            if(document.getElementById('mapName').value === '') {
+    switch (gubun) {
+        case 0:
+            if (document.getElementById('mapName').value === '') {
                 alert('땅따먹기 주제를 입력해주세요.');
                 document.getElementById('mapName').focus();
                 return;
             }
-            localStorage.setItem("mapName", document.getElementById('mapName').value);
+            window.location.href = "mapNames.html";
+            break;
+        case 1:
+            localStorage.setItem("mapName", data);
             window.location.href = "sigungu.html";
             break;
-        case 1 :
-            detailSave();
+        case 2:
+            detailSave(data);
             window.location.href = "colorDate.html";
             break;
-        case 2 :
+        case 3:
             window.location.href = "map.html";
             break;
-        default : break;
+        default:
+            break;
     }
 }
 
-function detailSave() {
-    localStorage.setItem("sigunguCd", document.getElementById('sigunguCd').value);
+function detailSave(data) {
+    localStorage.setItem("sigunguCd", data.sigunguCd);
+    localStorage.setItem("sigunguNm", data.sigunguNm);
+}
+
+function goMenu(url) {
+    window.location.href = url;
+}
+
+function openIndexedDB(name, version) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(name, version);
+
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+
+        request.onerror = function(event) {
+            reject("openIndexedDB Database error: " + event.target.errorCode);
+        };
+    });
+}
+
+function getAllData(db, storeName) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, "readonly");
+        const objectStore = transaction.objectStore(storeName);
+        const request = objectStore.getAll();
+
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+
+        request.onerror = function(event) {
+            reject("getAllReginons Transaction error: " + event.target.errorCode);
+        };
+    });
+}
+
+function fetchJSON() {
+    return new Promise((resolve, reject) => {
+        $.getJSON(sigunguJsonUrl).done(resolve).fail((jqxhr, textStatus, error) => {
+            reject(`Request Failed: ${textStatus}, ${error}`);
+        });
+    });
+}
+
+function updateSigunguList(allData, mapName, sigunguData) {
+
+    console.log(allData);
+    document.querySelectorAll(".sigunguList li").forEach((li) => {
+        const sgg = li.getAttribute('data-sgg');
+        const cnt = allData.filter(item => {
+            if (item.mapName === mapName) {
+                return item.data && item.data.sigungu.startsWith(sgg);
+            }
+            return false;
+        }).length;
+        const text = li.textContent.replace(/\s\(\d+\/\d+\)$/, '');
+
+        const totCnt = sigunguData.features.filter(feature => feature.properties.SIG_CD.startsWith(sgg)).length;
+        li.innerText = `${text} (${cnt}/${totCnt})`;
+    });
 }
 
 function goSidoDetail(obj, code) {
-
     let element = document.getElementById('detailList');
 
     if (element) {
         element.parentNode.removeChild(element);
     }
 
-    const transaction = db.transaction(["regions"], "readonly");
-    const objectStore = transaction.objectStore("regions");
-    const request = objectStore.getAll();
-
-    request.onsuccess = function(event) {
-        const results = event.target.result;
-        results.forEach(function(item) {
-            regions[item.region] = item.data;
-        });
-    };
-
     const ul = document.createElement('ul');
     ul.id = 'detailList';
     ul.classList.add('detailList');
 
-    $.getJSON("src/data/sigungu_new.json", function(data) {
-
-        data.features.forEach(function (feature) {
+    $.getJSON(sigunguJsonUrl, function(data) {
+        data.features.forEach(function(feature) {
             if (feature.properties.SIG_CD.startsWith(code)) {
-
-                let li = document.createElement('li');
+                const li = document.createElement('li');
                 li.textContent = feature.properties.SIG_KOR_NM;
 
-                const gigunguCd = code + feature.properties.SIG_CD;
+                const sigunguCd = code + feature.properties.SIG_CD;
 
-                function handleEvent(e) {
-                    document.getElementById('sigunguCd').value = gigunguCd;
-                    localStorage.setItem('sigunguCd', gigunguCd);
+                function handleEvent() {
+                    localStorage.setItem('sigunguCd', sigunguCd);
                     localStorage.setItem('sigunguNm', obj.innerText + ' ' + feature.properties.SIG_KOR_NM);
-                    nextPage(1);
+                    nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
                 }
 
-                if(regions[gigunguCd]) {
+                //TODO.수정필요
+                if (mapNames[sigunguCd]) {
                     li.classList.add('point');
                 }
 
@@ -331,8 +392,4 @@ function goSidoDetail(obj, code) {
             lis[lis.length - 1].classList.add('full-width');
         }
     });
-}
-
-function goMenu(url) {
-    window.location.href = url;
 }

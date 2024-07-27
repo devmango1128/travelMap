@@ -15,7 +15,7 @@
 <body>
 <div class="header-container">
     <img src="src/images/back.png" class="back" onclick="goMenu('sigungu.html')"/>
-    <span>땅따먹기</span>
+    <span onclick="goMenu('mapName.html')">대동색칠지도</span>
     <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
 </div>
 <div class="color-date-container">
@@ -32,6 +32,7 @@
         <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
     </div>
     <div class="color-area">
+        <span class="page-title" id="pageTitle"></span>
         <div>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</div>
         <div class="circle-container">
             <!-- Red shades -->
@@ -78,12 +79,17 @@
             <div class="circle" style="background-color: #e4e1ff;" onclick="circleClicked(this, '#e4e1ff')"></div>
         </div>
         <input type="hidden" id="selectedColor" />
-         <div role="button" class="next-btn" onclick="saveRegion()">등록</div>
     </div>
+    <div role="button" class="next-btn" onclick="saveMapInfo()">등록</div>
 </div>
 <script src="src/js/index.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const mapName = localStorage.getItem("mapName");
+        const sigunguNm = localStorage.getItem("sigunguNm").replace(/\s*\(.*?\)\s*/g, ' ');
+
+        document.getElementById('pageTitle').innerHTML = mapName + ' - <span>' + sigunguNm + '</span>';
+
         flatpickr("#strDatePicker", {
             dateFormat: "Y-m-d",
             defaultDate: new Date(),

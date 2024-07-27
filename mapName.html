@@ -3,19 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>땅따먹기 - 대한민국, 어디까지 가봤니?</title>
+        <title>대동색칠지도 - 대한민국, 어디까지 가봤니?</title>
         <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
         <link rel="stylesheet" href="src/css/index.css" />
     </head>
     <body>
         <div class="header-container">
-            <span>땅따먹기</span>
+            <span onclick="goMenu('mapName.html')">대동색칠지도</span>
             <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="map-name-container">
             <span id="animated-text"></span>
-            <input type="text" id="mapName" placeholder="땅따먹기 주제를 입력해주세요." maxlength="10"/>
-            <div class="next-btn" role="button" onclick="nextPage(0)">다음</div>
+            <input type="text" id="mapName" placeholder="지도 주제를 입력해주세요.(ex.여행, 출장)" maxlength="10"/>
+            <div class="next-btn" role="button" onclick="mapNameNextPage()">다음</div>
         </div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -24,11 +24,14 @@
     </body>
 </html>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
         const text = '만나서 반가워요 :)';
         const animatedText = document.getElementById('animated-text');
+
         animatedText.textContent = '';
+
         let i = 0;
+
         function type() {
             if (i < text.length) {
                 animatedText.textContent += text.charAt(i);
@@ -37,6 +40,19 @@
                 setTimeout(type, 150);
             }
         }
+
         type();
     });
+
+    async function mapNameNextPage() {
+        const db = await openIndexedDB("MapColorDB", 1);
+        const allDatas = await getAllData(db, "mapNames");
+
+        if(allDatas.length > 3) {
+            alert('주제는 3개까지 등록 가능해요!');
+            return;
+        } else {
+            saveMapName(db, document.getElementById("mapName").value);
+        }
+    }
 </script>

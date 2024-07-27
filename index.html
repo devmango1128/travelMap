@@ -3,19 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>땅따먹기 - 대한민국, 어디까지 가봤니?</title>
+        <title>대동색칠지도 - 대한민국, 어디까지 가봤니?</title>
         <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
         <link rel="stylesheet" href="src/css/index.css" />
     </head>
     <body>
         <div class="main-container">
-            <div>땅따먹기</div>
+            <div>대동색칠지도</div>
             <div class="main-smail-text">대한민국, 어디까지 가봤니?</div>
         </div>
     </body>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="src/js/index.js"></script>
 </html>
 <script>
-    setTimeout(function() {
-        window.location.href = "mapName.html";
-    }, 2000); // 3초 후에 main.html로 이동
+    document.addEventListener('DOMContentLoaded', async function() {
+        const db = await openIndexedDB("MapColorDB", 1);
+        const datas = await getAllData(db, "mapNames");
+
+        setTimeout(function () {
+            if(!datas) window.location.href = "mapName.html";
+            else window.location.href = "mapNames.html";
+        }, 2000);
+    });
 </script>

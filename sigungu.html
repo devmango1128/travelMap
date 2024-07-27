@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>땅따먹기 - 대한민국, 어디까지 가봤니?</title>
+    <title>대동색칠지도 - 대한민국, 어디까지 가봤니?</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
@@ -11,8 +11,8 @@
 </head>
     <body>
         <div class="header-container">
-            <img src="src/images/back.png" class="back" onclick="goMenu('mapName.html')"/>
-            <span>땅따먹기</span>
+            <img src="src/images/back.png" class="back" onclick="goMenu('mapNames.html')"/>
+            <span onclick="goMenu('mapName.html')">대동색칠지도</span>
             <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="sigungu-container">
@@ -36,7 +36,6 @@
                 <li data-sgg=42 onclick="goSidoDetail(this, 42)">강원특별자치도</li>
                 <li data-sgg=45 onclick="goSidoDetail(this, 45)">전북특별자치도</li>
             </ul>
-            <input type="hidden" id="sigunguCd" value="" />
         </div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -49,60 +48,10 @@
         let mapName = localStorage.getItem("mapName");
         document.getElementById('pageTitle').innerText = mapName;
 
-        const db = await openIndexedDB("RegionsDB", 1);
-        const regions = await getAllRegions(db, "regions");
-        const sigunguData = await fetchJSON("src/data/sigungu_new.json");
+        const db = await openIndexedDB("MapColorDB", 1);
+        const allDatas = await getAllData(db, "mapNames");
+        const sigunguData = await fetchJSON();
 
-        updateSigunguList(regions, sigunguData);
+        updateSigunguList(allDatas, mapName, sigunguData);
     });
-
-    function openIndexedDB(name, version) {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(name, version);
-
-            request.onsuccess = function(event) {
-                resolve(event.target.result);
-            };
-
-            request.onerror = function(event) {
-                reject("Database error: " + event.target.errorCode);
-            };
-        });
-    }
-
-    function getAllRegions(db, storeName) {
-        return new Promise((resolve, reject) => {
-            const transaction = db.transaction([storeName], "readonly");
-            const objectStore = transaction.objectStore(storeName);
-            const request = objectStore.getAll();
-
-            request.onsuccess = function(event) {
-                resolve(event.target.result);
-            };
-
-            request.onerror = function(event) {
-                reject("Transaction error: " + event.target.errorCode);
-            };
-        });
-    }
-
-    function fetchJSON(url) {
-        return new Promise((resolve, reject) => {
-            $.getJSON(url).done(resolve).fail((jqxhr, textStatus, error) => {
-                reject(`Request Failed: ${textStatus}, ${error}`);
-            });
-        });
-    }
-
-    function updateSigunguList(regions, sigunguData) {
-        document.querySelectorAll(".sigunguList li").forEach((li) => {
-            const sgg = li.getAttribute('data-sgg');
-            const cnt = regions.filter(item => item.region.startsWith(sgg)).length;
-            const text = li.textContent.replace(/\s\(\d+\/\d+\)$/, '');
-
-            const totCnt = sigunguData.features.filter(feature => feature.properties.SIG_CD.startsWith(sgg)).length;
-            li.innerText = `${text} (${cnt}/${totCnt})`;
-        });
-    }
-
 </script>

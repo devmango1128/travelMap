@@ -29,6 +29,61 @@ body {
     font-size: 1em;
 }
 
+.header-container {
+    position: fixed;
+    height: 50px;
+    background-color: #fff;
+    width: 100%;
+    max-width: 1023px;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    z-index: 999;
+}
+
+.header-container span {
+    display: inline-block;
+    font-weight: bold;
+    color: #3496ff;
+    font-size: 1.5em;
+    margin-top: 13px;
+    margin-left: 35px;
+}
+
+.header-container img.menu {
+    height: 40px;
+    width: 30px;
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.header-container img.back {
+    position: fixed;
+    top: 12px;
+    left: 6px;
+}
+
+.menu-container {
+    font-family: 'NanumGothicExtraBold', sans-serif;
+    background-color: #e5e5e5;
+    height: 100vh;
+    display: inline-block;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.menu-container .menu-box {
+    background-color: #fff;
+    padding: 10px 5px;
+    border-radius: 5px;
+    margin: 20px 0px 20px 0px;
+    width: 90%;
+}
+
+.menu-container ul {
+    list-style: none;
+}
+
 .map-name-container {
     background-color: #fff;
     text-align: center;
@@ -73,13 +128,114 @@ body {
     color: #282828;
     font-size: 1.5em;
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 0;
+    position: absolute;
+    top: 250px;
 }
 
 @keyframes blink {
     0% { border-color: transparent; }
     50% { border-color: white; }
     100% { border-color: transparent; }
+}
+
+.map-names-container {
+    background-color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: 100vh;
+    padding: 60px 10px;
+}
+
+.map-names-container div.name-box {
+    max-width: 1023px;
+    width: 100%;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    background-color: #3496ff;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+.map-names-container div.name-box div.tit-name {
+    display: flex;
+    position: absolute;
+    margin-top: 20px;
+    margin-left: 20px;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.map-names-container div.name-box div.menu-div {
+    display: flex;
+    margin-top: 6px;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: bold;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+.map-names-container div.name-box div.hr-div {
+    padding: 0px 20px;
+    height: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.map-names-container div.name-box div.img-div {
+    display: flex;
+}
+
+.map-names-container div.name-box div img.pin {;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.map-names-container div.name-box div.count {
+    color: #fff;
+    font-size: 1.9em;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.map-names-container div.name-box div.count span {
+    color: #fff;
+    font-size: 0.5em;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.map-names-container div.name-box div.count span.point {
+    color: #fff;
+    font-size: 1.0em;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.map-names-container div.name-box .progress-container {
+    background-color: rgb(255 255 255 / 50%);
+    border-radius: 25px;
+    overflow: hidden;
+    height: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    display: flex;
+}
+
+.map-names-container div.name-box .progress-bar {
+    height: 10px;
+    width: 0;
+    background-color: #fff;
+    border-radius: 25px 0 0 25px;
+    transition: width 0.5s;
 }
 
 .sigungu-container {
@@ -149,6 +305,13 @@ body {
     margin-left: 3px;
     vertical-align: middle;
     margin-bottom : 3px;
+}
+
+.sigungu-container .page-title {
+    display: inline-block;
+    margin: 10px 0px 10px 0px;
+    font-weight: bold;
+    width: 100%;
 }
 
 .color-date-container {
@@ -242,12 +405,12 @@ body {
 }
 
 #map {
-    height: 90vh;
-    background: #9cd6f4; /* 지도 배경을 파란색으로 설정 */
+    height: 100vh;
+    background: #f4fbff; /* 지도 배경을 파란색으로 설정 */
 }
 
 .leaflet-container {
-    background: #9cd6f4; /* 지도 컨테이너의 배경을 파란색으로 설정 */
+    background: #f4fbff; /* 지도 컨테이너의 배경을 파란색으로 설정 */
 }
 
 .form-container {
@@ -270,7 +433,7 @@ body {
 .set_map {
     position: absolute;
     top: 130px;
-    z-index: 10;
+    z-index: 999;
     width: 30px;
 }
 
@@ -315,73 +478,12 @@ body {
     color: #3496ff;
 }
 
-.map-top {
-    display: inline-block;
-    height: 45px;
-    background-color: #fff;
-}
-
 .map-top img {
     position: absolute;
     top: 12px;
     left: 5px;
 }
 
-.header-container {
-    position: fixed;
-    height: 50px;
-    background-color: #fff;
-    width: 100%;
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.header-container span {
-    display: inline-block;
-    font-weight: bold;
-    color: #3496ff;
-    font-size: 1.5em;
-    margin-top: 10px;
-}
-
-.header-container img.menu {
-    position: fixed;
-    height: 40px;
-    top: 3px;
-    width: 30px;
-    right: 6px;
-}
-
-.header-container img.back {
-    position: fixed;
-    top: 12px;
-    left: 6px;
-}
-
-.menu-container {
-    font-family: 'NanumGothicExtraBold', sans-serif;
-    background-color: #e5e5e5;
-    height: 100vh;
-    display: inline-block;
-    width: 100%;
-    margin-top: 50px;
-}
-
-.menu-container .menu-box {
-    background-color: #fff;
-    padding: 10px 5px;
-    border-radius: 5px;
-    margin: 20px 0px 20px 0px;
-    width: 90%;
-}
-
-.menu-container ul {
-    list-style: none;
-}
-
-.page-title {
-    display: inline-block;
-    margin: 10px 0px 10px 0px;
-    font-weight: bold;
-    width: 100%;
+.leaflet-control-container div {
+    top: 25px;
 }

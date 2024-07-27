@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>땅따먹기 - 대한민국, 어디까지 가봤니?</title>
+    <title>대동색칠지도 - 대한민국, 어디까지 가봤니?</title>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
     <link rel="stylesheet" href="src/css/index.css" />
 </head>
 <body>
 <div class="header-container">
-    <img src="src/images/back.png" class="back" onclick="goBack()"/>
-    <span>땅따먹기</span>
+    <img src="src/images/back.png" class="back" onclick="window.history.go(-1)"/>
+    <span>대동색칠지도</span>
 </div>
 <div class="menu-container">
     <span class="title">설정</span>
@@ -25,7 +25,7 @@
             <li>v0.0.1</li>
         </ul>
     </div>
-    <div class="menu-box" onclick="deleteRegions()">
+    <div class="menu-box" onclick="deleteMapInfo()">
         데이터 초기화
     </div>
     <span class="dev-title">개발자 어플 더보기</span>
