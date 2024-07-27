@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'NanumGothicExtraBold';
+    src: url('../fonts/NanumGothicExtraBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 body {
     font-family: 'NanumGothicExtraBold', sans-serif;
     margin: 0 auto;
@@ -213,13 +220,10 @@ body {
 
 .map-names-container div.name-box div.count span.point-cnt {
     color: #fff;
-    font-size: 1.0em;
+    font-size: 0.8em;
     font-weight: bold;
     line-height: 10px;
     height: 10px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-top: 7px;
 }
 
 .map-names-container div.name-box div.count span.point {
