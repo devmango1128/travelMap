@@ -51,6 +51,28 @@ function initMap() {
     whiteBackground.addTo(map);
 }
 
+const excludedRegionCodes = [
+    "11", // 서울특별시
+    "26", // 부산광역시
+    "27", // 대구광역시
+    "28", // 인천광역시
+    "29", // 광주광역시
+    "30", // 대전광역시
+    "31", // 울산광역시
+    "36"  // 세종특별자치시
+];
+
+const cityCenters = {
+    "서울특별시": [37.5665, 126.9780],
+    "부산광역시": [35.1796, 129.0756],
+    "대구광역시": [35.8722, 128.6025],
+    "인천광역시": [37.4563, 126.7052],
+    "광주광역시": [35.1595, 126.8526],
+    "대전광역시": [36.3504, 127.3845],
+    "울산광역시": [35.5384, 129.3114],
+    "세종특별자치시": [36.4800, 127.2890]
+};
+
 function loadGeoJSON() {
 
     const mapName = localStorage.getItem("mapName");
@@ -83,17 +105,56 @@ function loadGeoJSON() {
                     click: (e) => {
                         const sigCd = feature.properties.SIG_CD;
                         const data = mapNames[mapName];
-                        const popupContent = `<b>${feature.properties.SIG_KOR_NM}</b><br>` +
-                            (data ? `${data.strDate}~${data.endDate}` : "") + "<br>" +
-                            (data ? data.description : "");
+                        let popupContent = `<b>${feature.properties.SIG_KOR_NM}</b><br>`;
+                        data.forEach((map, index) => {
+                            if(map.sigunguCd.substring(2, 8) === sigCd) {
+                                if(index > 0) popupContent += "<hr>";
+                                popupContent += (map ? `${map.strDate}~${map.endDate}` : "") + "<br>";
+                                popupContent += (map ? map.description : "") + "<br>";
+                            }
+                        });
                         layer.bindPopup(popupContent).openPopup();
                     }
                 });
+
+                const cityName = feature.properties.SIG_KOR_NM;
+                const center = layer.getBounds().getCenter();
+                const regionCode = feature.properties.SIG_CD.substring(0, 2);
+
+                const isExcludedRegion = excludedRegionCodes.includes(regionCode);
+                if (!isExcludedRegion) {
+                    const districtLabel = L.marker(center, {
+                        icon: L.divIcon({
+                            className: 'label',
+                            html: cityName,
+                            iconSize: adjustLabelSize(map)
+                        })
+                    }).addTo(map);
+                }
             }
         }).addTo(map);
 
+        for (const [city, center] of Object.entries(cityCenters)) {
+            const label = L.marker(center, {
+                icon: L.divIcon({
+                    className: 'label',
+                    html: city,
+                    iconSize: adjustLabelSize(map)
+                })
+            }).addTo(map);
+        }
+
         loadRegions(mapName);
     });
+}
+
+function adjustLabelSize(map) {
+    const zoom = map.getZoom();
+    const maxZoom = map.getMaxZoom();
+    const minZoom = map.getMinZoom();
+
+    const size = ((zoom - minZoom) / (maxZoom - minZoom)) * 40;
+    return [size, size * 0.4];
 }
 
 function geoLayer() {
@@ -129,12 +190,14 @@ function loadRegions(mapName) {
                 const districtCode = layer.feature.properties.SIG_CD; // 구 코드 가져오기
                 const sigunguCd = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
 
-                if (mapNames[mapName].sigunguCd === sigunguCd && mapNames[mapName].color) {
-                    layer.setStyle({
-                        fillColor: mapNames[mapName].color,
-                        fillOpacity: 1
-                    });
-                }
+                mapNames[mapName].forEach(map => {
+                    if (map.sigunguCd === sigunguCd && map.color) {
+                        layer.setStyle({
+                            fillColor: map.color,
+                            fillOpacity: 1
+                        });
+                    }
+                });
             });
         }
     };
@@ -202,7 +265,7 @@ function saveMapInfos(mapName, data) {
 
         if (resultMapInfo.length > 0) {
             const itemToUpdate = resultMapInfo[0];
-            itemToUpdate.data = data;
+            itemToUpdate.data.push(data);
 
             const updateRequest = objectStore.put(itemToUpdate);
 
@@ -387,7 +450,6 @@ function goSidoDetail(obj, code) {
                     nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
                 }
 
-                console.log('>>>>>>>>>', mapNames[mapName], feature.properties.SIG_CD);
                 if (mapNames[mapName].sigunguCd.substring(2, 8) === feature.properties.SIG_CD) {
                     li.classList.add('point');
                 }

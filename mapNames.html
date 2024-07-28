@@ -71,7 +71,7 @@
                     const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
 
                     const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
-                        const key = current.data ? current.data.sigungu : '';
+                        const key = current.data ? current.data.sigunguCd : '';
                         if (key && !acc.has(key)) {
                             acc.add(key);
                         }

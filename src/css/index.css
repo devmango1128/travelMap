@@ -607,6 +607,11 @@ body {
     background: #f4fbff; /* 지도 배경을 파란색으로 설정 */
 }
 
+#map .label{
+    font-weight: normal;
+    font-size: 0.3em;
+}
+
 .leaflet-container {
     background: #f4fbff; /* 지도 컨테이너의 배경을 파란색으로 설정 */
 }
