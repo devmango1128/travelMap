@@ -196,6 +196,52 @@ body {
     font-weight: bold;
     justify-content: flex-end;
     padding-right: 20px;
+    cursor: pointer;
+}
+.map-names-container div.name-box div.menu-div div.menu-area {
+    position: absolute;
+    background-color: #ffffff;
+    color: #ff3b5d;
+    font-size: 0.5em;
+    height: 55px;
+    width: 100px;
+    top: 110px;
+    right: 20px;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 5px 4px 7px rgb(0 0 0 / 21%);
+}
+
+.map-names-container div.name-box div.menu-div div.menu-area div.color-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.map-names-container div.name-box div.menu-div div.menu-area div.color-area div {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    float: left;
+}
+
+.map-names-container div.name-box div.menu-div div.menu-area div.color-area .mr10 {
+    margin-right: 10px;
+}
+
+.map-names-container div.name-box div.menu-div div.menu-area div.delete-map-nm {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px;
+    margin-top: 5px;
 }
 
 .map-names-container div.name-box div.hr-div {
@@ -303,10 +349,11 @@ body {
     font-size: 0.5em;
     padding: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .map-names-container div.name-box div.reg-btn-div {
-    background: url('../images/modify.png');
+    background-image: url('../images/modify.png');
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -315,6 +362,7 @@ body {
     position: absolute;
     right: 20px;
     margin-top: 25px;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .sigungu-container {

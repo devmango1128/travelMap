@@ -29,7 +29,6 @@
                 allDatas.forEach((data) => {
                     const div = document.createElement("div");
                     div.className = 'name-box';
-                    div.addEventListener('click', () => mapNamesNextPage(data.mapName));
 
                     const titDiv = document.createElement("div");
                     titDiv.innerHTML = data.mapName +  '<span class="tit-modify"></span>'
@@ -40,7 +39,17 @@
                     const menuDiv = document.createElement("div");
                     menuDiv.textContent = '...';
                     menuDiv.addEventListener('click', (event) => {
-                        const newColor = colorChange(event, data.mapName);
+                        const menuArea = document.createElement("div");
+                        menuArea.className = 'menu-area';
+                        menuArea.innerHTML = '<div class="color-area">' +
+                            '<div class="circle mr10" style="background-color: #3496ff;" onclick="colorChange(addEventListener(), \'#3496ff\')"></div>' +
+                            '<div class="circle mr10" style="background-color: #ff8e00;" onclick="colorChange(addEventListener(), \'#ff8e00\')"></div>' +
+                            '<div class="circle mr10" style="background-color: #7b34ff;" onclick="colorChange(addEventListener(), \'#7b34ff\')"></div>' +
+                            '<div class="circle" style="background-color: #34b37e;" onclick="colorChange(addEventListener(), \'#34b37e\')"></div>' +
+                            '</div>' +
+                            '<div id="deleteMapNm" class="delete-map-nm">삭제하기</div>';
+
+                        menuDiv.appendChild(menuArea);
                     });
                     menuDiv.className = 'menu-div';
 
@@ -141,9 +150,7 @@
                     imgDiv3.appendChild(timeDiv);
 
                     const regDiv = document.createElement("div");
-                    regDiv.addEventListener('click', (event) => {
-                        console.log('글쓰기')
-                    });
+                    regDiv.addEventListener('click', () => mapNamesNextPage(data.mapName));
                     regDiv.className = 'reg-btn-div';
 
                     imgDiv3.appendChild(regDiv);
