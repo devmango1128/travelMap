@@ -393,7 +393,6 @@ function fetchJSON() {
 
 function updateSigunguList(allData, mapName, sigunguData) {
 
-    console.log(allData);
     document.querySelectorAll(".sigunguList li").forEach((li) => {
         const sgg = li.getAttribute('data-sgg');
         const cnt = allData.filter(item => {
@@ -421,7 +420,6 @@ function goSidoDetail(obj, code) {
         const results = event.target.result;
         
         results.forEach(function (item) {
-            alert(item.mapName);
             if (item.mapName === mapName) {
                 mapNames[mapName] = item.data;
             }
@@ -451,7 +449,7 @@ function goSidoDetail(obj, code) {
                     nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
                 }
 
-                if (mapNames[mapName].sigunguCd.substring(2, 8) === feature.properties.SIG_CD) {
+                if ((mapNames[mapName] && mapNames[mapName].sigunguCd.substring(2, 8)) === feature.properties.SIG_CD) {
                     li.classList.add('point');
                 }
 
