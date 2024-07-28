@@ -410,17 +410,17 @@ function updateSigunguList(allData, mapName, sigunguData) {
 }
 
 function goSidoDetail(obj, code) {
-    alert(obj);
-    alert(code);
+    
     const mapName = localStorage.getItem("mapName");
     const transaction = db.transaction(["mapNames"], "readonly");
     const objectStore = transaction.objectStore("mapNames");
     const request = objectStore.getAll();
-    alert(mapName);
+    
     request.onsuccess = function(event) {
-
+alert(mapName);
+        
         const results = event.target.result;
-
+alert(results);
         results.forEach(function (item) {
             if (item.mapName === mapName) {
                 mapNames[mapName] = item.data;
@@ -456,10 +456,11 @@ function goSidoDetail(obj, code) {
                 }
 
                 li.addEventListener('click', handleEvent);
+                alert(li);
                 ul.appendChild(li);
             }
         });
-
+alert(ul);
         obj.parentNode.insertBefore(ul, obj.nextSibling);
 
         const dlUl = document.getElementById('detailList');
