@@ -22,10 +22,8 @@
         const db = await openIndexedDB("MapColorDB", 1);
         const datas = await getAllData(db, "mapNames");
 
-        console.log('datas', datas);
-
         setTimeout(function () {
-            if(!datas) window.location.href = "mapName.html";
+            if(datas && !datas.length) window.location.href = "mapName.html";
             else window.location.href = "mapNames.html";
         }, 2000);
     });

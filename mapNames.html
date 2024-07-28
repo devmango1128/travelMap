@@ -21,8 +21,6 @@
                 const db = await openIndexedDB("MapColorDB", 1);
                 const allDatas = await getAllData(db, "mapNames");
 
-                console.log('mapNames');
-
                 const mapNamesContainer = document.getElementById("mapNames");
                 const sigunguData = await fetchJSON();
 
