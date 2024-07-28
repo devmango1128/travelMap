@@ -417,11 +417,11 @@ function goSidoDetail(obj, code) {
     const request = objectStore.getAll();
     
     request.onsuccess = function(event) {
-alert(mapName);
         
         const results = event.target.result;
-alert(results);
+        
         results.forEach(function (item) {
+            alert(item.mapName);
             if (item.mapName === mapName) {
                 mapNames[mapName] = item.data;
             }
@@ -456,11 +456,9 @@ alert(results);
                 }
 
                 li.addEventListener('click', handleEvent);
-                alert(li);
                 ul.appendChild(li);
             }
         });
-alert(ul);
         obj.parentNode.insertBefore(ul, obj.nextSibling);
 
         const dlUl = document.getElementById('detailList');
