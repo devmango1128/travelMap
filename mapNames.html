@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>대동색칠지도 - 대한민국, 어디까지 가봤니?</title>
-        <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
         <link rel="stylesheet" href="src/css/index.css" />
     </head>
     <body>
@@ -21,6 +20,8 @@
             document.addEventListener('DOMContentLoaded', async function() {
                 const db = await openIndexedDB("MapColorDB", 1);
                 const allDatas = await getAllData(db, "mapNames");
+
+                console.log('mapNames');
 
                 const mapNamesContainer = document.getElementById("mapNames");
                 const sigunguData = await fetchJSON();
