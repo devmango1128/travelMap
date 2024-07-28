@@ -39,6 +39,9 @@
 
                     const menuDiv = document.createElement("div");
                     menuDiv.textContent = '...';
+                    menuDiv.addEventListener('click', (event) => {
+                        const newColor = colorChange(event, data.mapName);
+                    });
                     menuDiv.className = 'menu-div';
 
                     div.appendChild(menuDiv);
@@ -57,7 +60,7 @@
                     imgDiv.appendChild(img);
 
                     const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
-                    console.log(filteredItems)
+
                     const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
                         console.log('acc', acc);
                         console.log('current', current);
@@ -94,6 +97,12 @@
 
             function mapNamesNextPage(mapName) {
                 nextPage(1, mapName);
+            }
+
+            function colorChange(e, mapName) {
+                e.stopPropagation();
+               console.log(e.target);
+               console.log(mapName)
             }
         </script>
     </body>
