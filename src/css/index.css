@@ -209,7 +209,7 @@ body {
     right: 20px;
     border-radius: 4px;
     padding: 10px;
-    box-shadow: 5px 4px 7px rgb(0 0 0 / 21%);
+    box-shadow: 5px 4px 7px rgb(0 0 0 / 10%);
 }
 
 .map-names-container div.name-box div.menu-div div.menu-area div.color-area {
@@ -265,7 +265,7 @@ body {
     color: #fff;
     font-size: 1.9em;
     font-weight: bold;
-    margin-top: 8px;
+    margin-top: 6px;
 }
 
 .map-names-container div.name-box div.count span {
@@ -320,7 +320,7 @@ body {
     color: #fff;
     font-size: 1.9em;
     font-weight: bold;
-    margin-top: 8px;
+    margin-top: 6px;
 }
 
 .map-names-container div.name-box div.visit span {
@@ -361,7 +361,7 @@ body {
     background-size: contain;
     position: absolute;
     right: 20px;
-    margin-top: 25px;
+    margin-top: 20px;
     border: 1px solid rgb(255 255 255 / 2%);
 }
 
