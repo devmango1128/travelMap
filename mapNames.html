@@ -32,7 +32,7 @@
                     div.addEventListener('click', () => mapNamesNextPage(data.mapName));
 
                     const titDiv = document.createElement("div");
-                    titDiv.textContent = data.mapName;
+                    titDiv.innerHTML = data.mapName +  '<span class="tit-modify"></span>'
                     titDiv.className = 'tit-name';
 
                     div.appendChild(titDiv);
@@ -62,8 +62,6 @@
                     const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
 
                     const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
-                        console.log('acc', acc);
-                        console.log('current', current);
                         const key = current.data ? current.data.sigungu : '';
                         if (key && !acc.has(key)) {
                             acc.add(key);
@@ -91,6 +89,67 @@
                     progress.appendChild(bar);
 
                     div.appendChild(progress);
+
+                    const imgDiv2 = document.createElement("div");
+                    imgDiv2.className = 'img-div';
+
+                    const img2 = document.createElement("img");
+                    img2.src = 'src/images/walk.png';
+                    img2.className = 'walkman';
+                    imgDiv2.appendChild(img2);
+
+                    const visit = document.createElement("div");
+                    const visitNm = '서울시';
+                    if(true) {
+                        visit.innerHTML = '<span>제일 많이 방문한 지역은 </span><span class="point-walk">' + visitNm + '</span><span>예요 :)</span>';
+                    } else {
+                        visit.innerHTML = '<span>아직 방문한 지역이 없네요 :(</span>';
+                    }
+                    visit.className = 'visit';
+                    imgDiv2.appendChild(visit);
+
+                    div.appendChild(imgDiv2);
+
+                    const imgDiv3 = document.createElement("div");
+                    imgDiv3.className = 'img-div';
+
+                    const totalDiv = document.createElement("div");
+                    totalDiv.textContent = '전체보기';
+                    totalDiv.addEventListener('click', (event) => {
+                        console.log('전체보기')
+                    });
+                    totalDiv.className = 'total-btn-div';
+
+                    imgDiv3.appendChild(totalDiv);
+
+                    const mapDiv = document.createElement("div");
+                    mapDiv.textContent = '지도보기';
+                    mapDiv.addEventListener('click', (event) => {
+                        console.log('지도보기')
+                    });
+                    mapDiv.className = 'map-btn-div';
+
+                    imgDiv3.appendChild(mapDiv);
+
+                    const timeDiv = document.createElement("div");
+                    timeDiv.textContent = '타임라인';
+                    timeDiv.addEventListener('click', (event) => {
+                        console.log('타임라인보기')
+                    });
+                    timeDiv.className = 'time-btn-div';
+
+                    imgDiv3.appendChild(timeDiv);
+
+                    const regDiv = document.createElement("div");
+                    regDiv.addEventListener('click', (event) => {
+                        console.log('글쓰기')
+                    });
+                    regDiv.className = 'reg-btn-div';
+
+                    imgDiv3.appendChild(regDiv);
+
+                    div.appendChild(imgDiv3);
+
                     mapNamesContainer.appendChild(div);
                 });
             });

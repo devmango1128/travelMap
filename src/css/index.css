@@ -178,6 +178,16 @@ body {
     font-weight: bold;
 }
 
+.map-names-container div.name-box div.tit-name span.tit-modify {
+    background: url(../images/modify.png);
+    background-size: contain;
+    width: 25px;
+    height: 25px;
+    margin-top: -2px;
+    display: inline-block;
+    cursor: pointer;
+}
+
 .map-names-container div.name-box div.menu-div {
     display: flex;
     margin-top: 6px;
@@ -198,7 +208,7 @@ body {
     display: flex;
 }
 
-.map-names-container div.name-box div img.pin {;
+.map-names-container div.name-box div img.pin {
     width: 30px;
     height: 30px;
     margin-left: 10px;
@@ -251,6 +261,60 @@ body {
     background-color: #fff;
     border-radius: 25px 0 0 25px;
     transition: width 0.5s;
+}
+
+.map-names-container div.name-box div img.walkman {
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.map-names-container div.name-box div.visit {
+    color: #fff;
+    font-size: 1.9em;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.map-names-container div.name-box div.visit span {
+    color: #fff;
+    font-size: 0.5em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.map-names-container div.name-box div.visit span.point-walk {
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: bold;
+    line-height: 10px;
+    height: 10px;
+}
+
+.map-names-container div.name-box div.total-btn-div
+,.map-names-container div.name-box div.map-btn-div
+,.map-names-container div.name-box div.time-btn-div {
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    margin-left: 10px;
+    margin-top: 20px;
+    color: #ffffff;
+    font-size: 0.5em;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-names-container div.name-box div.reg-btn-div {
+    background: url('../images/modify.png');
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+    background-size: contain;
+    position: absolute;
+    right: 20px;
+    margin-top: 25px;
 }
 
 .sigungu-container {
