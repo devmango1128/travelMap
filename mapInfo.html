@@ -143,10 +143,14 @@
         removeBtn.textContent = 'x';
         removeBtn.addEventListener('click', () => {
             tagsInputContainer.removeChild(tag);
+            if (tagsInputContainer.querySelectorAll('.tag').length === 0) {
+                tagsInput.placeholder = '태그를 입력해주세요.';
+            }
         });
 
         tag.appendChild(removeBtn);
         tagsInputContainer.insertBefore(tag, tagsInput);
+        tagsInput.placeholder = '';
     }
 </script>
 </body>
