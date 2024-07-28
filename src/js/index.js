@@ -410,7 +410,7 @@ function updateSigunguList(allData, mapName, sigunguData) {
 }
 
 function goSidoDetail(obj, code) {
-    alert(obj code)
+    alert(obj + code)
     const mapName = localStorage.getItem("mapName");
     const transaction = db.transaction(["mapNames"], "readonly");
     const objectStore = transaction.objectStore("mapNames");
