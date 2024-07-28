@@ -158,9 +158,7 @@ function saveMapName(db, mapName) {
 
     const transaction = db.transaction(["mapNames"], "readwrite");
     const objectStore = transaction.objectStore("mapNames");
-
     const mapNameObject = { mapName: mapName };
-
     const request = objectStore.put(mapNameObject);
 
     request.onsuccess = function(event) {
@@ -337,7 +335,7 @@ function updateSigunguList(allData, mapName, sigunguData) {
         const sgg = li.getAttribute('data-sgg');
         const cnt = allData.filter(item => {
             if (item.mapName === mapName) {
-                return item.data && item.data.sigungu.startsWith(sgg);
+                return item.data && item.data.sigunguCd.startsWith(sgg);
             }
             return false;
         }).length;
@@ -349,6 +347,22 @@ function updateSigunguList(allData, mapName, sigunguData) {
 }
 
 function goSidoDetail(obj, code) {
+
+    const mapName = localStorage.getItem("mapName");
+    const transaction = db.transaction(["mapNames"], "readonly");
+    const objectStore = transaction.objectStore("mapNames");
+    const request = objectStore.getAll();
+
+    request.onsuccess = function(event) {
+
+        const results = event.target.result;
+
+        results.forEach(function (item) {
+            if (item.mapName === mapName) {
+                mapNames[mapName] = item.data;
+            }
+        });
+    }
     let element = document.getElementById('detailList');
 
     if (element) {
@@ -373,8 +387,8 @@ function goSidoDetail(obj, code) {
                     nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
                 }
 
-                //TODO.수정필요
-                if (mapNames[sigunguCd]) {
+                console.log('>>>>>>>>>', mapNames[mapName], feature.properties.SIG_CD);
+                if (mapNames[mapName].sigunguCd.substring(2, 8) === feature.properties.SIG_CD) {
                     li.classList.add('point');
                 }
 

@@ -13,145 +13,137 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div class="header-container">
-    <img src="src/images/back.png" class="back" onclick="goMenu('sigungu.html')"/>
-    <span onclick="goMenu('mapName.html')">지도깨기</span>
-    <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
-</div>
-<div class="map-info-container">
-    <span class="page-title" id="pageTitle"></span>
-     <div class="date-area">
-        <div class="tit"><span class="color-blue">여행기간</span>을 선택해주세요.</div>
-        <br>
-        <input type="text" id="strDatePicker" placeholder="날짜 선택" />
-        ~
-        <input type="text" id="endDatePicker" placeholder="날짜 선택" />
+    <div class="header-container">
+        <img src="src/images/back.png" class="back" onclick="goMenu('sigungu.html')"/>
+        <span onclick="goMenu('mapName.html')">지도깨기</span>
+        <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
     </div>
-    <div class="desc-area">
-        <div class="tit">간단한 <span class="color-blue">메모</span>를 입력해주세요.</div>
-        <br>
-        <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
-    </div>
-    <div class="tags-input-container">
-        <input type="text" id="tags-input" placeholder="태그를 입력해주세요." />
-    </div>
-    <div class="color-area">
-        <div class="tit">지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</div>
-        <div class="circle-container">
-            <!-- Red shades -->
-            <div class="circle" style="background-color: #ff004e;" onclick="circleClicked(this, '#ff004e')"></div>
-            <div class="circle" style="background-color: #ff3b5d;" onclick="circleClicked(this, '#ff3b5d')"></div>
-            <div class="circle" style="background-color: #ff5c72;" onclick="circleClicked(this, '#ff5c72')"></div>
-            <div class="circle" style="background-color: #ff8292;" onclick="circleClicked(this, '#ff8292')"></div>
-            <div class="circle" style="background-color: #ffa4b4;" onclick="circleClicked(this, '#ffa4b4')"></div>
-            <div class="circle" style="background-color: #ffc8d4;" onclick="circleClicked(this, '#ffc8d4')"></div>
-            <!-- Orange shades -->
-            <div class="circle" style="background-color: #ff6d00;" onclick="circleClicked(this, '#ff6d00')"></div>
-            <div class="circle" style="background-color: #ff8e00;" onclick="circleClicked(this, '#ff8e00')"></div>
-            <div class="circle" style="background-color: #ffaa00;" onclick="circleClicked(this, '#ffaa00')"></div>
-            <div class="circle" style="background-color: #ffc340;" onclick="circleClicked(this, '#ffc340')"></div>
-            <div class="circle" style="background-color: #ffd77e;" onclick="circleClicked(this, '#ffd77e')"></div>
-            <div class="circle" style="background-color: #ffe8b1;" onclick="circleClicked(this, '#ffe8b1')"></div>
-            <!-- Yellow shades -->
-            <div class="circle" style="background-color: #fff000;" onclick="circleClicked(this, '#fff000')"></div>
-            <div class="circle" style="background-color: #fff333;" onclick="circleClicked(this, '#fff333')"></div>
-            <div class="circle" style="background-color: #fff666;" onclick="circleClicked(this, '#fff666')"></div>
-            <div class="circle" style="background-color: #fff999;" onclick="circleClicked(this, '#fff999')"></div>
-            <div class="circle" style="background-color: #fffccc;" onclick="circleClicked(this, '#fffccc')"></div>
-            <div class="circle" style="background-color: #fffddd;" onclick="circleClicked(this, '#fffddd')"></div>
-            <!-- Green shades -->
-            <div class="circle" style="background-color: #00a851;" onclick="circleClicked(this, '#00a851')"></div>
-            <div class="circle" style="background-color: #34b37e;" onclick="circleClicked(this, '#34b37e')"></div>
-            <div class="circle" style="background-color: #66caa3;" onclick="circleClicked(this, '#66caa3')"></div>
-            <div class="circle" style="background-color: #99ddc7;" onclick="circleClicked(this, '#99ddc7')"></div>
-            <div class="circle" style="background-color: #ccebdb;" onclick="circleClicked(this, '#ccebdb')"></div>
-            <div class="circle" style="background-color: #e4f7ef;" onclick="circleClicked(this, '#e4f7ef')"></div>
-            <!-- Blue shades -->
-            <div class="circle" style="background-color: #0077ff;" onclick="circleClicked(this, '#0077ff')"></div>
-            <div class="circle" style="background-color: #3390ff;" onclick="circleClicked(this, '#3390ff')"></div>
-            <div class="circle" style="background-color: #66aaff;" onclick="circleClicked(this, '#66aaff')"></div>
-            <div class="circle" style="background-color: #99ccff;" onclick="circleClicked(this, '#99ccff')"></div>
-            <div class="circle" style="background-color: #cce6ff;" onclick="circleClicked(this, '#cce6ff')"></div>
-            <div class="circle" style="background-color: #e4f2ff;" onclick="circleClicked(this, '#e4f2ff')"></div>
-            <!-- Purple shades -->
-            <div class="circle" style="background-color: #6100ff;" onclick="circleClicked(this, '#6100ff')"></div>
-            <div class="circle" style="background-color: #7b34ff;" onclick="circleClicked(this, '#7b34ff')"></div>
-            <div class="circle" style="background-color: #9966ff;" onclick="circleClicked(this, '#9966ff')"></div>
-            <div class="circle" style="background-color: #bb99ff;" onclick="circleClicked(this, '#bb99ff')"></div>
-            <div class="circle" style="background-color: #ddccff;" onclick="circleClicked(this, '#ddccff')"></div>
-            <div class="circle" style="background-color: #e4e1ff;" onclick="circleClicked(this, '#e4e1ff')"></div>
+    <div class="map-info-container">
+        <span class="page-title" id="pageTitle"></span>
+        <div class="date-area">
+            <div class="tit">여행기간</div>
+            <br>
+            <input type="text" id="strDatePicker" placeholder="날짜 선택" />
+            &nbsp;~&nbsp;
+            <input type="text" id="endDatePicker" placeholder="날짜 선택" />
         </div>
-        <input type="hidden" id="selectedColor" />
+        <div class="hr"></div>
+        <div class="desc-area">
+            <div class="tit">메모 <span>선택</span></div>
+            <br>
+            <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
+        </div>
+        <div class="map-info-input-container">
+            <input type="text" id="tag-input" class="tag-input" placeholder="태그를 입력한 뒤 엔터">
+        </div>
+        <div id="tag-container" class="tag-container"></div>
+        <div class="hr"></div>
+        <div class="color-area">
+            <div class="tit">색상선택</div>
+            <div class="circle-container">
+                <!-- Red shades -->
+                <div class="circle" style="background-color: #ff004e;" onclick="circleClicked(this, '#ff004e')"></div>
+                <div class="circle" style="background-color: #ff3b5d;" onclick="circleClicked(this, '#ff3b5d')"></div>
+                <div class="circle" style="background-color: #ff5c72;" onclick="circleClicked(this, '#ff5c72')"></div>
+                <div class="circle" style="background-color: #ff8292;" onclick="circleClicked(this, '#ff8292')"></div>
+                <div class="circle" style="background-color: #ffa4b4;" onclick="circleClicked(this, '#ffa4b4')"></div>
+                <div class="circle" style="background-color: #ffc8d4;" onclick="circleClicked(this, '#ffc8d4')"></div>
+                <!-- Orange shades -->
+                <div class="circle" style="background-color: #ff6d00;" onclick="circleClicked(this, '#ff6d00')"></div>
+                <div class="circle" style="background-color: #ff8e00;" onclick="circleClicked(this, '#ff8e00')"></div>
+                <div class="circle" style="background-color: #ffaa00;" onclick="circleClicked(this, '#ffaa00')"></div>
+                <div class="circle" style="background-color: #ffc340;" onclick="circleClicked(this, '#ffc340')"></div>
+                <div class="circle" style="background-color: #ffd77e;" onclick="circleClicked(this, '#ffd77e')"></div>
+                <div class="circle" style="background-color: #ffe8b1;" onclick="circleClicked(this, '#ffe8b1')"></div>
+                <!-- Yellow shades -->
+                <div class="circle" style="background-color: #fff000;" onclick="circleClicked(this, '#fff000')"></div>
+                <div class="circle" style="background-color: #fff333;" onclick="circleClicked(this, '#fff333')"></div>
+                <div class="circle" style="background-color: #fff666;" onclick="circleClicked(this, '#fff666')"></div>
+                <div class="circle" style="background-color: #fff999;" onclick="circleClicked(this, '#fff999')"></div>
+                <div class="circle" style="background-color: #fffccc;" onclick="circleClicked(this, '#fffccc')"></div>
+                <div class="circle" style="background-color: #fffddd;" onclick="circleClicked(this, '#fffddd')"></div>
+                <!-- Green shades -->
+                <div class="circle" style="background-color: #00a851;" onclick="circleClicked(this, '#00a851')"></div>
+                <div class="circle" style="background-color: #34b37e;" onclick="circleClicked(this, '#34b37e')"></div>
+                <div class="circle" style="background-color: #66caa3;" onclick="circleClicked(this, '#66caa3')"></div>
+                <div class="circle" style="background-color: #99ddc7;" onclick="circleClicked(this, '#99ddc7')"></div>
+                <div class="circle" style="background-color: #ccebdb;" onclick="circleClicked(this, '#ccebdb')"></div>
+                <div class="circle" style="background-color: #e4f7ef;" onclick="circleClicked(this, '#e4f7ef')"></div>
+                <!-- Blue shades -->
+                <div class="circle" style="background-color: #0077ff;" onclick="circleClicked(this, '#0077ff')"></div>
+                <div class="circle" style="background-color: #3390ff;" onclick="circleClicked(this, '#3390ff')"></div>
+                <div class="circle" style="background-color: #66aaff;" onclick="circleClicked(this, '#66aaff')"></div>
+                <div class="circle" style="background-color: #99ccff;" onclick="circleClicked(this, '#99ccff')"></div>
+                <div class="circle" style="background-color: #cce6ff;" onclick="circleClicked(this, '#cce6ff')"></div>
+                <div class="circle" style="background-color: #e4f2ff;" onclick="circleClicked(this, '#e4f2ff')"></div>
+                <!-- Purple shades -->
+                <div class="circle" style="background-color: #6100ff;" onclick="circleClicked(this, '#6100ff')"></div>
+                <div class="circle" style="background-color: #7b34ff;" onclick="circleClicked(this, '#7b34ff')"></div>
+                <div class="circle" style="background-color: #9966ff;" onclick="circleClicked(this, '#9966ff')"></div>
+                <div class="circle" style="background-color: #bb99ff;" onclick="circleClicked(this, '#bb99ff')"></div>
+                <div class="circle" style="background-color: #ddccff;" onclick="circleClicked(this, '#ddccff')"></div>
+                <div class="circle" style="background-color: #e4e1ff;" onclick="circleClicked(this, '#e4e1ff')"></div>
+            </div>
+            <input type="hidden" id="selectedColor" />
+        </div>
+        <div role="button" class="next-btn" onclick="saveMapInfo()">등록</div>
     </div>
-    <div role="button" class="next-btn" onclick="saveMapInfo()">등록</div>
-</div>
-<script src="src/js/index.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mapName = localStorage.getItem("mapName");
-        const sigunguNm = localStorage.getItem("sigunguNm").replace(/\s*\(.*?\)\s*/g, ' ');
+    <script src="src/js/index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapName = localStorage.getItem("mapName");
+            const sigunguNm = localStorage.getItem("sigunguNm").replace(/\s*\(.*?\)\s*/g, ' ');
 
-        document.getElementById('pageTitle').innerHTML = mapName + ' - <span>' + sigunguNm + '</span>';
+            document.getElementById('pageTitle').innerHTML = mapName + ' - <span>' + sigunguNm + '</span>';
 
-        const startDatePicker = flatpickr("#strDatePicker", {
-            dateFormat: "Y-m-d",
-            defaultDate: new Date(),
-            disableMobile: true,
-            onChange: function(selectedDates, dateStr, instance) {
-                endDatePicker.set('minDate', dateStr);
-            }
-        });
-
-        const endDatePicker = flatpickr("#endDatePicker", {
-            dateFormat: "Y-m-d",
-            defaultDate: new Date(),
-            disableMobile: true,
-            onChange: function(selectedDates, dateStr, instance) {
-                startDatePicker.set('maxDate', dateStr);
-            }
-        });
-
-        const tagsInputContainer = document.querySelector('.tags-input-container');
-        const tagsInput = document.getElementById('tags-input');
-
-        tagsInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const tagText = tagsInput.value.trim();
-                if (tagText !== '') {
-                    addTag(tagsInputContainer, tagText, tagsInput);
-                    tagsInput.value = '';
+            const startDatePicker = flatpickr("#strDatePicker", {
+                dateFormat: "Y-m-d",
+                defaultDate: new Date(),
+                disableMobile: true,
+                onChange: function(selectedDates, dateStr, instance) {
+                    endDatePicker.set('minDate', dateStr);
                 }
+            });
+
+            const endDatePicker = flatpickr("#endDatePicker", {
+                dateFormat: "Y-m-d",
+                defaultDate: new Date(),
+                disableMobile: true,
+                onChange: function(selectedDates, dateStr, instance) {
+                    startDatePicker.set('maxDate', dateStr);
+                }
+            });
+
+            document.getElementById('tag-input').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent form submission
+                    addTag();
+                }
+            });
+        });
+
+        function circleClicked(element, color) {
+            document.getElementById("selectedColor").value = color;
+            document.querySelectorAll('.circle').forEach((circle) => {
+                circle.classList.remove('checked');
+            });
+            element.classList.add('checked');
+        }
+
+        function addTag() {
+            const input = document.getElementById('tag-input');
+            const tagText = input.value.trim();
+
+            if (tagText !== '') {
+                const tagContainer = document.getElementById('tag-container');
+                const tagElement = document.createElement('div');
+                tagElement.className = 'tag';
+                tagElement.textContent = '#' + tagText;
+
+                tagContainer.appendChild(tagElement);
+                input.value = ''; // Clear the input field
             }
-        });
-    });
-
-    function circleClicked(element, color) {
-        document.getElementById("selectedColor").value = color;
-        document.querySelectorAll('.circle').forEach((circle) => {
-            circle.classList.remove('checked');
-        });
-        element.classList.add('checked');
-    }
-
-    function addTag(tagsInputContainer, text, tagsInput) {
-        const tag = document.createElement('span');
-        tag.className = 'tag';
-        tag.textContent = text;
-
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = 'x';
-        removeBtn.addEventListener('click', () => {
-            tagsInputContainer.removeChild(tag);
-            if (tagsInputContainer.querySelectorAll('.tag').length === 0) {
-                tagsInput.placeholder = '태그를 입력해주세요.';
-            }
-        });
-
-        tag.appendChild(removeBtn);
-        tagsInputContainer.insertBefore(tag, tagsInput);
-        tagsInput.placeholder = '';
-    }
-</script>
+        }
+    </script>
 </body>
 

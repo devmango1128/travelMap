@@ -422,6 +422,10 @@ body {
     text-align: left;
 }
 
+.sigungu-container ul.detailList li.point {
+    font-weight: 600;
+}
+
 .sigungu-container ul.detailList li.point:after {
     content: "";
     display: inline-block;
@@ -450,9 +454,20 @@ body {
     padding: 55px 10px;
 }
 
+.map-info-container input
+, .map-info-container textarea {
+    background-color: #f4f3f3;
+}
+
+.map-info-container div.hr {
+    width: 100%;
+    border-bottom: 1px solid #e5e5e5;
+    margin-top: 10px;
+}
+
 .map-info-container .page-title {
     display: inline-block;
-    margin: 10px 0px 10px 0px;
+    margin: 10px 0px 15px 0px;
     font-weight: bold;
     width: 100%;
 }
@@ -467,17 +482,20 @@ body {
 }
 
 .map-info-container .circle-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    overflow-x: auto;
     gap: 5px;
-    width: 100%;
     justify-items: center;
     align-items: center;
+    padding-bottom: 10px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .map-info-container .circle {
-    width: 50px;
-    height: 50px;
+    flex: 0 0 auto;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     cursor: pointer;
     position: relative;
@@ -551,40 +569,37 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 0.8em;
+    font-weight: 600;
 }
 
-.map-info-container .tags-input-container {
+.map-info-container .tag-container {
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid #ccc;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    height: 47.5px;
+    margin-top: 10px;
+    justify-content: flex-start;
+    width:100%;
 }
-.map-info-container .tags-input-container input {
-    border: none;
-    outline: none;
-    flex: 1;
-}
+
 .map-info-container .tag {
-    display: inline-flex;
-    align-items: center;
-    background-color: #66aaff;
-    color: #ffffff;
-    border-radius: 3px;
-    padding: 5px;
-    margin: 3px;
+    background-color: #3496ff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 1px;
+    display: inline-block;
+    font-size: 0.8em;
 }
-.map-info-container .tag button {
-    background: none;
-    border: none;
-    color: #ffffff;
-    margin-left: 5px;
-    cursor: pointer;
+
+.map-info-input-container {
+    display: inline-block;
+    width: 100%;
+}
+
+.map-info-container .tag-input {
+    padding: 5px;
+    border-radius: 4px;
+    border:1px solid #fff;
+    background-color: #fff;
 }
 
 #map {
