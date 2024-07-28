@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="header-container">
-            <span onclick="goMenu('mapName.html')">대동색칠지도</span>
+            <span onclick="goMenu('mapNames.html')">대동색칠지도</span>
             <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="map-name-container">
@@ -24,6 +24,11 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', async function() {
+
+        const db = await openIndexedDB("MapColorDB", 1);
+        const datas = await getAllData(db, "mapNames");
+
+        if(datas.length > 0) window.location.href = "mapNames.html";
 
         const text = '만나서 반가워요 :)';
         const animatedText = document.getElementById('animated-text');

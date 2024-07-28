@@ -273,7 +273,7 @@ function nextPage(reqGubun, data) {
             break;
         case 2:
             detailSave(data);
-            window.location.href = "colorDate.html";
+            window.location.href = "mapInfo.html";
             break;
         case 3:
             window.location.href = "map.html";

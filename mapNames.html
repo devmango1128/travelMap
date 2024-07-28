@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="header-container">
-            <span onclick="goMenu('mapName.html')">대동색칠지도</span>
+            <span onclick="goMenu('mapNames.html')">대동색칠지도</span>
             <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="map-names-container" id="mapNames"></div>
@@ -20,6 +20,8 @@
             document.addEventListener('DOMContentLoaded', async function() {
                 const db = await openIndexedDB("MapColorDB", 1);
                 const allDatas = await getAllData(db, "mapNames");
+
+                if(allDatas && !allDatas.length) window.location.href = "mapName.html";
 
                 const mapNamesContainer = document.getElementById("mapNames");
                 const sigunguData = await fetchJSON();
@@ -55,7 +57,10 @@
                     imgDiv.appendChild(img);
 
                     const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
+                    console.log(filteredItems)
                     const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
+                        console.log('acc', acc);
+                        console.log('current', current);
                         const key = current.data ? current.data.sigungu : '';
                         if (key && !acc.has(key)) {
                             acc.add(key);

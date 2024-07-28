@@ -18,22 +18,25 @@
     <span onclick="goMenu('mapName.html')">대동색칠지도</span>
     <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
 </div>
-<div class="color-date-container">
+<div class="map-info-container">
+    <span class="page-title" id="pageTitle"></span>
      <div class="date-area">
-        <span><span class="color-blue">날짜</span>를 선택해주세요.</span>
+        <div class="tit"><span class="color-blue">여행기간</span>을 선택해주세요.</div>
         <br>
         <input type="text" id="strDatePicker" placeholder="날짜 선택" />
         ~
         <input type="text" id="endDatePicker" placeholder="날짜 선택" />
     </div>
     <div class="desc-area">
-        <span>간단한 <span class="color-blue">메모</span>를 입력해주세요.</span>
+        <div class="tit">간단한 <span class="color-blue">메모</span>를 입력해주세요.</div>
         <br>
         <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
     </div>
+    <div class="tags-input-container">
+        <input type="text" id="tags-input" placeholder="태그를 입력해주세요." />
+    </div>
     <div class="color-area">
-        <span class="page-title" id="pageTitle"></span>
-        <div>지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</div>
+        <div class="tit">지도에 표시할 <span class="color-blue">색상</span>을 선택해주세요.</div>
         <div class="circle-container">
             <!-- Red shades -->
             <div class="circle" style="background-color: #ff004e;" onclick="circleClicked(this, '#ff004e')"></div>
@@ -90,20 +93,36 @@
 
         document.getElementById('pageTitle').innerHTML = mapName + ' - <span>' + sigunguNm + '</span>';
 
-        flatpickr("#strDatePicker", {
+        const startDatePicker = flatpickr("#strDatePicker", {
             dateFormat: "Y-m-d",
             defaultDate: new Date(),
+            disableMobile: true,
             onChange: function(selectedDates, dateStr, instance) {
-                flatpickr("#endDatePicker", {
-                    dateFormat: "Y-m-d",
-                    minDate: selectedDates[0]
-                });
+                endDatePicker.set('minDate', dateStr);
             }
         });
 
-        flatpickr("#endDatePicker", {
+        const endDatePicker = flatpickr("#endDatePicker", {
             dateFormat: "Y-m-d",
-            defaultDate: new Date()
+            defaultDate: new Date(),
+            disableMobile: true,
+            onChange: function(selectedDates, dateStr, instance) {
+                startDatePicker.set('maxDate', dateStr);
+            }
+        });
+
+        const tagsInputContainer = document.querySelector('.tags-input-container');
+        const tagsInput = document.getElementById('tags-input');
+
+        tagsInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const tagText = tagsInput.value.trim();
+                if (tagText !== '') {
+                    addTag(tagsInputContainer, tagText, tagsInput);
+                    tagsInput.value = '';
+                }
+            }
         });
     });
 
@@ -113,6 +132,21 @@
             circle.classList.remove('checked');
         });
         element.classList.add('checked');
+    }
+
+    function addTag(tagsInputContainer, text, tagsInput) {
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = text;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'x';
+        removeBtn.addEventListener('click', () => {
+            tagsInputContainer.removeChild(tag);
+        });
+
+        tag.appendChild(removeBtn);
+        tagsInputContainer.insertBefore(tag, tagsInput);
     }
 </script>
 </body>
