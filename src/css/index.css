@@ -50,9 +50,10 @@ body {
     display: inline-block;
     font-weight: bold;
     color: #3496ff;
-    font-size: 1.5em;
+    font-size: 1.4em;
     margin-top: 12px;
     margin-left: 35px;
+    letter-spacing: -1.0px;
 }
 
 .header-container img.menu {
@@ -208,7 +209,7 @@ body {
     color: #fff;
     font-size: 1.9em;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .map-names-container div.name-box div.count span {
