@@ -136,7 +136,7 @@ body {
     width: 100%;
     margin-bottom: 0;
     position: absolute;
-    top: 250px;
+    top: 25%;
 }
 
 @keyframes blink {
