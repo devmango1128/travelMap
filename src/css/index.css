@@ -13,6 +13,13 @@ body {
     max-width:1023px;
 }
 
+input:focus {
+    outline: none;
+}
+textarea:focus {
+    outline: none;
+}
+
 .main-container {
     background: #3496ff;
     text-align: center;

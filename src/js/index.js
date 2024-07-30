@@ -397,7 +397,7 @@ function updateSigunguList(allData, mapName, sigunguData) {
         const sgg = li.getAttribute('data-sgg');
         const cnt = allData.filter(item => {
             if (item.mapName === mapName) {
-                return item.data && item.data.sigunguCd.startsWith(sgg);
+                return item.data && item.data.sigunguCd && item.data.sigunguCd.startsWith(sgg);
             }
             return false;
         }).length;
@@ -449,7 +449,7 @@ function goSidoDetail(obj, code) {
                     nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
                 }
 
-                if ((mapNames[mapName] && mapNames[mapName].sigunguCd.substring(2, 8)) === feature.properties.SIG_CD) {
+                if ((mapNames[mapName] && mapNames[mapName].sigunguCd && mapNames[mapName].sigunguCd.substring(2, 8)) === feature.properties.SIG_CD) {
                     li.classList.add('point');
                 }
 
