@@ -168,6 +168,14 @@ body {
     margin: 10px;
 }
 
+.map-names-container div.name-box:nth-of-type(2)  {
+    background-color: #ff8f34;
+}
+
+.map-names-container div.name-box:nth-of-type(3)  {
+    background-color: #03c713;
+}
+
 .map-names-container div.name-box div.tit-name {
     display: flex;
     position: absolute;
@@ -254,25 +262,35 @@ body {
     display: flex;
 }
 
+.map-names-container div.name-box div.statis-div {
+    display: flex;
+    padding: 10px 0px 20px 0px;
+}
+
 .map-names-container div.name-box div img.pin {
     width: 30px;
     height: 30px;
     margin-left: 10px;
     margin-top: 15px;
+    display: inline-block;
+    position: relative;
 }
 
 .map-names-container div.name-box div.count {
     color: #fff;
     font-size: 1.9em;
     font-weight: bold;
-    margin-top: 6px;
+    height: 30px;
+    float: left;
+    position: relative;
 }
 
 .map-names-container div.name-box div.count span {
     color: #fff;
     font-size: 0.5em;
     font-weight: bold;
-    margin-top: 10px;
+    display: inline-block;
+    line-height: 30px;
 }
 
 .map-names-container div.name-box div.count span.point-cnt {
@@ -361,7 +379,7 @@ body {
     background-size: contain;
     position: absolute;
     right: 20px;
-    margin-top: 20px;
+    margin-top: 5px;
     border: 1px solid rgb(255 255 255 / 2%);
 }
 

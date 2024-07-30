@@ -28,7 +28,7 @@
         const db = await openIndexedDB("MapColorDB", 1);
         const datas = await getAllData(db, "mapNames");
 
-        if(datas.length > 0) window.location.href = "mapNames.html";
+        if(datas.length > 3) window.location.href = "mapNames.html";
 
         const text = '만나서 반가워요 :)';
         const animatedText = document.getElementById('animated-text');
