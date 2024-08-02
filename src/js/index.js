@@ -234,7 +234,7 @@ function saveMapName(db, mapName) {
     };
 }
 
-function saveMapInfo() {
+async function saveMapInfo() {
     const mapName = localStorage.getItem("mapName");
     const sigunguCd = localStorage.getItem("sigunguCd");
     const color = document.getElementById('selectedColor').value;
@@ -249,12 +249,13 @@ function saveMapInfo() {
         endDate: endDate,
         description: description
     }
-    saveMapInfos(mapName, data);
+
+    await saveMapInfos(mapName, data);
 
     nextPage(3);
 }
 
-function saveMapInfos(mapName, data) {
+async function saveMapInfos(mapName, data) {
     const transaction = db.transaction(["mapNames"], "readwrite");
     const objectStore = transaction.objectStore("mapNames");
     const request = objectStore.getAll();
@@ -265,6 +266,11 @@ function saveMapInfos(mapName, data) {
 
         if (resultMapInfo.length > 0) {
             const itemToUpdate = resultMapInfo[0];
+
+            if (!Array.isArray(itemToUpdate.data)) {
+                itemToUpdate.data = [];
+            }
+
             itemToUpdate.data.push(data);
 
             const updateRequest = objectStore.put(itemToUpdate);

@@ -216,37 +216,23 @@ textarea:focus {
 .map-names-container div.name-box div.menu-div div.menu-area {
     position: absolute;
     background-color: #ffffff;
-    color: #ff3b5d;
     font-size: 0.5em;
-    height: 55px;
     width: 100px;
-    top: 110px;
-    right: 20px;
     border-radius: 4px;
     padding: 10px;
     box-shadow: 5px 4px 7px rgb(0 0 0 / 10%);
+    z-index: 9;
 }
 
-.map-names-container div.name-box div.menu-div div.menu-area div.color-area {
+.map-names-container div.name-box div.menu-div div.menu-area div.modify-map-nm {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 5px;
-    border-bottom: 1px solid #f4f4f4;
-}
-
-.map-names-container div.name-box div.menu-div div.menu-area div.color-area div {
-    position: relative;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    float: left;
-}
-
-.map-names-container div.name-box div.menu-div div.menu-area div.color-area .mr10 {
-    margin-right: 10px;
+    border-bottom : 1px solid #e5e5e5;
+    color: #282828;
 }
 
 .map-names-container div.name-box div.menu-div div.menu-area div.delete-map-nm {
@@ -256,7 +242,7 @@ textarea:focus {
     justify-content: center;
     text-align: center;
     padding: 5px;
-    margin-top: 5px;
+    color: #ff3b5d;
 }
 
 .map-names-container div.name-box div.hr-div {
@@ -384,8 +370,8 @@ textarea:focus {
     border-radius: 50%;
     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
     background-size: contain;
-    position: absolute;
-    right: 20px;
+    margin-left: auto;
+    margin-right: 10px;
     margin-top: 5px;
     border: 1px solid rgb(255 255 255 / 2%);
 }
