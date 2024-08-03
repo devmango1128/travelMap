@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>지도깨기 - 대한민국, 어디까지 가봤니?</title>
+        <title>지도뿌셔 - 대한민국, 어디까지 가봤니?</title>
         <link rel="stylesheet" href="src/css/index.css" />
     </head>
     <body>
         <div class="header-container">
-            <span onclick="goMenu('mapNames.html')">지도깨기</span>
+            <span onclick="goMenu('mapNames.html')">지도뿌셔</span>
             <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="map-names-container" id="mapNames"></div>
@@ -21,7 +21,7 @@
                 const db = await openIndexedDB("MapColorDB", 1);
                 const allDatas = await getAllData(db, "mapNames");
 
-                if(allDatas && !allDatas.length) window.location.href = "mapName.html";
+                if(!allDatas && !allDatas.length) window.location.href = "mapName.html";
 
                 const mapNamesContainer = document.getElementById("mapNames");
                 const sigunguData = await fetchJSON();
@@ -85,10 +85,12 @@
                     const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
 
                     const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
-                        const key = current.data ? current.data.sigunguCd : '';
-                        if (key && !acc.has(key)) {
-                            acc.add(key);
-                        }
+                        current.data.forEach(item => {
+                            const key = item.sigunguCd;
+                            if (key && !acc.has(key)) {
+                                acc.add(key);
+                            }
+                        });
                         return acc;
                     }, new Set());
 
@@ -122,6 +124,9 @@
                     imgDiv2.appendChild(img2);
 
                     const visit = document.createElement("div");
+
+                    console.log('data', data)
+
                     const visitNm = '서울시';
                     if(true) {
                         visit.innerHTML = '<span>제일 많이 방문한 지역은 </span><span class="point-walk">' + visitNm + '</span><span>예요 :)</span>';
