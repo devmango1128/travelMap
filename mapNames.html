@@ -85,6 +85,9 @@
                     const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
 
                     const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
+
+                        if(current.data === undefined) current['data'] = [];
+
                         current.data.forEach(item => {
                             const key = item.sigunguCd;
                             if (key && !acc.has(key)) {
@@ -119,22 +122,18 @@
                     imgDiv2.className = 'img-div';
 
                     const img2 = document.createElement("img");
-                    img2.src = 'src/images/walk.png';
-                    img2.className = 'walkman';
+                    img2.src = 'src/images/heart_icon.png';
+                    img2.className = 'heart';
                     imgDiv2.appendChild(img2);
 
-                    const visit = document.createElement("div");
+                    const day = document.createElement("div");
+                    const createDate = daysSince(data.createDate);
+                    const startDate = formatDate(new Date(data.createDate));
+                    const endDate = formatDate(new Date(Date.now()));
 
-                    console.log('data', data)
-
-                    const visitNm = '서울시';
-                    if(true) {
-                        visit.innerHTML = '<span>제일 많이 방문한 지역은 </span><span class="point-walk">' + visitNm + '</span><span>예요 :)</span>';
-                    } else {
-                        visit.innerHTML = '<span>아직 방문한 지역이 없네요 :(</span>';
-                    }
-                    visit.className = 'visit';
-                    imgDiv2.appendChild(visit);
+                    day.innerHTML = '<span class="point-day">D+' + createDate + '</span><span> ' + startDate + '</span><span> ~ ' + endDate + '</span>';
+                    day.className = 'day';
+                    imgDiv2.appendChild(day);
 
                     div.appendChild(imgDiv2);
 

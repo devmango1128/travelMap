@@ -320,28 +320,29 @@ textarea:focus {
     transition: width 0.5s;
 }
 
-.map-names-container div.name-box div img.walkman {
-    width: 25px;
-    height: 25px;
-    margin-left: 10px;
-    margin-top: 15px;
+.map-names-container div.name-box div img.heart {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    margin-top: 18px;
+    margin-right: 5px;
 }
 
-.map-names-container div.name-box div.visit {
+.map-names-container div.name-box div.day {
     color: #fff;
     font-size: 1.9em;
     font-weight: bold;
     margin-top: 6px;
 }
 
-.map-names-container div.name-box div.visit span {
+.map-names-container div.name-box div.day span {
     color: #fff;
     font-size: 0.5em;
     font-weight: bold;
     margin-top: 10px;
 }
 
-.map-names-container div.name-box div.visit span.point-walk {
+.map-names-container div.name-box div.day span.point-day {
     color: #fff;
     font-size: 0.8em;
     font-weight: bold;
@@ -443,9 +444,9 @@ textarea:focus {
     border-radius: 50%;
     width: 5px;
     height: 5px;
-    background-color: #58c101;
+    background-color: #ffaa00;
     margin-left: 3px;
-    vertical-align: middle;
+    vertical-align: super;
     margin-bottom : 3px;
 }
 

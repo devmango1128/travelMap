@@ -23,7 +23,7 @@
         const datas = await getAllData(db, "mapNames");
 
         setTimeout(function () {
-            if(datas && !datas.length) window.location.href = "mapName.html";
+            if(datas.length === 0) window.location.href = "mapName.html";
             else window.location.href = "mapNames.html";
         }, 2000);
     });

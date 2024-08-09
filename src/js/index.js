@@ -221,7 +221,7 @@ function saveMapName(db, mapName) {
 
     const transaction = db.transaction(["mapNames"], "readwrite");
     const objectStore = transaction.objectStore("mapNames");
-    const mapNameObject = { mapName: mapName };
+    const mapNameObject = { mapName: mapName, createDate : Date.now() };
     const request = objectStore.put(mapNameObject);
 
     request.onsuccess = function(event) {
@@ -401,12 +401,14 @@ function updateSigunguList(allData, mapName, sigunguData) {
 
     document.querySelectorAll(".sigunguList li").forEach((li) => {
         const sgg = li.getAttribute('data-sgg');
-        const cnt = allData.filter(item => {
-            if (item.mapName === mapName) {
-                return item.data && item.data.sigunguCd && item.data.sigunguCd.startsWith(sgg);
+        const cnt = allData.reduce((total, item) => {
+            if (item.mapName === mapName && Array.isArray(item.data)) {
+                const matchingCount = item.data.filter(dataItem => dataItem.sigunguCd.startsWith(sgg)).length;
+                return total + matchingCount;
             }
-            return false;
-        }).length;
+            return total;
+        }, 0);
+
         const text = li.textContent.replace(/\s\(\d+\/\d+\)$/, '');
 
         const totCnt = sigunguData.features.filter(feature => feature.properties.SIG_CD.startsWith(sgg)).length;
@@ -455,8 +457,12 @@ function goSidoDetail(obj, code) {
                     nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
                 }
 
-                if ((mapNames[mapName] && mapNames[mapName].sigunguCd && mapNames[mapName].sigunguCd.substring(2, 8)) === feature.properties.SIG_CD) {
-                    li.classList.add('point');
+                if(mapNames[mapName]) {
+                    mapNames[mapName].forEach(data => {
+                        if(data.sigunguCd.substring(2, 8) === feature.properties.SIG_CD) {
+                            li.classList.add('point');
+                        }
+                    })
                 }
 
                 li.addEventListener('click', handleEvent);
@@ -472,4 +478,19 @@ function goSidoDetail(obj, code) {
             lis[lis.length - 1].classList.add('full-width');
         }
     });
+}
+
+function daysSince(startDate) {
+    const now = Date.now(); // 현재 시간(밀리초 단위)
+    const diffInMs = now - startDate; // 두 날짜 간의 차이 (밀리초 단위)
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)); // 밀리초를 일(day)로 변환
+    return diffInDays;
+}
+
+function formatDate(date) {
+    const year = date.getFullYear(); // 연도 가져오기
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 가져오기 (0부터 시작하므로 +1 필요), 두 자리로 맞추기
+    const day = String(date.getDate()).padStart(2, '0'); // 일 가져오기, 두 자리로 맞추기
+
+    return `${year}.${month}.${day}`;
 }
