@@ -38,6 +38,12 @@
 
                     const menuDiv = document.createElement("div");
                     menuDiv.innerHTML = '<div class="control">...</div>';
+
+                    menuDiv.addEventListener('touchstart', (event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                    });
+
                     menuDiv.addEventListener('click', (event) => {
                         event.stopPropagation();
                         const control = event.target;
@@ -62,7 +68,7 @@
 
                             menuArea.style.display = 'block';
                             menuArea.style.top = `${control.offsetTop + control.offsetHeight + 10}px`;
-                            menuArea.style.left = `${control.offsetLeft - 95}px`;
+                            menuArea.style.left = `${control.offsetLeft - 85}px`;
                         }
                     });
 

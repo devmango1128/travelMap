@@ -5,6 +5,12 @@
     font-style: normal;
 }
 
+* {
+    -webkit-tap-highlight-color: transparent; /* iOS/Android 터치 하이라이트 제거 */
+    touch-action: manipulation; /* 터치 스크롤 등 기본 동작을 제한 */
+    -webkit-touch-callout: none; /* iOS에서 터치 콜아웃 제거 */
+}
+
 body {
     font-family: 'NanumGothicExtraBold' !important;
     margin: 0 auto;
