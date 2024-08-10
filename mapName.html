@@ -23,12 +23,13 @@
     </body>
 </html>
 <script>
+
     document.addEventListener('DOMContentLoaded', async function() {
 
         const db = await openIndexedDB("MapColorDB", 1);
         const datas = await getAllData(db, "mapNames");
 
-        if(datas.length >= 4) {
+        if(datas.length >= 3) {
             alert('지도 주제는 3개까지 등록 가능해요.');
             window.location.href = "mapNames.html";
             return;
@@ -54,14 +55,6 @@
     });
 
     async function mapNameNextPage() {
-        const db = await openIndexedDB("MapColorDB", 1);
-        const allDatas = await getAllData(db, "mapNames");
-
-        if(allDatas.length > 3) {
-            alert('주제는 3개까지 등록 가능해요!');
-            return;
-        } else {
-            saveMapName(db, document.getElementById("mapName").value);
-        }
+        saveMapName(db, document.getElementById("mapName").value);
     }
 </script>

@@ -26,6 +26,29 @@
                 const mapNamesContainer = document.getElementById("mapNames");
                 const sigunguData = await fetchJSON();
 
+                if(allDatas.length <= 2) {
+                    const plusAreaDiv = document.createElement("div");
+                    plusAreaDiv.className = 'plus-area-div';
+
+                    const plusImg = document.createElement("div");
+                    plusImg.className = 'plus-img-div';
+
+                    const img = document.createElement("img");
+                    img.src = 'src/images/plus_icon.png';
+                    img.className = 'plus-img';
+                    plusImg.appendChild(img);
+                    plusAreaDiv.appendChild(plusImg);
+
+                    const plusText = document.createElement("div");
+                    plusText.className = 'plus-text-div';
+                    plusText.innerText='주제 추가';
+                    plusAreaDiv.appendChild(plusText);
+
+                    plusAreaDiv.addEventListener('click', () => window.location.href = "mapName.html");
+
+                    mapNamesContainer.appendChild(plusAreaDiv);
+                }
+
                 allDatas.forEach((data) => {
                     const div = document.createElement("div");
                     div.className = 'name-box';
@@ -41,8 +64,8 @@
 
                     menuDiv.addEventListener('touchstart', (event) => {
                         event.stopPropagation();
-                        event.preventDefault();
-                    });
+                        if (event.cancelable) event.preventDefault();
+                    }, { passive: false });
 
                     menuDiv.addEventListener('click', (event) => {
                         event.stopPropagation();
@@ -149,9 +172,7 @@
 
                     const mapDiv = document.createElement("div");
                     mapDiv.textContent = '지도보기';
-                    mapDiv.addEventListener('click', (event) => {
-                        console.log('지도보기')
-                    });
+                    mapDiv.addEventListener('click', () => nextPage(3, data.mapName));
                     mapDiv.className = 'map-btn-div';
 
                     imgDiv3.appendChild(mapDiv);
@@ -179,12 +200,6 @@
 
             function mapNamesNextPage(mapName) {
                 nextPage(1, mapName);
-            }
-
-            function colorChange(e, mapName) {
-                e.stopPropagation();
-               console.log(e.target);
-               console.log(mapName)
             }
         </script>
     </body>
