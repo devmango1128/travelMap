@@ -39,6 +39,7 @@
                     const menuDiv = document.createElement("div");
                     menuDiv.innerHTML = '<div class="control">...</div>';
                     menuDiv.addEventListener('click', (event) => {
+                        event.stopPropagation();
                         const control = event.target;
                         let menuArea = menuDiv.querySelector('.menu-area');
 
@@ -139,15 +140,6 @@
 
                     const imgDiv3 = document.createElement("div");
                     imgDiv3.className = 'statis-div';
-
-                    const totalDiv = document.createElement("div");
-                    totalDiv.textContent = '전체보기';
-                    totalDiv.addEventListener('click', (event) => {
-                        console.log('전체보기')
-                    });
-                    totalDiv.className = 'total-btn-div';
-
-                    imgDiv3.appendChild(totalDiv);
 
                     const mapDiv = document.createElement("div");
                     mapDiv.textContent = '지도보기';
