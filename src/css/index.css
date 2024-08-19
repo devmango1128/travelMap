@@ -5,6 +5,13 @@
     font-style: normal;
     font-display: swap;
 }
+@font-face {
+    font-family: 'NanumGothic';
+    src: url('../fonts/NanumGothic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 * {
     -webkit-tap-highlight-color: transparent; /* iOS/Android 터치 하이라이트 제거 */
@@ -58,6 +65,9 @@ textarea:focus {
     text-align: center;
     border-bottom: 1px solid #e5e5e5;
     z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .header-container span {
@@ -65,45 +75,82 @@ textarea:focus {
     font-weight: bold;
     color: #282828;
     font-size: 1.2em;
-    margin-left: 35px;
     letter-spacing: -1.0px;
     line-height: 50px;
     height: 50px;
+    flex-grow: 1;
+    text-align: center;
 }
 
 .header-container img.menu {
     height: 35px;
     width: 25px;
     float: right;
-    margin-top: 7px;
     margin-right: 9px;
 }
 
 .header-container img.back {
-    position: fixed;
-    top: 13px;
-    left: 6px;
+    height: 25px;
+    width: 25px;
+    float: left;
+    margin-left: 5px;
+}
+
+.header-container div.empty {
+    height: 25px;
+    width: 40px;
 }
 
 .menu-container {
     font-family: 'NanumGothicExtraBold', sans-serif;
     background-color: #e5e5e5;
-    height: 100vh;
-    display: inline-block;
     width: 100%;
-    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-container span.title {
+    margin: 60px 0 10px 0;
+    font-weight: bold;
+    width: 100%;
+    display: inline-block;
+    font-size: 1.2em;
+}
+
+.menu-container span.dev-title {
+    margin: 20px 0 10px 0;
+    font-weight: bold;
+    width: 100%;
+    display: inline-block;
+    font-size: 1.2em;
 }
 
 .menu-container .menu-box {
     background-color: #fff;
-    padding: 10px 5px;
+    padding: 10px 10px;
     border-radius: 5px;
-    margin: 20px 0px 20px 0px;
-    width: 90%;
+    margin: 10px 0 10px 0;
+    width: 100%;
+    font-family: 'NanumGothic', sans-serif;
+    font-size: 0.8em;
 }
 
 .menu-container ul {
     list-style: none;
+    display: inline;
+}
+
+.menu-container li {
+    list-style: none;
+    padding-bottom:10px;
+}
+
+.menu-container li.b-border {
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0 0 10px 0;
+    padding: 0;
 }
 
 .map-name-container {

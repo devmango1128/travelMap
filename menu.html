@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>지도뿌셔 - 대한민국, 어디까지 가봤니?</title>
-    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
-    <link rel="stylesheet" href="src/css/index.css" />
-</head>
-<body>
-<div class="header-container">
-    <img src="src/images/back.png" class="back" onclick="window.history.go(-1)"/>
-    <span>지도뿌셔</span>
-</div>
-<div class="menu-container">
-    <span class="title">설정</span>
-    <div class="menu-box">
-        백업 및 복구
-    </div>
-    <div class="menu-box">
-        <ul>
-            <li>의견 보내기</li>
-            <li>후기 남기기</li>
-            <li>앱 추천하기</li>
-            <li>v0.0.1</li>
-        </ul>
-    </div>
-    <div class="menu-box" onclick="deleteMapInfo()">
-        데이터 초기화
-    </div>
-    <span class="dev-title">개발자 어플 더보기</span>
-    <div class="menu-box">
-        <ul>
-            <li>뽀모도로</li>
-            <li>조상님 로또</li>
-            <li>방귀어플</li>
-            <li>오늘은 뭐먹지?</li>
-        </ul>
-    </div>
-</div>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="src/js/index.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>지도뿌셔 - 대한민국, 어디까지 가봤니?</title>
+        <link rel="stylesheet" href="src/css/index.css" />
+    </head>
+    <body>
+        <div class="header-container">
+            <img src="src/images/back.png" class="back" onclick="goMenu('sigungu.html')" alt=""/>
+            <span onclick="goMenu('mapName.html')">지도뿌셔</span>
+            <div class="empty"></div>
+        </div>
+        <div class="menu-container">
+            <span class="title">설정</span>
+            <div class="menu-box">
+                백업 및 복구
+            </div>
+            <div class="menu-box">
+                <ul>
+                    <li>의견 보내기</li>
+                    <li class="b-border"></li>
+                    <li>후기 남기기</li>
+                    <li class="b-border"></li>
+                    <li>앱 추천하기</li>
+                    <li class="b-border"></li>
+                    <li>v0.0.1</li>
+                </ul>
+            </div>
+            <div class="menu-box" onclick="deleteMapInfo()">
+                데이터 초기화
+            </div>
+            <span class="dev-title">개발자 어플 더보기</span>
+            <div class="menu-box">
+                <ul>
+                    <li>뽀모도로</li>
+                    <li class="b-border"></li>
+                    <li>조상님 로또</li>
+                    <li class="b-border"></li>
+                    <li>방귀어플</li>
+                    <li class="b-border"></li>
+                    <li>오늘은 뭐먹지?</li>
+                </ul>
+            </div>
+        </div>
+        <script src="src/js/index.js"></script>
+    </body>
 </html>
 <script>
 </script>
