@@ -600,8 +600,14 @@ function updateSigunguList(allData, mapName, sigunguData) {
         const sgg = li.getAttribute('data-sgg');
         const cnt = allData.reduce((total, item) => {
             if (item.mapName === mapName && Array.isArray(item.data)) {
-                const matchingCount = item.data.filter(dataItem => dataItem.sigunguCd.startsWith(sgg)).length;
-                return total + matchingCount;
+                const uniqueSigunguCds = new Set();
+
+                item.data.forEach(dataItem => {
+                    if (dataItem.sigunguCd.startsWith(sgg)) {
+                        uniqueSigunguCds.add(dataItem.sigunguCd);
+                    }
+                });
+                return total + uniqueSigunguCds.size;
             }
             return total;
         }, 0);
@@ -630,6 +636,14 @@ function goSidoDetail(obj, code) {
             }
         });
     }
+
+    const nextElement = obj.nextElementSibling;
+
+    if (nextElement && nextElement.id === 'detailList') {
+        nextElement.parentNode.removeChild(nextElement);
+        return;
+    }
+
     let element = document.getElementById('detailList');
 
     if (element) {
