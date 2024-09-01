@@ -852,6 +852,9 @@ textarea:focus {
     color: #b6b4b4;
     font-weight: normal;
     font-size: 0.9em;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .label-date, .label-desc {
