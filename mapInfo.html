@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>지도뿌셔 - 대한민국, 어디까지 가봤니?</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
     <link rel="stylesheet" href="src/css/index.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/ko.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -97,19 +98,23 @@
             document.getElementById('pageTitle').innerHTML = mapName + ' - <span>' + sigunguNm + '</span>';
 
             const startDatePicker = flatpickr("#strDatePicker", {
+                locale: "ko",
                 dateFormat: "Y-m-d",
                 defaultDate: new Date(),
                 disableMobile: true,
-                onChange: function(selectedDates, dateStr, instance) {
+                maxDate: "today",
+                onChange: function(selectedDates, dateStr) {
                     endDatePicker.set('minDate', dateStr);
                 }
             });
 
             const endDatePicker = flatpickr("#endDatePicker", {
+                locale: "ko",
                 dateFormat: "Y-m-d",
                 defaultDate: new Date(),
                 disableMobile: true,
-                onChange: function(selectedDates, dateStr, instance) {
+                maxDate: "today",
+                onChange: function(selectedDates, dateStr) {
                     startDatePicker.set('maxDate', dateStr);
                 }
             });
