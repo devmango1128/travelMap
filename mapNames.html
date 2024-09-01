@@ -63,12 +63,7 @@
                     const menuDiv = document.createElement("div");
                     menuDiv.innerHTML = '<div class="control">...</div>';
 
-                    menuDiv.addEventListener('touchstart', (event) => {
-                        event.stopPropagation();
-                        if (event.cancelable) event.preventDefault();
-                    }, { passive: false });
-
-                    menuDiv.addEventListener('click', (event) => {
+                    const handleMenuToggle = (event) => {
                         event.stopPropagation();
                         const control = event.target;
                         let menuArea = menuDiv.querySelector('.menu-area');
@@ -94,6 +89,16 @@
                             menuArea.style.top = `${control.offsetTop + control.offsetHeight + 10}px`;
                             menuArea.style.left = `${control.offsetLeft - 85}px`;
                         }
+                    };
+
+                    menuDiv.addEventListener('touchstart', (event) => {
+                        event.stopPropagation();
+                        handleMenuToggle(event);
+                    }, { passive: false });
+
+                    menuDiv.addEventListener('click, touchstart', (event) => {
+                        event.stopPropagation();
+                        handleMenuToggle(event);
                     });
 
                     menuDiv.className = 'menu-div';
