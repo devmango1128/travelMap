@@ -167,6 +167,9 @@ function adjustLabelSize(map) {
 function geoLayer() {
 
     const sigunguCd = localStorage.getItem("sigunguCd");
+
+    if (!sigunguCd) return;
+
     const subSigunguCd = sigunguCd.substring(2,  sigunguCd.length);
 
     if (geojsonLayer) {
