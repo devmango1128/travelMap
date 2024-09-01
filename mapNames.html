@@ -173,7 +173,10 @@
 
                     const mapDiv = document.createElement("div");
                     mapDiv.textContent = '지도보기';
-                    mapDiv.addEventListener('click', () => nextPage(3, data.mapName));
+                    mapDiv.addEventListener('click', () => {
+                        localStorage.setItem("mapName", data.mapName);
+                        nextPage(3, data.mapName);
+                    });
                     mapDiv.className = 'map-btn-div';
 
                     imgDiv3.appendChild(mapDiv);
