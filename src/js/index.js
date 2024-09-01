@@ -130,17 +130,21 @@ function loadGeoJSON() {
                         const data = mapNames[mapName];
                         let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')">추가</button></b><br>`;
 
-                        data.forEach((map, index) => {
-                            if(map.sigunguCd.substring(2, 8) === sigCd) {
-                                if(index > 0) popupContent += "<hr>";
-                                popupContent += (map ? `<div class="label-date">${map.strDate}~${map.endDate}</div>` : "");
-                                const formattedDescription = map.description.replace(/\n/g, '<br>');
-                                popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
-                                if (map.tags && map.tags.length > 0) {
-                                    popupContent += `<div>${map.tags.map(tag => `<span class="hash">#</span>${tag}`).join(' ')}</div>`;
+                        if(data) {
+                            data.forEach((map, index) => {
+                                if(map.sigunguCd.substring(2, 8) === sigCd) {
+                                    popupContent += '<hr>';
+                                    popupContent += (map ? `<div class="label-date">${map.strDate}~${map.endDate}</div>` : "");
+                                    const formattedDescription = map.description.replace(/\n/g, '<br>');
+                                    popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
+                                    if (map.tags && map.tags.length > 0) {
+                                        popupContent += `<div>${map.tags.map(tag => `<span class="hash">#</span>${tag}`).join(' ')}</div>`;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            popupContent += '<hr>';
+                        }
 
                         layer.bindPopup(popupContent).openPopup();
                     }
