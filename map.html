@@ -19,6 +19,9 @@
         <span class="ico_comm ico_now" id="locationButton" onclick="moveToCurrentLocation()">현위치</span>
     </button>
 </div>
+<div class="map-page-title">
+    <span id="pageTitle"></span>
+</div>
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -29,6 +32,7 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', async function() {
+        document.getElementById('pageTitle').innerHTML = localStorage.getItem("mapName");
         await initMap();
         await loadGeoJSON();
     });

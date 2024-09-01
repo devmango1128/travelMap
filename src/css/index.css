@@ -810,3 +810,22 @@ textarea:focus {
     color: #f86b84;
     font-weight: bold;
 }
+
+.map-reg-btn {
+    color: #fff;
+    background-color: #3496ff;
+    border: 1px solid #3496ff;
+    border-radius: 6px;
+    padding: 5px 8px;
+}
+
+.map-page-title {
+    top: 63px;
+    display: inline-block;
+    position: fixed;
+    color: #282828;
+    font-size: 1.0em;
+    margin-left: 55px;
+    width: 100%;
+    z-index: 99;
+}

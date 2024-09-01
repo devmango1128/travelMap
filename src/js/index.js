@@ -62,6 +62,26 @@ const excludedRegionCodes = [
     "36"  // 세종특별자치시
 ];
 
+const sigunguList = {
+    11: "서울특별시",
+    26: "부산광역시",
+    27: "대구광역시",
+    28: "인천광역시",
+    29: "광주광역시",
+    30: "대전광역시",
+    31: "울산광역시",
+    36: "세종특별자치시",
+    41: "경기도",
+    43: "충청북도",
+    44: "충청남도",
+    46: "전라남도",
+    47: "경상북도",
+    48: "경상남도",
+    50: "제주특별자치도",
+    42: "강원특별자치도",
+    45: "전북특별자치도"
+};
+
 const cityCenters = {
     "서울특별시": [37.5665, 126.9780],
     "부산광역시": [35.1796, 129.0756],
@@ -106,7 +126,7 @@ function loadGeoJSON() {
 
                         const sigCd = feature.properties.SIG_CD;
                         const data = mapNames[mapName];
-                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM}</b><br>`;
+                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')">등록</button></b><br>`;
 
                         data.forEach((map, index) => {
                             if(map.sigunguCd.substring(2, 8) === sigCd) {
@@ -152,6 +172,25 @@ function loadGeoJSON() {
         }
 
         await loadRegions(mapName);
+    });
+}
+
+function registerLocation(mapName, sigunguCd) {
+
+    let sigunguNm =  sigunguList[sigunguCd.substring(0, 2)];
+
+    localStorage.setItem('sigunguCd', sigunguCd.substring(0, 2) + sigunguCd);
+    localStorage.setItem('mapName', mapName);
+
+    $.getJSON(sigunguJsonUrl, function(data) {
+        data.features.forEach(function(feature) {
+            if (feature.properties.SIG_CD === sigunguCd) {
+                sigunguNm += " (0/0) " + feature.properties.SIG_KOR_NM;
+                localStorage.setItem('sigunguNm', sigunguNm);
+                window.location.href = 'mapInfo.html';
+                return;
+            }
+        });
     });
 }
 
