@@ -49,6 +49,8 @@ function initMap() {
     };
 
     whiteBackground.addTo(map);
+
+    map.on('zoomend', updateLabelSizes);
 }
 
 const excludedRegionCodes = [
@@ -123,6 +125,7 @@ function loadGeoJSON() {
             onEachFeature: (feature, layer) => {
                 layer.on({
                     click: (e) => {
+                        console.log("clicked");
 
                         const sigCd = feature.properties.SIG_CD;
                         const data = mapNames[mapName];
@@ -161,15 +164,7 @@ function loadGeoJSON() {
             }
         }).addTo(map);
 
-        for (const [city, center] of Object.entries(cityCenters)) {
-            const label = L.marker(center, {
-                icon: L.divIcon({
-                    className: 'label',
-                    html: city,
-                    iconSize: adjustLabelSize(map)
-                })
-            }).addTo(map);
-        }
+        updateLabelSizes();
 
         await loadRegions(mapName);
     });
@@ -194,13 +189,40 @@ function registerLocation(mapName, sigunguCd) {
     });
 }
 
-function adjustLabelSize(map) {
-    const zoom = map.getZoom();
-    const maxZoom = map.getMaxZoom();
-    const minZoom = map.getMinZoom();
+function updateLabelSizes() {
 
-    const size = ((zoom - minZoom) / (maxZoom - minZoom)) * 40;
-    return [size, size * 0.4];
+    const newSize = adjustLabelSize(map);
+
+    map.eachLayer(marker => {
+        if (marker instanceof L.Marker && marker.getIcon && marker.getIcon().options.className === 'label') {
+            const icon = marker.getIcon();
+
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = icon.options.html;
+            const textContent = tempDiv.textContent || tempDiv.innerText;
+
+            const htmlContent = `<div style="font-size: ${newSize[0]}px; line-height: ${newSize[1]}px; white-space: nowrap;">${textContent}</div>`;
+
+            const newIcon = L.divIcon({
+                html: htmlContent,
+                className: icon.options.className,
+                iconSize: [newSize[0] * 4, newSize[1] * 1.2],
+                iconAnchor: [newSize[0] * 2, newSize[1] * 0.6]
+            });
+
+            marker.setIcon(newIcon);
+        }
+    });
+}
+
+function adjustLabelSize(map) {
+
+    const zoom = map.getZoom();
+    const baseFontSize = 5;
+    const scaleFactor = 1.3;
+
+    const fontSize = baseFontSize * Math.pow(scaleFactor, (zoom - 7));
+    return [fontSize, fontSize * 1.2];
 }
 
 function geoLayer() {

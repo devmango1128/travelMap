@@ -716,6 +716,8 @@ textarea:focus {
 #map .label{
     font-weight: normal;
     font-size: 0.3em;
+    pointer-events: none;
+    white-space: nowrap;
 }
 
 .leaflet-container {
