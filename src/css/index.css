@@ -804,6 +804,10 @@ textarea:focus {
     font-size: 1.2em;
 }
 
+.label-date {
+    font-weight: bold;
+}
+
 .label-date, .label-desc {
     margin-bottom: 5px;
 }
@@ -815,10 +819,30 @@ textarea:focus {
 
 .map-reg-btn {
     color: #fff;
+    font-weight: bold;
     background-color: #3496ff;
     border: 1px solid #3496ff;
-    border-radius: 6px;
-    padding: 5px 8px;
+    border-radius: 45px;
+    height: 25px;
+    width: 45px;
+    padding: 0;
+    line-height: 1;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.map-upt-btn {
+    color: #3496ff;
+    font-weight: bold;
+    background-color: #fff;
+    border: 1px solid #3496ff;
+    border-radius: 45px;
+    height: 25px;
+    width: 45px;
+    padding: 0;
+    line-height: 1;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .map-page-title {

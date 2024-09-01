@@ -125,11 +125,10 @@ function loadGeoJSON() {
             onEachFeature: (feature, layer) => {
                 layer.on({
                     click: (e) => {
-                        console.log("clicked");
 
                         const sigCd = feature.properties.SIG_CD;
                         const data = mapNames[mapName];
-                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')">등록</button></b><br>`;
+                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')">추가</button></b><br>`;
 
                         data.forEach((map, index) => {
                             if(map.sigunguCd.substring(2, 8) === sigCd) {
@@ -239,6 +238,12 @@ function geoLayer() {
                 const center = layer.getBounds().getCenter();
                 map.setView(center, 10);
                 layer.fire('click');
+
+                setTimeout(() => {
+                    if (layer.getPopup() && map.hasLayer(layer.getPopup())) {
+                        map.closePopup(layer.getPopup());
+                    }
+                }, 2000);
             }
         });
     }
