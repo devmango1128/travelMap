@@ -118,7 +118,7 @@ function loadGeoJSON() {
         geojsonLayer = L.geoJson(filteredData, {
             style: () => ({
                 color: "#282727",
-                weight: 1,
+                weight: 0.5,
                 fillColor: "#ffffff",
                 fillOpacity: 1
             }),
@@ -142,8 +142,6 @@ function loadGeoJSON() {
                                     }
                                 }
                             });
-                        } else {
-                            popupContent += '<hr>';
                         }
 
                         layer.bindPopup(popupContent).openPopup();
