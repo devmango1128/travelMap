@@ -1,13 +1,17 @@
 @font-face {
     font-family: 'NanumGothicExtraBold';
-    src: url('../fonts/NanumGothicExtraBold.ttf') format('truetype');
+    src: url('../fonts/NanumGothicExtraBold.woff2') format('woff2'),
+         url('../fonts/NanumGothicExtraBold.woff') format('woff'),
+         url('../fonts/NanumGothicExtraBold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'NanumGothic';
-    src: url('../fonts/NanumGothic.ttf') format('truetype');
+    src: url('../fonts/NanumGothic.woff2') format('woff2'),
+        url('../fonts/NanumGothic.woff') format('woff'),
+        url('../fonts/NanumGothic.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -20,7 +24,7 @@
 }
 
 body {
-    font-family: 'NanumGothicExtraBold', sans-serif; !important;
+    font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif; !important;
     margin: 0 auto;
     padding: 0;
     background: #fff;
@@ -254,14 +258,6 @@ textarea:focus {
     margin: 10px;
 }
 
-.map-names-container div.name-box:nth-of-type(2)  {
-    background-color: #ff8f34;
-}
-
-.map-names-container div.name-box:nth-of-type(3)  {
-    background-color: #03c713;
-}
-
 .map-names-container div.name-box div.tit-name {
     display: flex;
     position: absolute;
@@ -270,6 +266,18 @@ textarea:focus {
     color: #fff;
     font-size: 1.1em;
     font-weight: bold;
+}
+
+.map-names-container div.name-box .tit-input {
+    display: flex;
+    position: absolute;
+    margin-top: 20px;
+    margin-left: 20px;
+    color: #fff;
+    font-size: 1.18em;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
 }
 
 .map-names-container div.name-box div.tit-name span.tit-modify {

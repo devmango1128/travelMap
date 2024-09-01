@@ -19,15 +19,17 @@
         <script src="src/js/index.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', async function() {
+
                 const db = await openIndexedDB("MapColorDB", 1);
                 const allDatas = await getAllData(db, "mapNames");
 
-                if(!allDatas && !allDatas.length) window.location.href = "mapName.html";
+                if(!allDatas.length) window.location.href = "mapName.html";
 
                 const mapNamesContainer = document.getElementById("mapNames");
                 const sigunguData = await fetchJSON();
 
                 if(allDatas.length <= 2) {
+
                     const plusAreaDiv = document.createElement("div");
                     plusAreaDiv.className = 'plus-area-div';
 
@@ -50,9 +52,19 @@
                     mapNamesContainer.appendChild(plusAreaDiv);
                 }
 
-                allDatas.forEach((data) => {
+                const nameBoxes = document.querySelectorAll('.name-box');
+
+                allDatas.forEach((data, index) => {
                     const div = document.createElement("div");
                     div.className = 'name-box';
+
+                    if (index % 3 === 0) {
+                        div.style.backgroundColor = '#3496ff';
+                    } else if (index % 3 === 1) {
+                        div.style.backgroundColor = '#ff8f34';
+                    } else if (index % 3 === 2) {
+                        div.style.backgroundColor = '#03c713';
+                    }
 
                     const titDiv = document.createElement("div");
                     titDiv.innerHTML = data.mapName;
@@ -62,35 +74,7 @@
 
                     const menuDiv = document.createElement("div");
                     menuDiv.innerHTML = '<div class="control">...</div>';
-
-                    const handleMenuToggle = (event) => {
-                        event.stopPropagation();
-                        const control = event.target;
-                        let menuArea = menuDiv.querySelector('.menu-area');
-
-                        document.querySelectorAll('.menu-area').forEach(menu => {
-                            if (menu !== menuArea) {
-                                menu.style.display = 'none';
-                            }
-                        });
-
-                        if (menuArea) {
-                            menuArea.style.display = menuArea.style.display === 'block' ? 'none' : 'block';
-                        } else {
-                            menuArea = document.createElement("div");
-                            menuArea.className = 'menu-area';
-                            menuArea.innerHTML = '<div id="mapNmModify" class="modify-map-nm">수정하기</div>' +
-                                '<div class="hr"></div>' +
-                                '<div id="deleteMapNm" class="delete-map-nm">삭제하기</div>';
-
-                            menuDiv.appendChild(menuArea);
-
-                            menuArea.style.display = 'block';
-                            menuArea.style.top = `${control.offsetTop + control.offsetHeight + 10}px`;
-                            menuArea.style.left = `${control.offsetLeft - 85}px`;
-                        }
-                    };
-
+                    menuDiv.className = 'menu-div';
                     menuDiv.addEventListener('touchstart', (event) => {
                         event.stopPropagation();
                         handleMenuToggle(event);
@@ -101,9 +85,66 @@
                         handleMenuToggle(event);
                     });
 
-                    menuDiv.className = 'menu-div';
-
                     div.appendChild(menuDiv);
+
+                    const handleMenuToggle = (event) => {
+
+                        event.stopPropagation();
+                        const control = event.target;
+                        let menuArea = menuDiv.querySelector('.menu-area');
+
+                        if (!control.classList.contains('modify-map-nm') && !control.classList.contains('delete-map-nm')) {
+
+                            document.querySelectorAll('.menu-area').forEach(menu => {
+                                if (menu !== menuArea) {
+                                    menu.style.display = 'none';
+                                }
+                            });
+
+                            if (menuArea) {
+                                menuArea.style.display = menuArea.style.display === 'block' ? 'none' : 'block';
+                            } else {
+                                // 새로운 메뉴 영역 생성
+                                menuArea = document.createElement("div");
+                                menuArea.className = 'menu-area';
+
+                                // 수정하기 버튼 생성 및 이벤트 추가
+                                const modifyButton = document.createElement("div");
+                                modifyButton.className = 'modify-map-nm';
+                                modifyButton.textContent = '수정하기';
+                                modifyButton.addEventListener('click', (e) => {
+                                    e.stopPropagation(); // 이벤트 전파 중지
+                                    fnModify(e, data); // 수정 함수 호출
+                                });
+
+                                // 구분선 추가
+                                const hr = document.createElement("div");
+                                hr.className = 'hr';
+
+                                // 삭제하기 버튼 생성 및 이벤트 추가
+                                const deleteButton = document.createElement("div");
+                                deleteButton.className = 'delete-map-nm';
+                                deleteButton.textContent = '삭제하기';
+                                deleteButton.addEventListener('click', (e) => {
+                                    e.stopPropagation(); // 이벤트 전파 중지
+                                    fnDelete(e, data); // 삭제 함수 호출
+                                });
+
+                                // 메뉴 영역에 버튼 추가
+                                menuArea.appendChild(modifyButton);
+                                menuArea.appendChild(hr);
+                                menuArea.appendChild(deleteButton);
+
+                                // 메뉴를 메뉴 div에 추가하고 위치 설정
+                                menuDiv.appendChild(menuArea);
+
+                                menuArea.style.display = 'block';
+                                menuArea.style.position = 'absolute'; // 위치 설정 추가
+                                menuArea.style.top = `${control.offsetTop + control.offsetHeight + 10}px`;
+                                menuArea.style.left = `${control.offsetLeft - 85}px`;
+                            }
+                        }
+                    };
 
                     const hrDiv = document.createElement("div");
                     hrDiv.className = 'hr-div';
@@ -206,10 +247,6 @@
                     mapNamesContainer.appendChild(div);
                 });
             });
-
-            function mapNamesNextPage(mapName) {
-                nextPage(1, mapName);
-            }
         </script>
     </body>
 </html>

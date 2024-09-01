@@ -190,14 +190,16 @@ function loadRegions(mapName) {
                 const districtCode = layer.feature.properties.SIG_CD; // 구 코드 가져오기
                 const sigunguCd = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
 
-                mapNames[mapName].forEach(map => {
-                    if (map.sigunguCd === sigunguCd && map.color) {
-                        layer.setStyle({
-                            fillColor: map.color,
-                            fillOpacity: 1
-                        });
-                    }
-                });
+                if(mapNames[mapName]) {
+                    mapNames[mapName].forEach(map => {
+                        if (map.sigunguCd === sigunguCd && map.color) {
+                            layer.setStyle({
+                                fillColor: map.color,
+                                fillOpacity: 1
+                            });
+                        }
+                    });
+                }
             });
         }
     };
@@ -498,4 +500,92 @@ function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0'); // 일 가져오기, 두 자리로 맞추기
 
     return `${year}.${month}.${day}`;
+}
+
+function mapNamesNextPage(mapName) {
+    nextPage(1, mapName);
+}
+
+async function fnDelete(event, data) {
+
+    const db = await openIndexedDB("MapColorDB", 1);
+    const transaction = db.transaction("mapNames", "readwrite");
+    const objectStore = transaction.objectStore("mapNames");
+    const deleteRequest = objectStore.delete(data.mapName);
+
+    deleteRequest.onsuccess = () => {
+        location.reload();
+    };
+    deleteRequest.onerror = (event) => {
+        console.error("Error deleting map:", event.target.error);
+    };
+}
+
+function fnModify(event, data) {
+
+    const div = event.target.closest('.name-box');
+
+    if (!div) return;
+
+    const titDiv = div.querySelector('.tit-name');
+    const currentText = titDiv.textContent;
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentText;
+    input.className = 'tit-input';
+
+    titDiv.replaceWith(input);
+
+    input.focus();
+
+    input.addEventListener('blur', () => {
+        const newTitDiv = document.createElement('div');
+        newTitDiv.className = 'tit-name';
+        newTitDiv.textContent = input.value || currentText; // 빈값일 경우 원래 텍스트 유지
+        input.replaceWith(newTitDiv);
+
+        saveNewMapName(data, newTitDiv.textContent);
+    });
+
+    // Enter 키를 누르면 tit-name으로 되돌리고 데이터 저장
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            input.blur();
+        }
+    });
+}
+
+async function saveNewMapName(data, newName) {
+    try {
+
+        const originalMapName = data.mapName;
+        data.mapName = newName;
+
+        const db = await openIndexedDB("MapColorDB", 1);
+        const transaction = db.transaction("mapNames", "readwrite");
+        const objectStore = transaction.objectStore("mapNames");
+
+        const deleteRequest = objectStore.delete(originalMapName);
+
+        deleteRequest.onsuccess = () => {
+
+            const updateRequest = objectStore.put(data);
+
+            updateRequest.onsuccess = () => {
+                console.log(`Map name updated from ${originalMapName} to ${newName}`);
+            };
+
+            updateRequest.onerror = (event) => {
+                console.error("Error updating map name:", event.target.error);
+            };
+        };
+
+        deleteRequest.onerror = (event) => {
+            console.error("Error deleting old map name:", event.target.error);
+        };
+
+    } catch (error) {
+        console.error("Failed to update map name:", error);
+    }
 }
