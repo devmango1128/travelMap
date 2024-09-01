@@ -32,7 +32,10 @@
         <div class="desc-area">
             <div class="tit">메모<span class="error-message" id="desc-error"></span></div>
             <br>
-            <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
+            <div class="textarea-div">
+                <textarea id="description" placeholder="메모는 최대 100자까지 입력 가능합니다." maxlength="100" oninput="validIntr()"></textarea>
+                <p class="this_numbering _count_num"></p>
+            </div>
         </div>
         <div class="map-info-input-container">
             <input type="text" id="tag-input" class="tag-input" placeholder="태그를 입력한 뒤 엔터(3개까지 입력 가능)" maxlength="10">
@@ -95,7 +98,7 @@
             const mapName = localStorage.getItem("mapName");
             const sigunguNm = localStorage.getItem("sigunguNm").replace(/\s*\(.*?\)\s*/g, ' ');
 
-            document.getElementById('pageTitle').innerHTML = mapName + ' - <span>' + sigunguNm + '</span>';
+            document.getElementById('pageTitle').innerHTML = mapName + '  <span>' + sigunguNm + '</span>';
 
             const startDatePicker = flatpickr("#strDatePicker", {
                 locale: "ko",
@@ -151,6 +154,19 @@
             } else {
                 input.value = '';
             }
+        }
+
+        function validIntr() {
+            const description = document.getElementById('description');
+            const intrIntrcn = description.value.length;
+            const maxLength = 100;
+
+            if (intrIntrcn > maxLength) {
+                description.value = description.value.slice(0, maxLength);
+                intrIntrcn.value = intrIntrcn.value.slice(0, maxLength);
+            }
+
+            document.querySelector('.this_numbering._count_num').textContent = `${intrIntrcn}/${maxLength}`;
         }
     </script>
 </body>

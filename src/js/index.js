@@ -42,7 +42,7 @@ function initMap() {
 
     whiteBackground.getContainer = () => {
         const container = document.createElement('div');
-        container.style.background = '#75c8f3';
+        container.style.background = '#fff';
         container.style.width = '100%';
         container.style.height = '100%';
         return container;
@@ -128,23 +128,29 @@ function loadGeoJSON() {
 
                         const sigCd = feature.properties.SIG_CD;
                         const data = mapNames[mapName];
-                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')">추가</button></b><br>`;
+                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')"><img src="src/images/plus_icon_w.png" class="plus-img">추가</button></b><br>`;
+                        let popupOptions = {
+                            minWidth: 120,
+                            maxWidth: 150
+                        };
 
                         if(data) {
                             data.forEach((map, index) => {
                                 if(map.sigunguCd.substring(2, 8) === sigCd) {
                                     popupContent += '<hr>';
-                                    popupContent += (map ? `<div class="label-date">${map.strDate}~${map.endDate}</div>` : "");
+                                    const formattedStrDate = formatDateToYYMMDD(map.strDate);
+                                    const formattedEndDate = formatDateToYYMMDD(map.endDate);
+                                    popupContent += (map ? `<div class="label-date">${formattedStrDate}~${formattedEndDate}</div>` : "");
                                     const formattedDescription = map.description.replace(/\n/g, '<br>');
                                     popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
                                     if (map.tags && map.tags.length > 0) {
-                                        popupContent += `<div>${map.tags.map(tag => `<span class="hash">#</span>${tag}`).join(' ')}</div>`;
+                                        popupContent += `<div class="hash-area">${map.tags.map(tag => `<span class="hash">#</span>${tag}`).join(' ')}</div>`;
                                     }
                                 }
                             });
                         }
 
-                        layer.bindPopup(popupContent).openPopup();
+                        layer.bindPopup(popupContent, popupOptions).openPopup();
                     }
                 });
 
@@ -169,6 +175,15 @@ function loadGeoJSON() {
 
         await loadRegions(mapName);
     });
+}
+
+function formatDateToYYMMDD(dateString) {
+
+    const date = new Date(dateString);
+    const year = String(date.getFullYear()).slice(-2); // 연도의 마지막 두 자리
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 (0부터 시작하므로 +1), 두 자리로 맞추기
+    const day = String(date.getDate()).padStart(2, '0'); // 일, 두 자리로 맞추기
+    return `${year}.${month}.${day}`;
 }
 
 function registerLocation(mapName, sigunguCd) {
@@ -599,16 +614,16 @@ function updateSigunguList(allData, mapName, sigunguData) {
 }
 
 function goSidoDetail(obj, code) {
-    
+
     const mapName = localStorage.getItem("mapName");
     const transaction = db.transaction(["mapNames"], "readonly");
     const objectStore = transaction.objectStore("mapNames");
     const request = objectStore.getAll();
-    
+
     request.onsuccess = function(event) {
-        
+
         const results = event.target.result;
-        
+
         results.forEach(function (item) {
             if (item.mapName === mapName) {
                 mapNames[mapName] = item.data;
