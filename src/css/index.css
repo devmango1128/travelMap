@@ -583,7 +583,7 @@ textarea:focus {
 }
 
 .map-info-container .this_numbering._count_num {
-    padding: 0px 16px 12px 16px;
+    padding: 0px 16px 0px 16px;
     font-size: 0.7rem;
     letter-spacing: 0px;
     color: #939396;
