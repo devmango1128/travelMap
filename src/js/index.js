@@ -481,9 +481,14 @@ function goSidoDetail(obj, code) {
 }
 
 function daysSince(startDate) {
-    const now = Date.now(); // 현재 시간(밀리초 단위)
-    const diffInMs = now - startDate; // 두 날짜 간의 차이 (밀리초 단위)
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)); // 밀리초를 일(day)로 변환
+    const start = new Date(startDate);
+    const now = new Date();
+
+    start.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+
+    const diffInMs = now - start;
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
     return diffInDays;
 }
 
