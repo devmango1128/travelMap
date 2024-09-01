@@ -77,7 +77,7 @@ function loadGeoJSON() {
 
     const mapName = localStorage.getItem("mapName");
 
-    $.getJSON(sigunguJsonUrl, function(data) {
+    $.getJSON(sigunguJsonUrl, async function(data) {
         const mergedFeatures = data.features.reduce((acc, feature) => {
             const sgg = feature.properties.SIG_CD;
             if (!acc[sgg]) {
@@ -103,16 +103,23 @@ function loadGeoJSON() {
             onEachFeature: (feature, layer) => {
                 layer.on({
                     click: (e) => {
+
                         const sigCd = feature.properties.SIG_CD;
                         const data = mapNames[mapName];
-                        let popupContent = `<b>${feature.properties.SIG_KOR_NM}</b><br>`;
+                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM}</b><br>`;
+
                         data.forEach((map, index) => {
                             if(map.sigunguCd.substring(2, 8) === sigCd) {
                                 if(index > 0) popupContent += "<hr>";
-                                popupContent += (map ? `${map.strDate}~${map.endDate}` : "") + "<br>";
-                                popupContent += (map ? map.description : "") + "<br>";
+                                popupContent += (map ? `<div class="label-date">${map.strDate}~${map.endDate}</div>` : "");
+                                const formattedDescription = map.description.replace(/\n/g, '<br>');
+                                popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
+                                if (map.tags && map.tags.length > 0) {
+                                    popupContent += `<div>${map.tags.map(tag => `<span class="hash">#</span>${tag}`).join(' ')}</div>`;
+                                }
                             }
                         });
+
                         layer.bindPopup(popupContent).openPopup();
                     }
                 });
@@ -144,7 +151,7 @@ function loadGeoJSON() {
             }).addTo(map);
         }
 
-        loadRegions(mapName);
+        await loadRegions(mapName);
     });
 }
 
@@ -158,12 +165,16 @@ function adjustLabelSize(map) {
 }
 
 function geoLayer() {
+
     const sigunguCd = localStorage.getItem("sigunguCd");
+    const subSigunguCd = sigunguCd.substring(2,  sigunguCd.length);
 
     if (geojsonLayer) {
         geojsonLayer.eachLayer(layer => {
-            if (layer.feature.properties.SIG_CD === sigunguCd.substring(2, region.length - 1)) {
-                layer.setStyle({ fillColor: color, fillOpacity: 1 });
+            if (layer.feature.properties.SIG_CD === subSigunguCd) {
+                const center = layer.getBounds().getCenter();
+                map.setView(center, 10);
+                layer.fire('click');
             }
         });
     }
@@ -175,7 +186,7 @@ function loadRegions(mapName) {
     const objectStore = transaction.objectStore("mapNames");
     const request = objectStore.getAll();
 
-    request.onsuccess = function(event) {
+    request.onsuccess = async function(event) {
 
         const results = event.target.result;
 
@@ -186,15 +197,15 @@ function loadRegions(mapName) {
         });
 
         if (geojsonLayer) {
-            geojsonLayer.eachLayer(function(layer) {
+            await geojsonLayer.eachLayer(function(layer) {
                 const districtCode = layer.feature.properties.SIG_CD; // 구 코드 가져오기
                 const sigunguCd = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
 
                 if(mapNames[mapName]) {
-                    mapNames[mapName].forEach(map => {
-                        if (map.sigunguCd === sigunguCd && map.color) {
+                    mapNames[mapName].forEach(mapNm => {
+                        if (mapNm.sigunguCd === sigunguCd && mapNm.color) {
                             layer.setStyle({
-                                fillColor: map.color,
+                                fillColor: mapNm.color,
                                 fillOpacity: 1
                             });
                         }
@@ -202,6 +213,8 @@ function loadRegions(mapName) {
                 }
             });
         }
+
+        geoLayer();
     };
 
     request.onerror = function(event) {
@@ -210,13 +223,80 @@ function loadRegions(mapName) {
 }
 
 function moveToCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(
-        (position) => map.setView([position.coords.latitude, position.coords.longitude], 12),
-        (error) => {
-            console.error("Error Code =", error.code, "-", error.message);
-            map.setView(center, 7); // 대한민국 중심 좌표로 이동
-        }
-    );
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const userLatLng = [position.coords.latitude, position.coords.longitude];
+                map.setView(userLatLng, 12);
+                let closestLayer = null;
+                let minDistance = Infinity;
+
+                if (geojsonLayer) {
+                    geojsonLayer.eachLayer(layer => {
+                        const center = layer.getBounds().getCenter();
+                        const distance = map.distance(userLatLng, center);
+
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestLayer = layer;
+                        }
+                    });
+                }
+
+                if (closestLayer) {
+                    applyDotPattern(closestLayer);
+                }
+            },
+            (error) => {
+                console.error("Error Code =", error.code, "-", error.message);
+
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("위치 권한이 거부되었습니다. 설정에서 위치 권한을 허용해주세요.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("위치 정보를 사용할 수 없습니다.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("위치 정보 요청이 시간 초과되었습니다.");
+                        break;
+                    default:
+                        alert("위치 정보를 가져오는 중 오류가 발생했습니다.");
+                        break;
+                }
+
+                // 오류 발생 시 기본 위치로 이동
+                map.setView(center, 7); // 대한민국 중심 좌표로 이동
+            }
+        );
+    } else {
+        alert("이 브라우저에서는 위치 정보 기능을 지원하지 않습니다.");
+        map.setView(center, 7); // 대한민국 중심 좌표로 이동
+    }
+}
+
+function applyDotPattern(layer) {
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 20;
+    canvas.height = 20;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = 'rgba(0, 0, 255, 0.1)'; // 파란색 배경
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = 'rgba(52, 150, 255, 0.5)'; // 반투명 점
+    ctx.beginPath();
+    ctx.arc(10, 10, 3, 0, Math.PI * 2); // 점의 위치와 크기
+    ctx.fill();
+
+    layer.setStyle({
+        fillPattern: ctx.createPattern(canvas, 'repeat'),
+        fillOpacity: 0.8,
+        color: '#3496ff',
+        weight: 2,
+        opacity: 1
+    });
 }
 
 function saveMapName(db, mapName) {
@@ -243,21 +323,50 @@ async function saveMapInfo() {
     const strDate = document.getElementById('strDatePicker').value;
     const endDate = document.getElementById('endDatePicker').value;
     const description = document.getElementById('description').value;
+    const tags = [];
+    document.querySelectorAll('#tag-container .tag').forEach(tagElement => {
+        tags.push(tagElement.textContent.replace('#', '').trim());
+    });
 
-    const data = {
-        sigunguCd: sigunguCd,
-        color: color,
-        strDate: strDate,
-        endDate: endDate,
-        description: description
+    document.getElementById('date-error').textContent = '';
+    document.getElementById('desc-error').textContent = '';
+    document.getElementById('color-error').textContent = '';
+
+    let valid = true;
+
+    if (!strDate || !endDate) {
+        document.getElementById('date-error').textContent = '여행기간을 입력해주세요.';
+        valid = false;
     }
 
-    await saveMapInfos(mapName, data);
+    if (!description) {
+        document.getElementById('desc-error').textContent = '메모를 입력해주세요.';
+        valid = false;
+    }
 
-    nextPage(3);
+    if (!color) {
+        document.getElementById('color-error').textContent = '색상을 선택해주세요.';
+        valid = false;
+    }
+
+    if (valid) {
+        const data = {
+            sigunguCd: sigunguCd,
+            color: color,
+            strDate: strDate,
+            endDate: endDate,
+            description: description,
+            tags: tags
+        }
+
+        await saveMapInfos(mapName, data);
+
+        nextPage(3);
+    }
 }
 
 async function saveMapInfos(mapName, data) {
+
     const transaction = db.transaction(["mapNames"], "readwrite");
     const objectStore = transaction.objectStore("mapNames");
     const request = objectStore.getAll();
@@ -534,11 +643,16 @@ function fnModify(event, data) {
     input.type = 'text';
     input.value = currentText;
     input.className = 'tit-input';
+    input.maxLength = 10;
 
     titDiv.replaceWith(input);
 
-    input.focus();
+    const menuArea = div.querySelector('.menu-area');
+    if (menuArea) {
+        menuArea.style.display = 'none';
+    }
 
+    input.focus();
     input.addEventListener('blur', () => {
         const newTitDiv = document.createElement('div');
         newTitDiv.className = 'tit-name';
@@ -557,6 +671,7 @@ function fnModify(event, data) {
 }
 
 async function saveNewMapName(data, newName) {
+
     try {
 
         const originalMapName = data.mapName;
@@ -588,4 +703,8 @@ async function saveNewMapName(data, newName) {
     } catch (error) {
         console.error("Failed to update map name:", error);
     }
+}
+
+function clearLocalStorage() {
+    localStorage.clear();
 }

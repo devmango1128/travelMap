@@ -699,6 +699,13 @@ textarea:focus {
     border-radius: 4px;
     border:1px solid #fff;
     background-color: #fff;
+    width: 100%;
+}
+
+.map-info-container .error-message {
+    color: #f43c3c;
+    font-size: 0.8em;
+    margin-left: 10px;
 }
 
 #map {
@@ -788,4 +795,18 @@ textarea:focus {
 
 .leaflet-control-container div {
     top: 25px;
+}
+
+.label-tit {
+    color: #3496ff;
+    font-size: 1.2em;
+}
+
+.label-date, .label-desc {
+    margin-bottom: 5px;
+}
+
+.hash {
+    color: #f86b84;
+    font-weight: bold;
 }

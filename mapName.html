@@ -27,6 +27,8 @@
 
     document.addEventListener('DOMContentLoaded', async function() {
 
+        clearLocalStorage();
+
         const db = await openIndexedDB("MapColorDB", 1);
         const datas = await getAllData(db, "mapNames");
 

@@ -21,7 +21,7 @@
     <div class="map-info-container">
         <span class="page-title" id="pageTitle"></span>
         <div class="date-area">
-            <div class="tit">여행기간</div>
+            <div class="tit">여행기간<span class="error-message" id="date-error"></span></div>
             <br>
             <input type="text" id="strDatePicker" placeholder="날짜 선택" />
             &nbsp;~&nbsp;
@@ -29,17 +29,17 @@
         </div>
         <div class="hr"></div>
         <div class="desc-area">
-            <div class="tit">메모 <span>선택</span></div>
+            <div class="tit">메모<span class="error-message" id="desc-error"></span></div>
             <br>
             <textarea id="description" placeholder="메모를 입력하세요" maxlength="100"></textarea>
         </div>
         <div class="map-info-input-container">
-            <input type="text" id="tag-input" class="tag-input" placeholder="태그를 입력한 뒤 엔터">
+            <input type="text" id="tag-input" class="tag-input" placeholder="태그를 입력한 뒤 엔터(3개까지 입력 가능)" maxlength="10">
         </div>
         <div id="tag-container" class="tag-container"></div>
         <div class="hr"></div>
         <div class="color-area">
-            <div class="tit">색상선택</div>
+            <div class="tit">색상<span class="error-message" id="color-error"></span></div>
             <div class="circle-container">
                 <!-- Red shades -->
                 <div class="circle" style="background-color: #ff004e;" onclick="circleClicked(this, '#ff004e')"></div>
@@ -133,8 +133,9 @@
         function addTag() {
             const input = document.getElementById('tag-input');
             const tagText = input.value.trim();
+            const tagContainer = document.getElementById('tag-container');
 
-            if (tagText !== '') {
+            if (tagText !== '' && tagContainer.children.length < 3) {
                 const tagContainer = document.getElementById('tag-container');
                 const tagElement = document.createElement('div');
                 tagElement.className = 'tag';
@@ -142,6 +143,8 @@
 
                 tagContainer.appendChild(tagElement);
                 input.value = ''; // Clear the input field
+            } else {
+                input.value = '';
             }
         }
     </script>
