@@ -880,7 +880,7 @@ textarea:focus {
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmtime {
     display: block;
     text-align: right;
-    padding-right: 50px;
+    padding-right: 60px;
     margin-top: 14px;
 }
 
