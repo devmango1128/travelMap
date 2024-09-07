@@ -130,8 +130,8 @@ function loadGeoJSON() {
                         const data = mapNames[mapName];
                         let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')"><img src="src/images/plus_icon_w.png" class="plus-img">추가</button></b><br>`;
                         let popupOptions = {
-                            minWidth: 120,
-                            maxWidth: 150
+                            minWidth: 150,
+                            maxWidth: 200
                         };
 
                         if(data) {
