@@ -768,13 +768,16 @@ textarea:focus {
     color: #282828;
 }
 
-.map-timeLine-container .page-title span {
-    display: inline-block;
-    margin: 10px 0px 10px 0px;
+.map-timeLine-container .page-title span.map-name {
+    vertical-align: bottom;
+}
+
+.map-timeLine-container .page-title span.map-cnt {
     font-weight: normal;
     color: #b6b4b4;
     font-size: 0.8em;
     font-family: NanumGothic, serif;
+    vertical-align: bottom;
 }
 
 .map-timeLine-container .no-data {
@@ -784,28 +787,34 @@ textarea:focus {
     text-align: center;
 }
 
-.map-timeLine-container .no-data div {
+.map-timeLine-container .no-data div.no-sub-data {
     text-align: center;
     font-size: 0.8em;
 }
 
-.map-timeLine-container .no-data div img {
+.map-timeLine-container .no-data div.no-sub-data img.no-data-img {
     max-width: 100%;
     height: auto;
     margin-top: 100px;
 }
 
-.map-timeLine-container .no-data div div {
+.map-timeLine-container .no-data div.no-sub-data div.no-contents {
     margin-top: 10px;
 }
 
 .map-timeLine-container .no-data div.plus-area-div {
-    border: 1px solid #282828;
+    border: 1px solid #b6b4b4;
     border-radius: 50px;
     font-size: 0.7em;
     padding: 5px 10px;
     display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    width: 80px;
     margin-left: auto;
+    margin-right: auto;
 }
 
 .map-timeLine-container .no-data div.plus-img-div {
@@ -822,6 +831,7 @@ textarea:focus {
 
 .map-timeLine-container .no-data div.plus-text-div {
     color: #282828;
+    line-height: 15px;
 }
 
 #map {

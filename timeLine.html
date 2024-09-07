@@ -45,7 +45,7 @@
 
         const pointCnt = uniqueSigunguSet.size;
 
-        document.getElementById('pageTitle').innerHTML = mapName + '  <span>' + pointCnt + '/' + sigunguData.features.length + '</span>';
+        document.getElementById('pageTitle').innerHTML = '<span class="map-name">' + mapName + '</span> <span class="map-cnt">' + pointCnt + '/' + sigunguData.features.length + '</span>';
 
         if(pointCnt === 0) {
 
@@ -53,13 +53,16 @@
             noData.className = 'no-data';
 
             const div = document.createElement('div');
+            div.className = 'no-sub-data'
 
             const img = document.createElement('img');
+            img.className = 'no-data-img'
             img.src = 'src/images/no-data.png';
             div.appendChild(img);
 
             const noContents = document.createElement('div');
-            noContents.innerHTML = '등록된 데이터가 없어요ㅠ';
+            noContents.className = 'no-contents'
+            noContents.innerHTML = '데이터가 텅 비어있어요';
             div.appendChild(noContents);
 
             const plusAreaDiv = document.createElement("div");
