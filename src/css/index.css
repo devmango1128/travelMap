@@ -893,6 +893,7 @@ textarea:focus {
     text-align: right;
     padding-right: 60px;
     margin-top: 12px;
+    font-family: NanumGothicExtraBold, serif;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmtime span {
