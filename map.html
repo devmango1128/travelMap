@@ -41,8 +41,8 @@
         const sibling = document.getElementById('mapTitle');
         const fixedElement = document.getElementById('timeLine');
 
-        const siblingWidth = sibling.offsetWidth + 60;
-        fixedElement.style.left = siblingWidth + 'px';
+        const siblingWidth = sibling.getBoundingClientRect();
+        fixedElement.style.left = (siblingWidth.right + 5) + 'px';
 
         await initMap();
         await loadGeoJSON();
