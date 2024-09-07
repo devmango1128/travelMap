@@ -177,6 +177,16 @@ textarea:focus {
     padding: 0px 10px;
 }
 
+.map-name-container .error-message {
+    color: #f43c3c;
+    font-size: 0.6em;
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
 .map-name-container input {
     font-weight: bold;
     margin-bottom: 10px;

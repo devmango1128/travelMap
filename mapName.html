@@ -15,6 +15,7 @@
         <div class="map-name-container">
             <span id="animated-text"></span>
             <input type="text" id="mapName" placeholder="지도 주제를 입력해주세요.(ex.여행, 출장)" maxlength="10"/>
+            <span class="error-message" id="map-name-error"></span>
             <div class="next-btn" role="button" onclick="mapNameNextPage()">다음</div>
         </div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -58,6 +59,21 @@
     });
 
     async function mapNameNextPage() {
-        saveMapName(db, document.getElementById("mapName").value);
+
+        const db = await openIndexedDB("MapColorDB", 1);
+        const datas = await getAllData(db, "mapNames");
+
+        const mapName = document.getElementById("mapName").value;
+        let valid = true;
+
+        datas.forEach((data) => {
+            if(data.mapName === mapName) {
+                document.getElementById('map-name-error').textContent = '이미 등록된 지도 주제예요.';
+                valid = false;
+                return false;
+            }
+        })
+
+        if(valid) saveMapName(db, mapName);
     }
 </script>
