@@ -542,6 +542,10 @@ function nextPage(reqGubun, data) {
         case 3:
             window.location.href = "map.html";
             break;
+        case 4:
+            localStorage.setItem("mapName", data);
+            window.location.href = "timeLine.html";
+            break;
         default:
             break;
     }

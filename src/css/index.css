@@ -751,6 +751,79 @@ textarea:focus {
     margin-left: 10px;
 }
 
+.map-timeLine-container {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 55px 10px;
+}
+
+.map-timeLine-container .page-title {
+    display: inline-block;
+    margin: 10px 0px 15px 0px;
+    font-weight: bold;
+    width: 100%;
+    color: #282828;
+}
+
+.map-timeLine-container .page-title span {
+    display: inline-block;
+    margin: 10px 0px 10px 0px;
+    font-weight: normal;
+    color: #b6b4b4;
+    font-size: 0.8em;
+    font-family: NanumGothic, serif;
+}
+
+.map-timeLine-container .no-data {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.map-timeLine-container .no-data div {
+    text-align: center;
+    font-size: 0.8em;
+}
+
+.map-timeLine-container .no-data div img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 100px;
+}
+
+.map-timeLine-container .no-data div div {
+    margin-top: 10px;
+}
+
+.map-timeLine-container .no-data div.plus-area-div {
+    border: 1px solid #282828;
+    border-radius: 50px;
+    font-size: 0.7em;
+    padding: 5px 10px;
+    display: flex;
+    margin-left: auto;
+}
+
+.map-timeLine-container .no-data div.plus-img-div {
+    float:left;
+    width: 15px;
+    height: 15px;
+}
+
+.map-timeLine-container .no-data div.plus-img-div .plus-img {
+    width: 15px;
+    height: 15px;
+    margin-top: 0px;
+}
+
+.map-timeLine-container .no-data div.plus-text-div {
+    color: #282828;
+}
+
 #map {
     height: 100vh;
     background: #fff; /* 지도 배경을 파란색으로 설정 */
