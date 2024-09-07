@@ -25,6 +25,8 @@
                 const db = await openIndexedDB("MapColorDB", 1);
                 const allDatas = await getAllData(db, "mapNames");
 
+                allDatas.sort((a, b) => b.createDate - a.createDate);
+
                 if(!allDatas.length) window.location.href = "mapName.html";
 
                 const mapNamesContainer = document.getElementById("mapNames");
@@ -73,18 +75,28 @@
                     div.appendChild(titDiv);
 
                     const menuDiv = document.createElement("div");
-                    menuDiv.innerHTML = '<div class="control">...</div>';
                     menuDiv.className = 'menu-div';
-                    menuDiv.addEventListener('touchstart', (event) => {
+
+                    const control = document.createElement('div');
+                    control.className = 'control';
+                    control.innerHTML = '...';
+
+                    let touchHandled = false;
+                    control.addEventListener('click', (event) => {
                         event.stopPropagation();
-                        handleMenuToggle(event);
+                        if (!touchHandled) {
+                            handleMenuToggle(event);
+                            touchHandled = false;
+                        }
                     }, { passive: false });
 
-                    menuDiv.addEventListener('click, touchstart', (event) => {
+                    control.addEventListener('touchstart', (event) => {
                         event.stopPropagation();
                         handleMenuToggle(event);
-                    });
+                        touchHandled = true;
+                    }, { passive: false });
 
+                    menuDiv.appendChild(control);
                     div.appendChild(menuDiv);
 
                     const handleMenuToggle = (event) => {

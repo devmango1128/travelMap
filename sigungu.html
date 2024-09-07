@@ -45,12 +45,30 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', async function() {
-        let mapName = localStorage.getItem("mapName");
-        document.getElementById('pageTitle').innerText = mapName;
 
         const db = await openIndexedDB("MapColorDB", 1);
         const allDatas = await getAllData(db, "mapNames");
         const sigunguData = await fetchJSON();
+
+        const mapName = localStorage.getItem("mapName");
+
+        const filteredItems = allDatas.filter(item => item.mapName === mapName);
+        const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
+
+            if(current.data === undefined) current['data'] = [];
+
+            current.data.forEach(item => {
+                const key = item.sigunguCd;
+                if (key && !acc.has(key)) {
+                    acc.add(key);
+                }
+            });
+            return acc;
+        }, new Set());
+
+        const pointCnt = uniqueSigunguSet.size;
+
+        document.getElementById('pageTitle').innerHTML = '<span class="map-name">' + mapName + '</span> <span class="map-cnt">' + pointCnt + '/' + sigunguData.features.length + '</span>';
 
         updateSigunguList(allDatas, mapName, sigunguData);
     });

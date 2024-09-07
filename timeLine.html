@@ -90,8 +90,89 @@
 
             noData.appendChild(div);
             timeLineContainer.appendChild(noData);
+        } else {
+
+            const timelineContainer = document.querySelector('.map-timeLine-container');
+            timelineContainer.style.display = 'block';
+
+            const ul = document.createElement('ul');
+            ul.className = 'cbp_tmtimeline';
+
+            filteredItems[0].data.sort((a, b) => new Date(b.strDate) - new Date(a.strDate));
+
+            console.log(filteredItems[0].data);
+
+            filteredItems[0].data.forEach((item) => {
+
+                const li = document.createElement('li');
+                ul.appendChild(li);
+
+                const time = document.createElement('time');
+                time.className = 'cbp_tmtime';
+
+                const span = document.createElement('span');
+                const strDate = formatDate(new Date(item.strDate));
+                const endDate = formatDate(new Date(item.endDate));
+                span.innerHTML = strDate + ' ~ ' + endDate;
+                time.appendChild(span);
+
+                const div = document.createElement('div');
+                div.className = 'cbp_tmicon';
+
+                const div2 = document.createElement('div');
+                div2.className = 'cbp_tmlabel';
+
+                const p = document.createElement('p');
+
+                (async function() {
+
+                    const gigunguNm = await getSigunguName(item);
+                    const siNm =  sigunguList[item.sigunguCd.substring(0, 2)];
+                    p.innerHTML = siNm + ' ' + gigunguNm;
+                    div2.appendChild(p);
+
+                    const span2 = document.createElement('span');
+                    span2.className = 'span-contents'
+                    span2.innerHTML = item.description.replace(/\n/g, '<br>');
+                    div2.appendChild(span2);
+
+                    if(item.tags) {
+                        const span3 = document.createElement('span');
+                        span3.className = 'span-tags';
+                        const tagArr = item.tags.map(tag => '<span class="hash">#</span>' + tag);
+                        span3.innerHTML = tagArr.join(' ');
+                        div2.appendChild(span3);
+                    }
+
+                    li.appendChild(time);
+                    li.appendChild(div);
+                    li.appendChild(div2);
+
+                    ul.appendChild(li);
+                })();
+            });
+
+            timeLineContainer.appendChild(ul);
         }
     });
+
+    async function getSigunguName(item) {
+        try {
+            const response = await fetch(sigunguJsonUrl);
+            const data = await response.json();
+
+            const feature = data.features.find(feature =>
+                feature.properties.SIG_CD === item.sigunguCd.substring(2, 8)
+            );
+
+            if (feature) {
+                return feature.properties.SIG_KOR_NM;
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            return undefined;
+        }
+    }
 </script>
 </body>
 </html>

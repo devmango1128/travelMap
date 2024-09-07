@@ -492,31 +492,35 @@ async function saveMapInfos(mapName, data) {
 }
 
 function deleteMapInfo() {
-    const request = indexedDB.open("MapColorDB", 1);
 
-    request.onerror = (event) => console.error("Database error:", event.target.errorCode);
+    if (confirm("정말 모든 데이터를 삭제하시겠습니까?")) {
 
-    request.onsuccess = (event) => {
-        const db = event.target.result;
-        const transaction = db.transaction(["mapNames"], "readwrite");
-        const objectStore = transaction.objectStore("mapNames");
+        const request = indexedDB.open("MapColorDB", 1);
 
-        const clearRequest = objectStore.clear();
+        request.onerror = (event) => console.error("Database error:", event.target.errorCode);
 
-        clearRequest.onsuccess = () => {
-            console.log("All data cleared successfully.");
-            alert("All data has been cleared from the database.");
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction(["mapNames"], "readwrite");
+            const objectStore = transaction.objectStore("mapNames");
+
+            const clearRequest = objectStore.clear();
+
+            clearRequest.onsuccess = () => {
+                console.log("All data cleared successfully.");
+                alert("데이터가 삭제되었습니다.");
+            };
+
+            clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
         };
 
-        clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
-    };
-
-    request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains("mapNames")) {
-            db.createObjectStore("mapNames", { keyPath: "mapName" });
-        }
-    };
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains("mapNames")) {
+                db.createObjectStore("mapNames", { keyPath: "mapName" });
+            }
+        };
+    }
 }
 
 function nextPage(reqGubun, data) {

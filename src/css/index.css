@@ -31,9 +31,15 @@ body {
     max-width:1023px;
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
 input:focus {
     outline: none;
 }
+
 textarea:focus {
     outline: none;
 }
@@ -476,6 +482,18 @@ textarea:focus {
     padding: 55px 10px;
 }
 
+.sigungu-container .page-title span.map-name {
+    vertical-align: bottom;
+}
+
+.sigungu-container .page-title span.map-cnt {
+    font-weight: normal;
+    color: #b6b4b4;
+    font-size: 0.8em;
+    font-family: NanumGothic, serif;
+    vertical-align: bottom;
+}
+
 .sigungu-container ul {
     list-style: none; /* 기본 리스트 스타일 제거 */
     padding: 0;
@@ -577,7 +595,7 @@ textarea:focus {
     background-color: transparent;
     color: #444447;
     font-size: 0.8rem;
-    line-height: 0.8rem;
+    line-height: 1rem;
     letter-spacing: -0.24px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -762,7 +780,7 @@ textarea:focus {
 
 .map-timeLine-container .page-title {
     display: inline-block;
-    margin: 10px 0px 15px 0px;
+    margin: 10px 0 15px 0;
     font-weight: bold;
     width: 100%;
     color: #282828;
@@ -832,6 +850,119 @@ textarea:focus {
 .map-timeLine-container .no-data div.plus-text-div {
     color: #282828;
     line-height: 15px;
+}
+
+.map-timeLine-container .cbp_tmtimeline {
+    margin: 30px 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+
+.map-timeLine-container .cbp_tmtimeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #afdcf8;
+    left: 120px;
+    transform: translateX(-50%);
+}
+
+.map-timeLine-container .cbp_tmtimeline > li {
+    position: relative;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmtime {
+    display: block;
+    text-align: right;
+    padding-right: 50px;
+    margin-top: 14px;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmtime span {
+    display: block;
+    text-align: right;
+    margin-right: 3px;
+    color: #282828;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmtime span:last-child {
+    font-size: 0.5em;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel {
+    background: #97c6f9;
+    color: #fff;
+    padding: 0.8em;
+    font-size: 0.8em;
+    font-weight: 300;
+    line-height: 1.4;
+    position: relative;
+    border-radius: 5px;
+    flex: 1.1;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-contents {
+    display: inline-block;
+    width: 100%;
+    font-family: NanumGothic, serif;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-tags {
+    display: inline-block;
+    width: 100%;
+    font-family: NanumGothic, serif;
+    margin-top: 10px;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-tags span.hash{
+    color: #f86b84;
+    font-weight: bold;
+    font-family: NanumGothicExtraBold, serif;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel {
+    background: #3496ff;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p:first-child {
+    margin-top: 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel:after {
+    right: 99%;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border: 10px solid transparent;
+    border-right-color: #97c6f9;
+    top: 10px;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel:after {
+    border-right-color: #3496ff;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmicon {
+    width: 20px;
+    height: 20px;
+    background: #3496ff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px #97c6f9;
+    text-align: center;
+    position: absolute;
+    left: 120px;
+    transform: translateX(-50%);
+    top: 10px;
+    z-index: 1;
 }
 
 #map {
@@ -1002,6 +1133,22 @@ textarea:focus {
     margin-left: 55px;
     background-color: #3496ff;
     border: 1px solid #fff;
+    padding: 5px 10px;
+    border-radius: 30px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.map-page-title-timeline {
+    top: 60px;
+    display: inline-block;
+    position: fixed;
+    color: #3496ff;
+    font-size: 0.8em;
+    font-weight: normal;
+    margin-left: 135px;
+    background-color: #fff;
+    border: 1px solid #3496ff;
     padding: 5px 10px;
     border-radius: 30px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
