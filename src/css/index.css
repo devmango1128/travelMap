@@ -878,7 +878,7 @@ textarea:focus {
     bottom: 0;
     width: 5px;
     background: #afdcf8;
-    left: 150px;
+    left: 155px;
     transform: translateX(-50%);
 }
 
@@ -972,7 +972,7 @@ textarea:focus {
     box-shadow: 0 0 0 5px #97c6f9;
     text-align: center;
     position: absolute;
-    left: 150px;
+    left: 155px;
     transform: translateX(-50%);
     top: 10px;
     z-index: 1;
