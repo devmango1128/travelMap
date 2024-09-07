@@ -254,6 +254,7 @@ textarea:focus {
 
 .map-names-container div.plus-text-div{
     color: #282828;
+    font-size: 1em;
 }
 
 .map-names-container div.name-box {
