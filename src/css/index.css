@@ -113,6 +113,8 @@ textarea:focus {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
+    padding: 0 10px 0 10px;
 }
 
 .menu-container span.title {
@@ -139,6 +141,7 @@ textarea:focus {
     width: 100%;
     font-family: 'NanumGothic', sans-serif;
     font-size: 0.8em;
+    box-sizing: border-box;
 }
 
 .menu-container ul {
