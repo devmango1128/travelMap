@@ -19,10 +19,10 @@
         <span class="ico_comm ico_now" id="locationButton" onclick="moveToCurrentLocation()">현위치</span>
     </button>
 </div>
-<div class="map-page-title">
+<div class="map-page-title" id="mapTitle">
     <span onclick="goMenu('mapNames.html')" id="pageTitle"></span>
 </div>
-<div class="map-page-title-timeline">
+<div class="map-page-title-timeline" id="timeLine">
    <span onclick="goMenu('timeLine.html')">타임라인</span>
 </div>
 <div id="map"></div>
@@ -35,7 +35,15 @@
 </html>
 <script>
     document.addEventListener('DOMContentLoaded', async function() {
+
         document.getElementById('pageTitle').innerHTML = localStorage.getItem("mapName");
+
+        const sibling = document.getElementById('mapTitle');
+        const fixedElement = document.getElementById('timeLine');
+
+        const siblingWidth = sibling.offsetWidth + 60;
+        fixedElement.style.left = siblingWidth + 'px';
+
         await initMap();
         await loadGeoJSON();
     });

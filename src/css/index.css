@@ -867,7 +867,7 @@ textarea:focus {
     bottom: 0;
     width: 5px;
     background: #afdcf8;
-    left: 120px;
+    left: 150px;
     transform: translateX(-50%);
 }
 
@@ -892,7 +892,7 @@ textarea:focus {
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmtime span:last-child {
-    font-size: 0.5em;
+    font-size: 0.8em;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel {
@@ -960,7 +960,7 @@ textarea:focus {
     box-shadow: 0 0 0 5px #97c6f9;
     text-align: center;
     position: absolute;
-    left: 120px;
+    left: 150px;
     transform: translateX(-50%);
     top: 10px;
     z-index: 1;
@@ -1147,7 +1147,6 @@ textarea:focus {
     color: #3496ff;
     font-size: 0.8em;
     font-weight: normal;
-    margin-left: 135px;
     background-color: #fff;
     border: 1px solid #3496ff;
     padding: 5px 10px;
