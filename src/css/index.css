@@ -851,6 +851,7 @@ textarea:focus {
 .map-timeLine-container .no-data div.plus-text-div {
     color: #282828;
     line-height: 15px;
+    font-size: 1em;
 }
 
 .map-timeLine-container .cbp_tmtimeline {
