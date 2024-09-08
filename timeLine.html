@@ -21,7 +21,6 @@
 <script src="src/js/index.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', async function() {
-
         const db = await openIndexedDB('MapColorDB', 1);
         const allDatas = await getAllData(db, 'mapNames');
 
@@ -48,20 +47,20 @@
         document.getElementById('pageTitle').innerHTML = '<span class="map-name">' + mapName + '</span> <span class="map-cnt">' + pointCnt + '/' + sigunguData.features.length + '</span>';
 
         if(pointCnt === 0) {
-
+            // 데이터가 없을 때의 처리
             const noData = document.createElement('div');
             noData.className = 'no-data';
 
             const div = document.createElement('div');
-            div.className = 'no-sub-data'
+            div.className = 'no-sub-data';
 
             const img = document.createElement('img');
-            img.className = 'no-data-img'
+            img.className = 'no-data-img';
             img.src = 'src/images/no-data.png';
             div.appendChild(img);
 
             const noContents = document.createElement('div');
-            noContents.className = 'no-contents'
+            noContents.className = 'no-contents';
             noContents.innerHTML = '데이터가 텅 비어있어요';
             div.appendChild(noContents);
 
@@ -79,7 +78,7 @@
 
             const plusText = document.createElement("div");
             plusText.className = 'plus-text-div';
-            plusText.innerText='등록하러 가기';
+            plusText.innerText = '등록하러 가기';
             plusAreaDiv.appendChild(plusText);
 
             plusAreaDiv.addEventListener('click', () =>
@@ -95,24 +94,51 @@
             const timelineContainer = document.querySelector('.map-timeLine-container');
             timelineContainer.style.display = 'block';
 
-            const ul = document.createElement('ul');
-            ul.className = 'cbp_tmtimeline';
-
             filteredItems[0].data.sort((a, b) => new Date(b.strDate) - new Date(a.strDate));
 
-            console.log(filteredItems[0].data);
+            let currentYear = '';
+            let currentUl;
 
             filteredItems[0].data.forEach((item) => {
 
+                const itemYear = new Date(item.strDate).getFullYear();
+
+                // 년도가 바뀌면 새로운 년도 타이틀과 ul 생성
+                if (itemYear !== currentYear) {
+                    currentYear = itemYear;
+
+                    const yearDiv = document.createElement('div');
+                    yearDiv.className = 'year-title';
+                    const yearTitle = document.createElement('span');
+                    yearTitle.innerText = currentYear + '년';
+                    yearDiv.appendChild(yearTitle);
+
+                    currentUl = document.createElement('ul');
+                    currentUl.className = 'cbp_tmtimeline';
+
+                    timeLineContainer.appendChild(yearDiv);
+                    timeLineContainer.appendChild(currentUl);
+                }
+
+                // li 요소는 항상 생성되어야 함
                 const li = document.createElement('li');
-                ul.appendChild(li);
 
                 const time = document.createElement('time');
                 time.className = 'cbp_tmtime';
 
                 const span = document.createElement('span');
-                const strDate = formatDate(new Date(item.strDate));
-                const endDate = formatDate(new Date(item.endDate));
+                const strDateObj = new Date(item.strDate);
+                const endDateObj = new Date(item.endDate);
+
+                const formatWithoutYear = (date) => {
+                    const month = date.getMonth() + 1;
+                    const day = date.getDate();
+                    return `${month}.${day}`;
+                };
+
+                const strDate = formatWithoutYear(strDateObj);
+                const endDate = formatWithoutYear(endDateObj);
+
                 span.innerHTML = strDate + ' ~ ' + endDate;
                 time.appendChild(span);
 
@@ -123,36 +149,34 @@
                 div2.className = 'cbp_tmlabel';
 
                 const p = document.createElement('p');
+                div2.appendChild(p); // 우선 div2에 p 추가
 
+                const span2 = document.createElement('span');
+                span2.className = 'span-contents';
+                span2.innerHTML = item.description.replace(/\n/g, '<br>');
+                div2.appendChild(span2);
+
+                if(item.tags) {
+                    const span3 = document.createElement('span');
+                    span3.className = 'span-tags';
+                    const tagArr = item.tags.map(tag => '<span class="hash">#</span>' + tag);
+                    span3.innerHTML = tagArr.join(' ');
+                    div2.appendChild(span3);
+                }
+
+                li.appendChild(time);
+                li.appendChild(div);
+                li.appendChild(div2);
+
+                currentUl.appendChild(li);
+
+                // 비동기적으로 가져온 데이터를 추가
                 (async function() {
-
                     const gigunguNm = await getSigunguName(item);
-                    const siNm =  sigunguList[item.sigunguCd.substring(0, 2)];
+                    const siNm = sigunguList[item.sigunguCd.substring(0, 2)];
                     p.innerHTML = siNm + ' ' + gigunguNm;
-                    div2.appendChild(p);
-
-                    const span2 = document.createElement('span');
-                    span2.className = 'span-contents'
-                    span2.innerHTML = item.description.replace(/\n/g, '<br>');
-                    div2.appendChild(span2);
-
-                    if(item.tags) {
-                        const span3 = document.createElement('span');
-                        span3.className = 'span-tags';
-                        const tagArr = item.tags.map(tag => '<span class="hash">#</span>' + tag);
-                        span3.innerHTML = tagArr.join(' ');
-                        div2.appendChild(span3);
-                    }
-
-                    li.appendChild(time);
-                    li.appendChild(div);
-                    li.appendChild(div2);
-
-                    ul.appendChild(li);
                 })();
             });
-
-            timeLineContainer.appendChild(ul);
         }
     });
 
