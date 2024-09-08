@@ -150,9 +150,6 @@
                     addTag();
                 }
             });
-        });
-
-        function circleClicked(element, color) {
 
             document.querySelectorAll('.circle').forEach((circle) => {
                 circle.addEventListener('mousedown', function(event) {
@@ -161,6 +158,9 @@
                     });
                 });
             });
+        });
+
+        function circleClicked(element, color) {
 
             document.getElementById("selectedColor").value = color;
             document.querySelectorAll('.circle').forEach((circle) => {
