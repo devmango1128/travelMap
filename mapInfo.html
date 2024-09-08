@@ -106,6 +106,17 @@
                 defaultDate: new Date(),
                 disableMobile: true,
                 maxDate: "today",
+                onDayCreate: function(dObj, dStr, fp, dayElem) {
+
+                    const date = new Date(dayElem.dateObj);
+
+                    if (date.getDay() === 6) {  // 토요일
+                        dayElem.classList.add("saturday");
+                    }
+                    if (date.getDay() === 0) {  // 일요일
+                        dayElem.classList.add("sunday");
+                    }
+                },
                 onChange: function(selectedDates, dateStr) {
                     endDatePicker.set('minDate', dateStr);
                 }
@@ -117,6 +128,17 @@
                 defaultDate: new Date(),
                 disableMobile: true,
                 maxDate: "today",
+                onDayCreate: function(dObj, dStr, fp, dayElem) {
+
+                    const date = new Date(dayElem.dateObj);
+
+                    if (date.getDay() === 6) {  // 토요일
+                        dayElem.classList.add("saturday");
+                    }
+                    if (date.getDay() === 0) {  // 일요일
+                        dayElem.classList.add("sunday");
+                    }
+                },
                 onChange: function(selectedDates, dateStr) {
                     startDatePicker.set('maxDate', dateStr);
                 }
@@ -131,6 +153,15 @@
         });
 
         function circleClicked(element, color) {
+
+            document.querySelectorAll('.circle').forEach((circle) => {
+                circle.addEventListener('mousedown', function(event) {
+                    document.querySelectorAll('input').forEach((input) => {
+                        input.blur();
+                    });
+                });
+            });
+
             document.getElementById("selectedColor").value = color;
             document.querySelectorAll('.circle').forEach((circle) => {
                 circle.classList.remove('checked');

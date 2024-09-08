@@ -1184,3 +1184,16 @@ textarea:focus {
 .leaflet-touch .leaflet-bar {
     border: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
+
+.flatpickr-day.saturday {
+    color: #3496ff;
+}
+.flatpickr-day.sunday {
+    color: #f43c3c;
+}
+
+.flatpickr-day.today {
+    border-color: #ffaa00 !important;
+    color: #fff !important;
+    background: #ffaa00 !important;
+}
