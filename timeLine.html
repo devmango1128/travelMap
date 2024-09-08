@@ -20,6 +20,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="src/js/index.js"></script>
 <script>
+
+    let filteredItems = [];
+
     document.addEventListener('DOMContentLoaded', async function() {
         const db = await openIndexedDB('MapColorDB', 1);
         const allDatas = await getAllData(db, 'mapNames');
@@ -28,7 +31,7 @@
         const sigunguData = await fetchJSON();
         const mapName = localStorage.getItem("mapName");
 
-        const filteredItems = allDatas.filter(item => item.mapName === mapName);
+        filteredItems = allDatas.filter(item => item.mapName === mapName);
         const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
 
             if(current.data === undefined) current['data'] = [];
@@ -99,7 +102,7 @@
             let currentYear = '';
             let currentUl;
 
-            filteredItems[0].data.forEach((item) => {
+            filteredItems[0].data.forEach((item, index) => {
 
                 const itemYear = new Date(item.strDate).getFullYear();
 
@@ -120,7 +123,6 @@
                     timeLineContainer.appendChild(currentUl);
                 }
 
-                // li 요소는 항상 생성되어야 함
                 const li = document.createElement('li');
 
                 const time = document.createElement('time');
@@ -149,7 +151,7 @@
                 div2.className = 'cbp_tmlabel';
 
                 const p = document.createElement('p');
-                div2.appendChild(p); // 우선 div2에 p 추가
+                div2.appendChild(p);
 
                 const span2 = document.createElement('span');
                 span2.className = 'span-contents';
@@ -170,11 +172,12 @@
 
                 currentUl.appendChild(li);
 
-                // 비동기적으로 가져온 데이터를 추가
                 (async function() {
                     const gigunguNm = await getSigunguName(item);
                     const siNm = sigunguList[item.sigunguCd.substring(0, 2)];
-                    p.innerHTML = siNm + ' ' + gigunguNm;
+                    p.innerHTML = '<span class="time-tit">' + siNm + ' ' + gigunguNm + '</span>';
+                    p.innerHTML += `<span class="time-upt" onclick="contentsUpdate(${index})">수정</span>`;
+                    p.innerHTML += `<span class="time-del" onclick="contentsDelete(${index})">삭제</span>`;
                 })();
             });
         }
@@ -196,6 +199,51 @@
             console.error("Error fetching data:", error);
             return undefined;
         }
+    }
+
+    function contentsUpdate(index) {
+        console.log('수정할 인덱스:', index);
+        // 수정 로직 구현
+    }
+
+    function contentsDelete(index) {
+        filteredItems[0].data.splice(index, 1);
+
+        updateIndexedDB(filteredItems[0]).then(() => {
+                location.reload();
+            }).catch((error) => {
+                console.error("데이터 삭제 중 오류 발생", error);
+            });
+    }
+
+    async function updateIndexedDB(updatedItem) {
+
+        const db = await openIndexedDB('MapColorDB', 1); // IndexedDB 열기
+        const tx = db.transaction('mapNames', 'readwrite'); // 트랜잭션 생성
+        const store = tx.objectStore('mapNames'); // objectStore 가져오기
+        const mapName = localStorage.getItem("mapName");
+
+        const request = store.get(mapName);
+
+        request.onsuccess = function(event) {
+            const data = event.target.result;
+
+            if (data) {
+
+                data.data = updatedItem.data;
+                store.put(data);
+
+                console.log("IndexedDB에 업데이트 완료", data);
+            } else {
+                console.error("데이터를 찾을 수 없습니다.");
+            }
+        };
+
+        request.onerror = function(event) {
+            console.error("IndexedDB 요청 오류", event);
+        };
+
+        await tx.complete;
     }
 </script>
 </body>

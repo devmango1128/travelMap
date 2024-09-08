@@ -933,6 +933,37 @@ textarea:focus {
     flex: 1.1;
 }
 
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-tit {
+    float: left;
+    flex: 1;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-del {
+    float: right;
+    border: 1px solid #f86b84;
+    border-radius: 30px;
+    padding: 2px 10px;
+    background: #f86b84;
+    color: #fff;
+    font-size: 0.8em;
+}
+
+.map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-upt {
+    float: right;
+    border: 1px solid #fff;
+    border-radius: 30px;
+    padding: 2px 10px;
+    color: #fff;
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-contents {
     display: inline-block;
     width: 100%;
