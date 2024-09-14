@@ -403,6 +403,8 @@ function saveMapName(db, mapName) {
 }
 
 async function saveMapInfo() {
+    const updateItem = JSON.parse(localStorage.getItem('updateItem'));
+    const type = updateItem ? 'U' : 'R';
     const mapName = localStorage.getItem("mapName");
     const sigunguCd = localStorage.getItem("sigunguCd");
     const color = document.getElementById('selectedColor').value;
@@ -445,11 +447,83 @@ async function saveMapInfo() {
             tags: tags
         }
 
-        await saveMapInfos(mapName, data);
+        type === 'R' ? await saveMapInfos(mapName, data) : await uptMapInfos(updateItem, mapName, data)
 
         nextPage(3);
     }
 }
+
+async function uptMapInfos(updateItem, mapName, data) {
+    const transaction = db.transaction(["mapNames"], "readwrite");
+    const objectStore = transaction.objectStore("mapNames");
+    const request = objectStore.getAll();
+
+    request.onsuccess = function(event) {
+        const allData = event.target.result;
+        const resultMapInfo = allData.filter(item => item.mapName === mapName);
+
+        if (resultMapInfo.length > 0) {
+            const itemToUpdate = resultMapInfo[0];
+
+            if (!Array.isArray(itemToUpdate.data)) {
+                itemToUpdate.data = [];
+            }
+
+            const existingIndex = itemToUpdate.data.findIndex(existingData => deepEqual(existingData, updateItem[0]));
+
+            if (existingIndex !== -1) {
+                itemToUpdate.data.splice(existingIndex, 1);
+            }
+
+            itemToUpdate.data.push(data);
+
+            const updateRequest = objectStore.put(itemToUpdate);
+
+            updateRequest.onsuccess = function() {
+                console.log("saveMapInfos Data updated successfully:", itemToUpdate);
+            };
+
+            updateRequest.onerror = function(event) {
+                console.error("saveMapInfos infos Update error: " + event.target.errorCode);
+            };
+        }
+    };
+
+    request.onerror = function(event) {
+        console.error("saveMapInfos Request error: " + event.target.errorCode);
+    };
+
+    transaction.onerror = function(event) {
+        console.error("saveMapInfos Transaction error: " + event.target.errorCode);
+    };
+}
+
+function deepEqual(obj1, obj2) {
+
+    if (obj1 === obj2) {
+        return true;
+    }
+
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 === null || obj2 === null) {
+        return false;
+    }
+
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+
+    for (let key of keys1) {
+        if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
 async function saveMapInfos(mapName, data) {
 

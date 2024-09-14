@@ -176,7 +176,7 @@
                     const gigunguNm = await getSigunguName(item);
                     const siNm = sigunguList[item.sigunguCd.substring(0, 2)];
                     p.innerHTML = '<span class="time-tit">' + siNm + ' ' + gigunguNm + '</span>';
-                    p.innerHTML += `<span class="time-upt" onclick="contentsUpdate(${index})">수정</span>`;
+                    p.innerHTML += `<span class="time-upt" onclick="contentsUpdate(${index}, '${siNm}', '${gigunguNm}')">수정</span>`;
                     p.innerHTML += `<span class="time-del" onclick="contentsDelete(${index})">삭제</span>`;
                 })();
             });
@@ -201,9 +201,14 @@
         }
     }
 
-    function contentsUpdate(index) {
-        console.log('수정할 인덱스:', index);
-        // 수정 로직 구현
+    function contentsUpdate(index, siNm, gigunguNm) {
+
+        const items = filteredItems[0].data.splice(index, 1);
+
+        localStorage.setItem('sigunguNm', siNm + ' ' + gigunguNm);
+        localStorage.setItem('updateItem', JSON.stringify(items));
+
+        window.location.href = 'mapInfo.html';
     }
 
     function contentsDelete(index) {
@@ -218,9 +223,9 @@
 
     async function updateIndexedDB(updatedItem) {
 
-        const db = await openIndexedDB('MapColorDB', 1); // IndexedDB 열기
-        const tx = db.transaction('mapNames', 'readwrite'); // 트랜잭션 생성
-        const store = tx.objectStore('mapNames'); // objectStore 가져오기
+        const db = await openIndexedDB('MapColorDB', 1);
+        const tx = db.transaction('mapNames', 'readwrite');
+        const store = tx.objectStore('mapNames');
         const mapName = localStorage.getItem("mapName");
 
         const request = store.get(mapName);

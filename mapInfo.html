@@ -90,11 +90,14 @@
             </div>
             <input type="hidden" id="selectedColor" />
         </div>
-        <div role="button" class="next-btn" onclick="saveMapInfo()">등록</div>
+        <div role="button" class="next-btn" onclick="saveMapInfo();">등록</div>
     </div>
     <script src="src/js/index.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+
+        let type = 'R';
+
+        document.addEventListener('DOMContentLoaded', async function() {
             const mapName = localStorage.getItem("mapName");
             const sigunguNm = localStorage.getItem("sigunguNm").replace(/\s*\(.*?\)\s*/g, ' ');
 
@@ -161,9 +164,50 @@
 
             const firstCircle = document.querySelector('.circle');
             if (firstCircle) {
-                circleClicked(firstCircle, firstCircle.style.backgroundColor);
+                await circleClicked(firstCircle, firstCircle.style.backgroundColor);
+            }
+
+            const updateItem = JSON.parse(localStorage.getItem('updateItem'));
+
+            if(updateItem) {
+
+                type = 'U';
+
+                const item = updateItem[0];
+
+                localStorage.setItem('sigunguCd', item.sigunguCd);
+
+                document.getElementById('strDatePicker').value = item.strDate;
+                document.getElementById('endDatePicker').value = item.endDate;
+                document.getElementById('description').value = item.description;
+
+                if(item.tags.length > 0) {
+                    const tagContainer = document.getElementById('tag-container');
+                    item.tags.forEach((data) => {
+                        const tagElement = document.createElement('div');
+                        tagElement.className = 'tag';
+                        tagElement.textContent = '#' + data;
+
+                        tagContainer.appendChild(tagElement);
+                    });
+                }
+
+                const allCircle = document.querySelectorAll('.circle');
+                allCircle.forEach(circle => {
+                    if(rgbToHex(circle.style.backgroundColor) === item.color) {
+                        circleClicked(circle, item.color);
+                    }
+                });
             }
         });
+
+        function rgbToHex(rgb) {
+            const result = rgb.match(/\d+/g);
+            return "#" + result.map(x => {
+                const hex = parseInt(x).toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            }).join('');
+        }
 
         function circleClicked(element, color) {
 
@@ -180,13 +224,12 @@
             const tagContainer = document.getElementById('tag-container');
 
             if (tagText !== '' && tagContainer.children.length < 3) {
-                const tagContainer = document.getElementById('tag-container');
                 const tagElement = document.createElement('div');
                 tagElement.className = 'tag';
                 tagElement.textContent = '#' + tagText;
 
                 tagContainer.appendChild(tagElement);
-                input.value = ''; // Clear the input field
+                input.value = '';
             } else {
                 input.value = '';
             }
