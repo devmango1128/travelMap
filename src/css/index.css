@@ -1052,15 +1052,20 @@ textarea:focus {
 }
 
 .control_map {
-    top: 8px;
-    left: 12px;
+    padding-left: 12px;
 }
 
 .set_map {
-    position: absolute;
+    position: fixed;
     top: 130px;
     z-index: 999;
-    width: 30px;
+    width: 100%;
+    max-width: 1023px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
 }
 
 .set_map .btn_control {
