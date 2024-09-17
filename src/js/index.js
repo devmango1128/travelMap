@@ -128,7 +128,7 @@ function loadGeoJSON() {
 
                         const sigCd = feature.properties.SIG_CD;
                         const data = mapNames[mapName];
-                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}')"><img src="src/images/plus_icon_w.png" class="plus-img">추가</button></b><br>`;
+                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}', event)"><img src="src/images/plus_icon_w.png" class="plus-img">추가</button></b>`;
                         let popupOptions = {
                             minWidth: 230,
                             maxWidth: 280
@@ -195,7 +195,9 @@ function formatDateToYYMMDD(dateString) {
     return `${year}.${month}.${day}`;
 }
 
-function registerLocation(mapName, sigunguCd) {
+function registerLocation(mapName, sigunguCd, event) {
+
+    event.stopPropagation();
 
     let sigunguNm =  sigunguList[sigunguCd.substring(0, 2)];
 

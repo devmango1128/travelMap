@@ -433,6 +433,7 @@ textarea:focus {
     margin-left: 15px;
     margin-top: 18px;
     margin-right: 5px;
+    line-height: 35px;
 }
 
 .map-names-container div.name-box div.day {
@@ -1065,7 +1066,6 @@ textarea:focus {
     position: fixed;
     top: 130px;
     z-index: 999;
-    width: 100%;
     max-width: 1023px;
     margin: 0 auto;
     display: flex;
@@ -1128,6 +1128,12 @@ textarea:focus {
 .label-tit {
     color: #3496ff;
     font-size: 1.0em;
+    align-items: center;
+    display: flex;
+    height: 30px;
+    max-height: 20px;
+    width: 100%;
+    padding-bottom:5px;
 }
 
 .label-date {
@@ -1170,7 +1176,7 @@ textarea:focus {
     box-sizing: border-box;
     justify-items: center;
     font-size: 0.8em;
-    float:right;
+    margin-left: auto;
 }
 
 .map-reg-btn .plus-img {
