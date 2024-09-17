@@ -135,7 +135,7 @@ function loadGeoJSON() {
                         };
 
                         if(data) {
-                            popupContent += '<div class="lable-area" style="overflow-y:auto; height:200px; width:100%;">';
+                            popupContent += '<div class="lable-area" style="overflow-y:auto; max-height:200px; width:100%;">';
                             data.forEach((map, index) => {
                                 if(map.sigunguCd.substring(2, 8) === sigCd) {
                                     popupContent += '<hr>';
