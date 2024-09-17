@@ -141,7 +141,7 @@
                 const strDate = formatWithoutYear(strDateObj);
                 const endDate = formatWithoutYear(endDateObj);
 
-                span.innerHTML = strDate + ' ~ ' + endDate;
+                span.innerHTML = strDate + '~' + endDate;
                 time.appendChild(span);
 
                 const div = document.createElement('div');
@@ -152,6 +152,24 @@
 
                 const p = document.createElement('p');
                 div2.appendChild(p);
+
+                let imgDiv = document.createElement('div');
+
+                if (item.image && item.image instanceof Blob) {
+                    const imgURL = URL.createObjectURL(item.image);
+                    imgDiv.className = 'label-image';
+
+                    const img = document.createElement('img');
+                    img.src = `${imgURL}`;
+                    img.style.width = '50px';
+                    img.style.display = 'block';
+                    img.style.marginTop = '10px';
+                    imgDiv.appendChild(img);
+
+                    setTimeout(() => URL.revokeObjectURL(imgURL), 100);
+                }
+
+                div2.appendChild(imgDiv);
 
                 const span2 = document.createElement('span');
                 span2.className = 'span-contents';

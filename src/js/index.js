@@ -135,12 +135,20 @@ function loadGeoJSON() {
                         };
 
                         if(data) {
+                            popupContent += '<div class="lable-area" style="overflow-y:auto; height:200px; width:100%;">';
                             data.forEach((map, index) => {
                                 if(map.sigunguCd.substring(2, 8) === sigCd) {
                                     popupContent += '<hr>';
+
                                     const formattedStrDate = formatDateToYYMMDD(map.strDate);
                                     const formattedEndDate = formatDateToYYMMDD(map.endDate);
                                     popupContent += (map ? `<div class="label-date">${formattedStrDate}~${formattedEndDate}</div>` : "");
+                                    if (map.image && map.image instanceof Blob) {
+                                        const imgURL = URL.createObjectURL(map.image);
+                                        popupContent += `<div class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
+
+                                        setTimeout(() => URL.revokeObjectURL(imgURL), 100);
+                                    }
                                     const formattedDescription = map.description.replace(/\n/g, '<br>');
                                     popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
                                     if (map.tags && map.tags.length > 0) {
@@ -148,6 +156,7 @@ function loadGeoJSON() {
                                     }
                                 }
                             });
+                            popupContent += '</div>';
                         }
 
                         layer.bindPopup(popupContent, popupOptions).openPopup();
@@ -437,6 +446,24 @@ async function saveMapInfo() {
         valid = false;
     }
 
+    const fileInput = document.getElementById('fileInput');
+    const imageFile = fileInput.files[0]; // 선택된 파일
+    let imageBlob = null;
+
+    if (imageFile) {
+        imageBlob = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const blob = new Blob([event.target.result], { type: imageFile.type });
+                resolve(blob);
+            };
+            reader.onerror = function(event) {
+                reject(event.target.error);
+            };
+            reader.readAsArrayBuffer(imageFile);
+        });
+    }
+
     if (valid) {
         const data = {
             sigunguCd: sigunguCd,
@@ -444,7 +471,8 @@ async function saveMapInfo() {
             strDate: strDate,
             endDate: endDate,
             description: description,
-            tags: tags
+            tags: tags,
+            image: imageBlob
         }
 
         type === 'R' ? await saveMapInfos(mapName, data) : await uptMapInfos(updateItem, mapName, data)
@@ -480,6 +508,7 @@ async function uptMapInfos(updateItem, mapName, data) {
             const updateRequest = objectStore.put(itemToUpdate);
 
             updateRequest.onsuccess = function() {
+                localStorage.removeItem('updateItem');
                 console.log("saveMapInfos Data updated successfully:", itemToUpdate);
             };
 

@@ -734,7 +734,8 @@ textarea:focus {
 
 .map-info-container .date-area div.tit
 , .map-info-container .desc-area div.tit
-, .map-info-container .color-area div.tit {
+, .map-info-container .color-area div.tit
+, .map-info-container .file-upload-area div.tit{
     display: inline-block;
     width: 100%;
     margin-top: 10px;
@@ -892,7 +893,7 @@ textarea:focus {
     bottom: 0;
     width: 3px;
     background: #afdcf8;
-    left: 100px;
+    left: 91px;
     transform: translateX(-50%);
 }
 
@@ -942,13 +943,14 @@ textarea:focus {
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-tit {
     float: left;
     flex: 1;
+    font-size: 0.9em;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-del {
     float: right;
     border: 1px solid #f86b84;
     border-radius: 30px;
-    padding: 2px 10px;
+    padding: 2px 8px;
     background: #f86b84;
     color: #fff;
     font-size: 0.8em;
@@ -958,7 +960,7 @@ textarea:focus {
     float: right;
     border: 1px solid #fff;
     border-radius: 30px;
-    padding: 2px 10px;
+    padding: 2px 8px;
     color: #fff;
     margin-right: 5px;
     font-size: 0.8em;
@@ -1017,10 +1019,14 @@ textarea:focus {
     box-shadow: 0 0 0 5px #97c6f9;
     text-align: center;
     position: absolute;
-    left: 100px;
+    left: 91px;
     transform: translateX(-50%);
     top: 15px;
     z-index: 1;
+}
+
+.map-timeLine-container .label-image {
+    margin-bottom:5px;
 }
 
 #map {
@@ -1232,4 +1238,63 @@ textarea:focus {
     border-color: #ffaa00 !important;
     color: #fff !important;
     background: #ffaa00 !important;
+}
+
+.file-upload-area {
+    display: flex;
+    width: 100%;
+    max-width: 1024px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 7px 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color:#282828;
+    border: 1px solid #b6b4b4;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.thumbnail-area {
+    display: flex;
+    width: 100%;
+}
+
+.file-upload-thumbnail {
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.file-upload-preview {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.next-btn {
+    background-color: #3496ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.next-btn:hover {
+    background-color: #0077ff;
 }

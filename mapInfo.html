@@ -21,6 +21,16 @@
     </div>
     <div class="map-info-container">
         <span class="page-title" id="pageTitle"></span>
+        <div class="file-upload-area">
+            <div class="tit">대표사진<span class="error-message" id="image-error"></span></div>
+            <label for="fileInput" class="file-upload-label">이미지 업로드</label>
+            <input type="file" id="fileInput" accept="image/*" />
+            <div class="thumbnail-area">
+                <img id="thumbnail" class="file-upload-thumbnail" style="display: none;">
+            </div>
+            <div class="file-upload-preview" id="fileNamePreview"></div>
+        </div>
+        <div class="hr"></div>
         <div class="date-area">
             <div class="tit">여행기간<span class="error-message" id="date-error"></span></div>
             <br>
@@ -167,6 +177,25 @@
                 await circleClicked(firstCircle, firstCircle.style.backgroundColor);
             }
 
+            document.getElementById('fileInput').addEventListener('change', function() {
+                const fileInput = document.getElementById('fileInput');
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const fileName = file.name;
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const thumbnail = document.getElementById('thumbnail');
+                        thumbnail.src = e.target.result;
+                        thumbnail.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    document.getElementById('thumbnail').style.display = 'none';
+                }
+            });
+
             const updateItem = JSON.parse(localStorage.getItem('updateItem'));
 
             if(updateItem) {
@@ -246,6 +275,18 @@
             }
 
             document.querySelector('.this_numbering._count_num').textContent = `${intrIntrcn}/${maxLength}`;
+        }
+
+        function uploadImage() {
+            const fileInput = document.getElementById('fileInput');
+            const imageFile = fileInput.files[0];
+
+            if (imageFile) {
+                // IndexedDB에 저장하는 로직
+                saveImageToIndexedDB(imageFile);
+            } else {
+                alert('이미지를 선택해 주세요.');
+            }
         }
     </script>
 </body>
