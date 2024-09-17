@@ -142,7 +142,13 @@ function loadGeoJSON() {
 
                                     const formattedStrDate = formatDateToYYMMDD(map.strDate);
                                     const formattedEndDate = formatDateToYYMMDD(map.endDate);
+                                    popupContent += `<div style="display: flex">`;
                                     popupContent += (map ? `<div class="label-date">${formattedStrDate}~${formattedEndDate}</div>` : "");
+                                    popupContent += `<div style="margin-left:auto; padding-right:10px; font-size:0.9em;">`;
+                                    popupContent += `<div class="label-upt" style="float:right"> • 수정</div>`;
+                                    popupContent += `<div class="label-upt" style="float:right">삭제 </div>`;
+                                    popupContent += `</div>`;
+                                    popupContent += `</div>`;
                                     if (map.image && map.image instanceof Blob) {
                                         const imgURL = URL.createObjectURL(map.image);
                                         popupContent += `<div class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;

@@ -1149,7 +1149,7 @@ textarea:focus {
     overflow-wrap: break-word;
 }
 
-.label-date, .label-desc {
+.label-desc {
     margin-bottom: 5px;
 }
 
