@@ -213,16 +213,12 @@ function escapeHtml(unsafe) {
 }
 
 function popupUpdate(index, siNm, gigunguNm, filteredItems, evnet) {
-
     event.preventDefault();
 
     const filteredData = JSON.parse(filteredItems);
-
-    filteredData.splice(index, 1);
-
+    const newData = filteredData.splice(index, 1);
     localStorage.setItem('sigunguNm', siNm + ' ' + gigunguNm);
-    console.log(filteredData);
-    localStorage.setItem('updateItem', JSON.stringify(filteredData));
+    localStorage.setItem('updateItem', JSON.stringify(newData));
 
     window.location.href = 'mapInfo.html';
 }
@@ -255,8 +251,6 @@ async function updateIndexedDB(updatedItem) {
         const data = event.target.result;
 
         if (data) {
-            console.log(data.data );
-            console.log(updatedItem);
             data.data = updatedItem;
             store.put(data);
 
@@ -538,18 +532,14 @@ async function saveMapInfo() {
     }
 
     const fileInput = document.getElementById('fileInput');
-    const imageFile = fileInput.files[0]; // 선택된 파일
-    let imageBlob = null;
+    const file = fileInput.files[0];
     let base64Image = null;
 
-    if (imageFile) {
-        try {
-
-            imageBlob = await compressImage(imageFile, 50, 48, 0.7);
-            base64Image = await blobToBase64(imageBlob);
-        } catch (error) {
-            console.error('이미지 압축 중 오류 발생:', error);
-        }
+    if (file) {
+        const imageBlob = await compressImage(file, 50, 48, 0.7);
+        base64Image = await blobToBase64(imageBlob);
+    } else if (type === 'U' && updateItem[0].image) {
+        base64Image = updateItem[0].image;
     }
 
     if (valid) {
@@ -564,7 +554,7 @@ async function saveMapInfo() {
         }
 
         type === 'R' ? await saveMapInfos(mapName, data) : await uptMapInfos(updateItem, mapName, data)
-
+        if(type === 'U') localStorage.removeItem('updateItem');
         nextPage(3);
     }
 }

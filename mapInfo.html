@@ -203,7 +203,7 @@
                 const item = updateItem[0];
 
                 localStorage.setItem('sigunguCd', item.sigunguCd);
-                console.log(item.image);
+
                 if(item.image) {
                     const mimeType = "image/jpeg";
                     const imageBlob = base64ToBlob(item.image, mimeType);
