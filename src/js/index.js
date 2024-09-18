@@ -533,17 +533,14 @@ async function saveMapInfo() {
     let imageBlob = null;
 
     if (imageFile) {
-        imageBlob = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const blob = new Blob([event.target.result], { type: imageFile.type });
-                resolve(blob);
-            };
-            reader.onerror = function(event) {
-                reject(event.target.error);
-            };
-            reader.readAsArrayBuffer(imageFile);
-        });
+        try {
+
+            imageBlob = await compressImage(imageFile, 50, 48, 0.7);
+            console.log('압축된 이미지 Blob:', imageBlob);
+
+        } catch (error) {
+            console.error('이미지 압축 중 오류 발생:', error);
+        }
     }
 
     if (valid) {
@@ -561,6 +558,59 @@ async function saveMapInfo() {
 
         nextPage(3);
     }
+}
+
+function compressImage(file, maxWidth, maxHeight, quality) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.src = event.target.result;
+
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                let width = img.width;
+                let height = img.height;
+
+                // 비율 유지하며 크기 조정
+                if (width > maxWidth || height > maxHeight) {
+                    if (width > height) {
+                        height = Math.round((height *= maxWidth / width));
+                        width = maxWidth;
+                    } else {
+                        width = Math.round((width *= maxHeight / height));
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // 압축된 이미지 생성
+                canvas.toBlob(
+                    (blob) => {
+                        resolve(blob);
+                    },
+                    file.type, // 파일의 원본 타입
+                    quality // 품질 (0.0 ~ 1.0)
+                );
+            };
+
+            img.onerror = function() {
+                reject(new Error('이미지 로딩에 실패했습니다.'));
+            };
+        };
+
+        reader.onerror = function(event) {
+            reject(event.target.error);
+        };
+
+        reader.readAsDataURL(file); // 이미지 데이터를 읽어옴
+    });
 }
 
 async function uptMapInfos(updateItem, mapName, data) {

@@ -182,8 +182,6 @@
                 const file = fileInput.files[0];
 
                 if (file) {
-                    const fileName = file.name;
-
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         const thumbnail = document.getElementById('thumbnail');
@@ -275,18 +273,6 @@
             }
 
             document.querySelector('.this_numbering._count_num').textContent = `${intrIntrcn}/${maxLength}`;
-        }
-
-        function uploadImage() {
-            const fileInput = document.getElementById('fileInput');
-            const imageFile = fileInput.files[0];
-
-            if (imageFile) {
-                // IndexedDB에 저장하는 로직
-                saveImageToIndexedDB(imageFile);
-            } else {
-                alert('이미지를 선택해 주세요.');
-            }
         }
     </script>
 </body>
