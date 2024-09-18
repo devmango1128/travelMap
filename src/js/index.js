@@ -127,6 +127,7 @@ function loadGeoJSON() {
                     click: (e) => {
 
                         const sigCd = feature.properties.SIG_CD;
+                        const siNm = sigunguList[sigCd.substring(0, 2)];
                         const data = mapNames[mapName];
                         let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}', event)"><img src="src/images/plus_icon_w.png" class="plus-img">추가</button></b>`;
                         let popupOptions = {
@@ -136,32 +137,34 @@ function loadGeoJSON() {
 
                         if(data) {
                             popupContent += '<div class="lable-area" style="overflow-y:auto; max-height:200px; width:100%;">';
-                            data.forEach((map, index) => {
-                                if(map.sigunguCd.substring(2, 8) === sigCd) {
-                                    popupContent += '<hr>';
+                            if (Array.isArray(data)) {
+                                data.forEach((map, index) => {
+                                    if (map.sigunguCd.substring(2, 8) === sigCd) {
+                                        popupContent += '<hr>';
 
-                                    const formattedStrDate = formatDateToYYMMDD(map.strDate);
-                                    const formattedEndDate = formatDateToYYMMDD(map.endDate);
-                                    popupContent += `<div style="display: flex">`;
-                                    popupContent += (map ? `<div class="label-date">${formattedStrDate}~${formattedEndDate}</div>` : "");
-                                    popupContent += `<div style="margin-left:auto; padding-right:10px; font-size:0.9em;">`;
-                                    popupContent += `<div class="label-upt" style="float:right"> • 수정</div>`;
-                                    popupContent += `<div class="label-upt" style="float:right">삭제 </div>`;
-                                    popupContent += `</div>`;
-                                    popupContent += `</div>`;
-                                    if (map.image && map.image instanceof Blob) {
-                                        const imgURL = URL.createObjectURL(map.image);
-                                        popupContent += `<div class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
+                                        const formattedStrDate = formatDateToYYMMDD(map.strDate);
+                                        const formattedEndDate = formatDateToYYMMDD(map.endDate);
+                                        popupContent += `<div style="display: flex">`;
+                                        popupContent += (map ? `<div class="label-date">${formattedStrDate}~${formattedEndDate}</div>` : "");
+                                        popupContent += `<div style="margin-left:auto; padding-right:10px; font-size:0.8em; align-self: center; color:#b6b4b4;">`;
+                                        popupContent += `<div class="label-upt" style="float:right;" onclick="popupDelete(${index}, '${escapeHtml(JSON.stringify(data))}')"> 삭제</div>`;
+                                        popupContent += `<div class="label-upt" style="float:right;" onclick="popupUpdate(${index}, '${siNm}', '${feature.properties.SIG_KOR_NM}', '${escapeHtml(JSON.stringify(data))}')">수정&nbsp;•&nbsp;</div>`;
+                                        popupContent += `</div>`;
+                                        popupContent += `</div>`;
+                                        if (map.image && map.image instanceof Blob) {
+                                            const imgURL = URL.createObjectURL(map.image);
+                                            popupContent += `<div class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
 
-                                        setTimeout(() => URL.revokeObjectURL(imgURL), 100);
+                                            setTimeout(() => URL.revokeObjectURL(imgURL), 100);
+                                        }
+                                        const formattedDescription = map.description.replace(/\n/g, '<br>');
+                                        popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
+                                        if (map.tags && map.tags.length > 0) {
+                                            popupContent += `<div class="hash-area">${map.tags.map(tag => `<span class="hash">#</span>${tag}`).join(' ')}</div>`;
+                                        }
                                     }
-                                    const formattedDescription = map.description.replace(/\n/g, '<br>');
-                                    popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
-                                    if (map.tags && map.tags.length > 0) {
-                                        popupContent += `<div class="hash-area">${map.tags.map(tag => `<span class="hash">#</span>${tag}`).join(' ')}</div>`;
-                                    }
-                                }
-                            });
+                                });
+                            }
                             popupContent += '</div>';
                         }
 
@@ -190,6 +193,75 @@ function loadGeoJSON() {
 
         await loadRegions(mapName);
     });
+}
+
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t')
+        .replace(/\\/g, '\\\\')
+        .replace(/"/g, '\\"');
+}
+
+function popupUpdate(index, siNm, gigunguNm, filteredItems) {
+    console.log(siNm,gigunguNm );
+    const filteredData = JSON.parse(filteredItems);
+
+    filteredData.splice(index, 1);
+
+    localStorage.setItem('sigunguNm', siNm + ' ' + gigunguNm);
+    localStorage.setItem('updateItem', JSON.stringify(filteredData));
+
+    window.location.href = 'mapInfo.html';
+}
+
+function popupDelete(index, filteredItems) {
+    const filteredData = JSON.parse(filteredItems);
+
+    filteredData.splice(index, 1);
+    updateIndexedDB(filteredData).then(() => {
+        location.reload();
+    }).catch((error) => {
+        console.error("데이터 삭제 중 오류 발생", error);
+    });
+}
+
+
+async function updateIndexedDB(updatedItem) {
+
+    const db = await openIndexedDB('MapColorDB', 1);
+    const tx = db.transaction('mapNames', 'readwrite');
+    const store = tx.objectStore('mapNames');
+    const mapName = localStorage.getItem("mapName");
+
+    const request = store.get(mapName);
+
+    request.onsuccess = function(event) {
+        const data = event.target.result;
+
+        if (data) {
+            console.log(data.data );
+            console.log(updatedItem);
+            data.data = updatedItem;
+            store.put(data);
+
+            console.log("IndexedDB에 업데이트 완료", data);
+        } else {
+            console.error("데이터를 찾을 수 없습니다.");
+        }
+    };
+
+    request.onerror = function(event) {
+        console.error("IndexedDB 요청 오류", event);
+    };
+
+    await tx.complete;
 }
 
 function formatDateToYYMMDD(dateString) {
@@ -305,14 +377,16 @@ function loadRegions(mapName) {
                 const sigunguCd = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
 
                 if(mapNames[mapName]) {
-                    mapNames[mapName].forEach(mapNm => {
-                        if (mapNm.sigunguCd === sigunguCd && mapNm.color) {
-                            layer.setStyle({
-                                fillColor: mapNm.color,
-                                fillOpacity: 1
-                            });
-                        }
-                    });
+                    if (Array.isArray(mapNames[mapName])) {
+                        mapNames[mapName].forEach(mapNm => {
+                            if (mapNm.sigunguCd === sigunguCd && mapNm.color) {
+                                layer.setStyle({
+                                    fillColor: mapNm.color,
+                                    fillOpacity: 1
+                                });
+                            }
+                        });
+                    }
                 }
             });
         }

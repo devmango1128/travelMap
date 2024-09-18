@@ -174,15 +174,15 @@
                     const filteredItems = allDatas.filter(item => item.mapName === data.mapName);
 
                     const uniqueSigunguSet = filteredItems.reduce((acc, current) => {
-
                         if(current.data === undefined) current['data'] = [];
-
-                        current.data.forEach(item => {
-                            const key = item.sigunguCd;
-                            if (key && !acc.has(key)) {
-                                acc.add(key);
-                            }
-                        });
+                        if (Array.isArray(current.data)) {
+                            current.data.forEach(item => {
+                                const key = item.sigunguCd;
+                                if (key && !acc.has(key)) {
+                                    acc.add(key);
+                                }
+                            });
+                        }
                         return acc;
                     }, new Set());
 

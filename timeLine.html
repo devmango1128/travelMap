@@ -36,12 +36,14 @@
 
             if(current.data === undefined) current['data'] = [];
 
-            current.data.forEach(item => {
-                const key = item.sigunguCd;
-                if (key && !acc.has(key)) {
-                    acc.add(key);
-                }
-            });
+            if (Array.isArray(current.data)) {
+                current.data.forEach(item => {
+                    const key = item.sigunguCd;
+                    if (key && !acc.has(key)) {
+                        acc.add(key);
+                    }
+                });
+            }
             return acc;
         }, new Set());
 
@@ -202,6 +204,7 @@
         }
     });
 
+
     async function getSigunguName(item) {
         try {
             const response = await fetch(sigunguJsonUrl);
@@ -234,40 +237,10 @@
         filteredItems[0].data.splice(index, 1);
 
         updateIndexedDB(filteredItems[0]).then(() => {
-                location.reload();
-            }).catch((error) => {
-                console.error("데이터 삭제 중 오류 발생", error);
-            });
-    }
-
-    async function updateIndexedDB(updatedItem) {
-
-        const db = await openIndexedDB('MapColorDB', 1);
-        const tx = db.transaction('mapNames', 'readwrite');
-        const store = tx.objectStore('mapNames');
-        const mapName = localStorage.getItem("mapName");
-
-        const request = store.get(mapName);
-
-        request.onsuccess = function(event) {
-            const data = event.target.result;
-
-            if (data) {
-
-                data.data = updatedItem.data;
-                store.put(data);
-
-                console.log("IndexedDB에 업데이트 완료", data);
-            } else {
-                console.error("데이터를 찾을 수 없습니다.");
-            }
-        };
-
-        request.onerror = function(event) {
-            console.error("IndexedDB 요청 오류", event);
-        };
-
-        await tx.complete;
+            location.reload();
+        }).catch((error) => {
+            console.error("데이터 삭제 중 오류 발생", error);
+        });
     }
 </script>
 </body>
