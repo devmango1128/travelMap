@@ -31,6 +31,7 @@
             <div class="menu-box" onclick="deleteMapInfo()">
                 데이터 초기화
             </div>
+            <div class="menu-box" id="storageUsage"></div>
             <span class="dev-title">개발자 어플 더보기</span>
             <div class="menu-box">
                 <ul>
@@ -48,4 +49,37 @@
     </body>
 </html>
 <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+
+        const usageStorage = document.getElementById('storageUsage');
+
+        const ul = document.createElement('ul');
+
+        if ('storage' in navigator && 'estimate' in navigator.storage) {
+            navigator.storage.estimate().then(estimate => {
+                const quota = estimate.quota;// 할당된 총 용량 (바이트 단위)
+                const usage = estimate.usage;// 현재 사용 중인 용량 (바이트 단위)
+
+                const li1 = document.createElement('li');
+                li1.innerHTML = `총 용량: ${(quota / (1024 * 1024)).toFixed(2)} MB`;
+                ul.appendChild(li1);
+                const li11 = document.createElement('li');
+                li11.className = 'b-border'
+                ul.appendChild(li11);
+                const li2 = document.createElement('li');
+                li2.innerHTML = `사용 중인 용량: ${(usage / (1024 * 1024)).toFixed(2)} MB`;
+                ul.appendChild(li2);
+                const li3 = document.createElement('li');
+                li3.innerHTML = `남은 용량: ${((quota - usage) / (1024 * 1024)).toFixed(2)} MB`;
+                ul.appendChild(li3);
+            });
+        } else {
+
+            const li = document.createElement('li');
+            li.innerHTML = 'StorageManager API가 지원되지 않습니다.';
+            ul.appendChild(li);
+        }
+
+        usageStorage.appendChild(ul);
+    });
 </script>
