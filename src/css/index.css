@@ -360,6 +360,7 @@ textarea:focus {
 
 .map-names-container div.name-box div.img-div {
     display: flex;
+    vertical-align: bottom;
 }
 
 .map-names-container div.name-box div.statis-div {
