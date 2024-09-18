@@ -149,8 +149,8 @@ function loadGeoJSON() {
                                         popupContent += `<div style="display: flex">`;
                                         popupContent += (map ? `<div class="label-date">${formattedStrDate}~${formattedEndDate}</div>` : "");
                                         popupContent += `<div style="margin-left:auto; padding-right:10px; font-size:0.8em; align-self: center; color:#b6b4b4;">`;
-                                        popupContent += `<div class="label-upt" style="float:right; color:#f86b84 " onclick="popupDelete(${index}, '${escapeHtml(JSON.stringify(data))}')"> 삭제</div>`;
-                                        popupContent += `<div class="label-upt" style="float:right;" onclick="popupUpdate(${index}, '${siNm}', '${feature.properties.SIG_KOR_NM}', '${escapeHtml(JSON.stringify(data))}')">수정&nbsp;•&nbsp;</div>`;
+                                        popupContent += `<div class="label-upt" style="float:right; color:#f86b84;" onclick="popupDelete(${index}, '${escapeHtml(JSON.stringify(data))}',event)"> 삭제</div>`;
+                                        popupContent += `<div class="label-upt" style="float:right;" onclick="popupUpdate(${index}, '${siNm}', '${feature.properties.SIG_KOR_NM}', '${escapeHtml(JSON.stringify(data))}',event)">수정&nbsp;•&nbsp;</div>`;
                                         popupContent += `</div>`;
                                         popupContent += `</div>`;
 
@@ -212,18 +212,25 @@ function escapeHtml(unsafe) {
         .replace(/"/g, '\\"');
 }
 
-function popupUpdate(index, siNm, gigunguNm, filteredItems) {
+function popupUpdate(index, siNm, gigunguNm, filteredItems, evnet) {
+
+    event.preventDefault();
+
     const filteredData = JSON.parse(filteredItems);
 
     filteredData.splice(index, 1);
 
     localStorage.setItem('sigunguNm', siNm + ' ' + gigunguNm);
+    console.log(filteredData);
     localStorage.setItem('updateItem', JSON.stringify(filteredData));
 
     window.location.href = 'mapInfo.html';
 }
 
-function popupDelete(index, filteredItems) {
+function popupDelete(index, filteredItems, event) {
+
+    event.preventDefault();
+
     const filteredData = JSON.parse(filteredItems);
 
     filteredData.splice(index, 1);
