@@ -138,21 +138,24 @@ function loadGeoJSON() {
                         if(data) {
                             popupContent += '<div class="lable-area" style="overflow-y:auto; max-height:200px; width:100%;">';
                             if (Array.isArray(data)) {
-                                data.forEach((map, index) => {
+                                data.forEach(async (map, index) => {
                                     if (map.sigunguCd.substring(2, 8) === sigCd) {
+
                                         popupContent += '<hr>';
 
                                         const formattedStrDate = formatDateToYYMMDD(map.strDate);
                                         const formattedEndDate = formatDateToYYMMDD(map.endDate);
+
                                         popupContent += `<div style="display: flex">`;
                                         popupContent += (map ? `<div class="label-date">${formattedStrDate}~${formattedEndDate}</div>` : "");
                                         popupContent += `<div style="margin-left:auto; padding-right:10px; font-size:0.8em; align-self: center; color:#b6b4b4;">`;
-                                        popupContent += `<div class="label-upt" style="float:right;" onclick="popupDelete(${index}, '${escapeHtml(JSON.stringify(data))}')"> 삭제</div>`;
+                                        popupContent += `<div class="label-upt" style="float:right; color:#f86b84 " onclick="popupDelete(${index}, '${escapeHtml(JSON.stringify(data))}')"> 삭제</div>`;
                                         popupContent += `<div class="label-upt" style="float:right;" onclick="popupUpdate(${index}, '${siNm}', '${feature.properties.SIG_KOR_NM}', '${escapeHtml(JSON.stringify(data))}')">수정&nbsp;•&nbsp;</div>`;
                                         popupContent += `</div>`;
                                         popupContent += `</div>`;
-                                        if (map.image && map.image instanceof Blob) {
-                                            const imgURL = URL.createObjectURL(map.image);
+
+                                        if (map.image) {
+                                            const imgURL = URL.createObjectURL(base64ToBlob(map.image));
                                             popupContent += `<div class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
 
                                             setTimeout(() => URL.revokeObjectURL(imgURL), 100);
@@ -210,7 +213,6 @@ function escapeHtml(unsafe) {
 }
 
 function popupUpdate(index, siNm, gigunguNm, filteredItems) {
-    console.log(siNm,gigunguNm );
     const filteredData = JSON.parse(filteredItems);
 
     filteredData.splice(index, 1);
@@ -531,13 +533,13 @@ async function saveMapInfo() {
     const fileInput = document.getElementById('fileInput');
     const imageFile = fileInput.files[0]; // 선택된 파일
     let imageBlob = null;
+    let base64Image = null;
 
     if (imageFile) {
         try {
 
             imageBlob = await compressImage(imageFile, 50, 48, 0.7);
-            console.log('압축된 이미지 Blob:', imageBlob);
-
+            base64Image = await blobToBase64(imageBlob);
         } catch (error) {
             console.error('이미지 압축 중 오류 발생:', error);
         }
@@ -551,13 +553,33 @@ async function saveMapInfo() {
             endDate: endDate,
             description: description,
             tags: tags,
-            image: imageBlob
+            image: base64Image
         }
 
         type === 'R' ? await saveMapInfos(mapName, data) : await uptMapInfos(updateItem, mapName, data)
 
         nextPage(3);
     }
+}
+
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result); // Base64 데이터 반환
+        reader.onerror = reject;
+        reader.readAsDataURL(blob); // Blob을 Base64로 변환
+    });
+}
+
+function base64ToBlob(base64, mimeType) {
+    if (!base64) return undefined;
+    const byteCharacters = atob(base64.split(',')[1]);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
 }
 
 function compressImage(file, maxWidth, maxHeight, quality) {

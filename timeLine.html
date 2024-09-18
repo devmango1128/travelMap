@@ -157,8 +157,9 @@
 
                 let imgDiv = document.createElement('div');
 
-                if (item.image && item.image instanceof Blob) {
-                    const imgURL = URL.createObjectURL(item.image);
+                if (item.image) {
+
+                    const imgURL = URL.createObjectURL(base64ToBlob(item.image));
                     imgDiv.className = 'label-image';
 
                     const img = document.createElement('img');
@@ -223,7 +224,7 @@
         }
     }
 
-    function contentsUpdate(index, siNm, gigunguNm) {
+    async function contentsUpdate(index, siNm, gigunguNm) {
 
         const items = filteredItems[0].data.splice(index, 1);
 

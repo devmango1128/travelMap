@@ -203,6 +203,19 @@
                 const item = updateItem[0];
 
                 localStorage.setItem('sigunguCd', item.sigunguCd);
+                console.log(item.image);
+                if(item.image) {
+                    const mimeType = "image/jpeg";
+                    const imageBlob = base64ToBlob(item.image, mimeType);
+                    const imgURL = URL.createObjectURL(imageBlob);
+                    const imgPreview = document.getElementById('thumbnail');
+                    imgPreview.src = imgURL;
+                    imgPreview.style.display = 'block';
+
+                    setTimeout(() => {
+                        URL.revokeObjectURL(imgURL);
+                    }, 100);
+                }
 
                 document.getElementById('strDatePicker').value = item.strDate;
                 document.getElementById('endDatePicker').value = item.endDate;

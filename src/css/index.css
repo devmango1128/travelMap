@@ -441,6 +441,7 @@ textarea:focus {
     font-size: 1.9em;
     font-weight: bold;
     margin-top: 6px;
+    height: 40px;
 }
 
 .map-names-container div.name-box div.day span {
@@ -1261,9 +1262,9 @@ input[type="file"] {
 .file-upload-label {
     display: inline-block;
     padding: 7px 10px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color:#282828;
+    font-size: 0.7rem;
+    font-family: "NanumGothic", serif;
+    color:#b6b4b4;
     border: 1px solid #b6b4b4;
     border-radius: 5px;
     cursor: pointer;
