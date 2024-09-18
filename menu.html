@@ -61,7 +61,7 @@
                 const usage = estimate.usage;// 현재 사용 중인 용량 (바이트 단위)
 
                 const li1 = document.createElement('li');
-                li1.innerHTML = `총 용량: ${(quota / (1024 * 1024)).toFixed(2)} MB`;
+                li1.innerHTML = `저장 가능한 용량: ${(quota / (1024 * 1024)).toFixed(2)} MB`;
                 ul.appendChild(li1);
                 const li11 = document.createElement('li');
                 li11.className = 'b-border'
