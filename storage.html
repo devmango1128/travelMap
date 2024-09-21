@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지도뿌셔 - 대한민국, 어디까지 가봤니?</title>
+    <link rel="stylesheet" href="src/css/index.css" />
+  </head>
+  <body>
+    <div class="header-container">
+      <div class="empty"></div>
+      <span onclick="goMenu('mapNames.html')">지도뿌셔</span>
+      <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
+    </div>
+    <div class="storage-container">
+      <div class="storage-img">
+        <img src="src/images/dropbox.png" alt=""/>
+      </div>
+      <div class="bottom-area">
+        <div class="backup-div">
+          <span>백업하기</span>
+        </div>
+        <div class="restoration-div">
+          <span>복구하기</span>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="src/js/index.js"></script>
+  </body>
+</html>
+<script>
+  document.addEventListener('DOMContentLoaded', async function() {
+
+  });
+</script>

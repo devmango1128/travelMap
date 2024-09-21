@@ -1306,3 +1306,56 @@ input[type="file"] {
 .next-btn:hover {
     background-color: #0077ff;
 }
+
+.storage-container {
+    background-color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0px 10px;
+}
+
+.storage-container .storage-img {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+}
+
+.storage-container .storage-img img {
+    width: 300px;
+    margin-top: -200px;
+}
+
+.storage-container .bottom-area {
+    width: 100%;
+    display: flex;
+    position: fixed;
+    height: 80px;
+    border: 1px solid #e3e3e3;
+    color: #282828;
+    bottom: 0;
+}
+
+.storage-container .bottom-area div {
+    flex: 1px;
+    align-self: center;
+    border-right: 1px solid #e3e3e3;
+    height: 80px;
+    line-height: 80px;
+    margin: auto;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.storage-container .bottom-area div span {
+    height: 80px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 60px;
+}
