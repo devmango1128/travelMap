@@ -130,22 +130,6 @@
                 const time = document.createElement('time');
                 time.className = 'cbp_tmtime';
 
-                const span = document.createElement('span');
-                const strDateObj = new Date(item.strDate);
-                const endDateObj = new Date(item.endDate);
-
-                const formatWithoutYear = (date) => {
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    const day = date.getDate().toString().padStart(2, '0');
-                    return `${month}.${day}`;
-                };
-
-                const strDate = formatWithoutYear(strDateObj);
-                const endDate = formatWithoutYear(endDateObj);
-
-                span.innerHTML = strDate + '~' + endDate;
-                time.appendChild(span);
-
                 const div = document.createElement('div');
                 div.className = 'cbp_tmicon';
 
@@ -174,6 +158,31 @@
                 }
 
                 div2.appendChild(imgDiv);
+
+                const span = document.createElement('span');
+                span.className = 'span-date';
+                const strDateObj = new Date(item.strDate);
+                const endDateObj = new Date(item.endDate);
+
+                const formatWithoutYear = (date) => {
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토']; // 요일 배열
+                    const dayOfWeek = daysOfWeek[date.getDay()]; // 요일 가져오기
+                    return `${month}.${day}.${dayOfWeek}`;
+                };
+
+                const strDate = formatWithoutYear(strDateObj);
+                const endDate = formatWithoutYear(endDateObj);
+
+                if (strDate === endDate) {
+                    span.innerHTML = strDate; // 시작 날짜만 표시
+                } else {
+                    span.innerHTML = strDate + ' ~ ' + endDate; // 시작 날짜와 종료 날짜 모두 표시
+                }
+
+                div2.appendChild(span);
+
 
                 const span2 = document.createElement('span');
                 span2.className = 'span-contents';
