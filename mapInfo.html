@@ -23,10 +23,13 @@
         <span class="page-title" id="pageTitle"></span>
         <div class="file-upload-area">
             <div class="tit">대표사진<span class="error-message" id="image-error"></span></div>
-            <label for="fileInput" class="file-upload-label">이미지 업로드</label>
+            <label for="fileInput" class="file-upload-label">사진 업로드</label>
             <input type="file" id="fileInput" accept="image/*" />
             <div class="thumbnail-area">
-                <img id="thumbnail" class="file-upload-thumbnail" style="display: none;">
+                <div class="thumbnail-wrapper">
+                    <img id="thumbnail" class="file-upload-thumbnail" style="display: none;">
+                    <span id="removeFileBtn" class="remove-btn" style="display: none;" onclick="removeFile()"></span>
+                </div>
             </div>
             <div class="file-upload-preview" id="fileNamePreview"></div>
         </div>
@@ -187,10 +190,12 @@
                         const thumbnail = document.getElementById('thumbnail');
                         thumbnail.src = e.target.result;
                         thumbnail.style.display = 'block';
+                        document.getElementById('removeFileBtn').style.display = 'flex';
                     };
                     reader.readAsDataURL(file);
                 } else {
                     document.getElementById('thumbnail').style.display = 'none';
+                    document.getElementById('removeFileBtn').style.display = 'none';
                 }
             });
 
@@ -240,6 +245,16 @@
                 });
             }
         });
+
+        function removeFile() {
+            const thumbnail = document.getElementById('thumbnail');
+            const fileInput = document.getElementById('fileInput');
+
+            thumbnail.src = '';
+            thumbnail.style.display = 'none';
+            fileInput.value = '';
+            document.getElementById('removeFileBtn').style.display = 'none'; // X 버튼 숨기기
+        }
 
         function rgbToHex(rgb) {
             const result = rgb.match(/\d+/g);

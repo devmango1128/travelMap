@@ -1319,6 +1319,7 @@ input[type="file"] {
 .thumbnail-area {
     display: flex;
     width: 100%;
+    position: relative;
 }
 
 .file-upload-thumbnail {
@@ -1334,6 +1335,38 @@ input[type="file"] {
     margin-left: 10px;
     font-size: 0.8rem;
     color: #666;
+}
+
+.thumbnail-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(40%, 30%);
+    padding: 0;
+}
+
+.remove-btn:after {
+    content: "×";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-color: #f86b84;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
 }
 
 .next-btn {
