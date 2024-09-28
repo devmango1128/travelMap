@@ -33,7 +33,9 @@
                 </ul>
             </div>
             <div class="menu-box" onclick="deleteMapInfo()">
-                데이터 초기화
+                <ul>
+                    <li>데이터 초기화</li>
+                </ul>
             </div>
             <div class="menu-box" id="storageUsage"></div>
             <span class="dev-title">개발자 어플 더보기</span>
@@ -109,14 +111,6 @@
                 container.appendChild(remainingText);
 
                 ul.appendChild(container);
-                //
-                // const li11 = document.createElement('li');
-                // li11.className = 'b-border';
-                // ul.appendChild(li11);
-                //
-                // const li2 = document.createElement('li');
-                // li2.innerHTML = `${(usage / (1024 * 1024 * 1024)).toFixed(2)} / ${((quota - usage) / (1024 * 1024 * 1024)).toFixed(2)} GB`;
-                // ul.appendChild(li2);
             });
         } else {
 
