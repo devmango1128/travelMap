@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>지도뿌셔 - 대한민국, 어디까지 가봤니?</title>
+  <link rel="stylesheet" href="src/css/index.css" />
+</head>
+<body>
+<div class="header-container">
+  <div class="empty"></div>
+  <span onclick="goMenu('mapNames.html')">지도뿌셔</span>
+  <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
+</div>
+<div class="storage-container">
+  <div>
+      백업받기
+  </div>
+  <div>
+    <ul>
+      <li>
+        기기 변경 시 백업파일경로에 저장된 파일을 이동시켜 불러오기 해주세요.
+      </li>
+    </ul>
+    <ul>
+      <li>
+        백업하려는 폰 브라우저 저장 용량이 부족 할 경우 불러오기 되지 않을 수 있어요.
+      </li>
+    </ul>
+  </div>
+</div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="src/js/index.js"></script>
+</body>
+</html>
+<script>
+  document.addEventListener('DOMContentLoaded', async function() {
+
+  });
+</script>

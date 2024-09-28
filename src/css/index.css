@@ -1391,7 +1391,49 @@ input[type="file"] {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    padding: 0px 10px;
+    padding: 0 10px;
+    font-size: 10px;
+    font-family: "NanumGothic", serif;
+    gap: 10px;
+}
+
+.storage-container ul {
+    list-style: none;
+    display: inline;
+}
+
+.storage-container ul li {
+    list-style: none;
+    padding-bottom: 5px;
+}
+
+.storage-container .backup-detail-area {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    flex-wrap: nowrap;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    margin-top: 60px;
+}
+
+.storage-container .backup-info-area {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    flex-wrap: nowrap;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+}
+
+.storage-container .backup-exam-area {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    flex-wrap: nowrap;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 .storage-bar-container {
