@@ -761,8 +761,18 @@ textarea:focus {
     padding: 5px 10px;
     border-radius: 20px;
     margin: 1px;
-    display: inline-block;
+    display: flex;
     font-size: 0.8em;
+    height: 15px;
+    align-self: center;
+}
+
+.map-info-container .tag img {
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-self: center;
+    margin-left: 5px;
 }
 
 .map-info-input-container {

@@ -226,7 +226,7 @@
                     item.tags.forEach((data) => {
                         const tagElement = document.createElement('div');
                         tagElement.className = 'tag';
-                        tagElement.textContent = '#' + data;
+                        tagElement.innerHTML = '#' + data + '<img onclick="fnTagDelete(this)" alt="" src="src/images/remove.png"/>';
 
                         tagContainer.appendChild(tagElement);
                     });
@@ -266,13 +266,17 @@
             if (tagText !== '' && tagContainer.children.length < 3) {
                 const tagElement = document.createElement('div');
                 tagElement.className = 'tag';
-                tagElement.textContent = '#' + tagText;
+                tagElement.innerHTML = '#' + tagText + '<img onclick="fnTagDelete(this)" alt="" src="src/images/remove.png"/>';
 
                 tagContainer.appendChild(tagElement);
                 input.value = '';
             } else {
                 input.value = '';
             }
+        }
+
+        function fnTagDelete(obj) {
+            obj.parentElement.remove();
         }
 
         function validIntr() {
