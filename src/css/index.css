@@ -707,7 +707,7 @@ textarea:focus {
     color: #ffffff;
     font-size: 1em;
     position: absolute;
-    top: 13px;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-weight: bold;
