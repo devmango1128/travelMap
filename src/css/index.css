@@ -177,6 +177,11 @@ textarea:focus {
     padding: 0px 10px;
 }
 
+.map-name-container .text-area {
+    display: inline-flex;
+    width: 100%;
+}
+
 .map-name-container .error-message {
     color: #f43c3c;
     font-size: 0.6em;
@@ -199,6 +204,12 @@ textarea:focus {
     width: 100%;
 }
 
+.map-name-container .btn-area {
+    display: flex;
+    width: 100%;
+    height: 60px;
+}
+
 .map-name-container .next-btn {
     font-weight: bold;
     color: #fff;
@@ -210,6 +221,21 @@ textarea:focus {
     line-height: 25px;
     border-radius: 5px;
     width: 100%;
+}
+
+.map-name-container .cancel-btn {
+    font-weight: bold;
+    color: #3496ff;
+    font-size: 1.0em;
+    border: 1px solid #3496ff;
+    background-color: #ffffff;
+    height: 25px;
+    padding: 15px 5px;
+    line-height: 25px;
+    border-radius: 5px;
+    width: 100%;
+    margin-right:10px;
+    display: none;
 }
 
 .map-name-container .typing {

@@ -14,9 +14,14 @@
         </div>
         <div class="map-name-container">
             <span id="animated-text"></span>
-            <input type="text" id="mapName" placeholder="지도 주제를 입력해주세요.(ex.여행, 출장)" maxlength="10"/>
+            <div class="text-area">
+                <input type="text" id="mapName" placeholder="지도 주제를 입력해주세요.(ex.여행, 출장)" maxlength="10"/>
+            </div>
             <span class="error-message" id="map-name-error"></span>
-            <div class="next-btn" role="button" onclick="mapNameNextPage()">다음</div>
+            <div class="btn-area">
+                <div class="cancel-btn" role="button" onclick="goMenu('mapNames.html')">취소</div>
+                <div class="next-btn" role="button" onclick="mapNameNextPage()">다음</div>
+            </div>
         </div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -32,6 +37,14 @@
 
         const db = await openIndexedDB("MapColorDB", 1);
         const datas = await getAllData(db, "mapNames");
+        let text = '';
+
+        if(datas.length > 0) {
+            text += '다시 ';
+            document.querySelectorAll('.cancel-btn').forEach(btn => {
+                btn.style.display = 'inline-block';
+            });
+        }
 
         if(datas.length >= 3) {
             alert('지도 주제는 3개까지 등록 가능해요.');
@@ -39,7 +52,7 @@
             return;
         }
 
-        const text = '만나서 반가워요 :)';
+        text += '만나서 반가워요 :)';
         const animatedText = document.getElementById('animated-text');
 
         animatedText.textContent = '';
@@ -73,6 +86,12 @@
                 return false;
             }
         });
+
+        if(mapName === '') {
+            document.getElementById('map-name-error').textContent = '지도 주제를 입력해주세요.';
+            valid = false;
+            return false;
+        }
 
         if(valid) saveMapName(db, mapName);
     }
