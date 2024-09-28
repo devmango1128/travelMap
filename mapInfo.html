@@ -216,6 +216,7 @@
                     const imgPreview = document.getElementById('thumbnail');
                     imgPreview.src = imgURL;
                     imgPreview.style.display = 'block';
+                    document.getElementById('removeFileBtn').style.display = 'flex';
 
                     setTimeout(() => {
                         URL.revokeObjectURL(imgURL);
@@ -253,7 +254,8 @@
             thumbnail.src = '';
             thumbnail.style.display = 'none';
             fileInput.value = '';
-            document.getElementById('removeFileBtn').style.display = 'none'; // X 버튼 숨기기
+            document.getElementById('removeFileBtn').style.display = 'none';
+            localStorage.setItem('imageRemove', 'Y');
         }
 
         function rgbToHex(rgb) {

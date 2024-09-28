@@ -539,7 +539,13 @@ async function saveMapInfo() {
         const imageBlob = await compressImage(file, 50, 48, 0.9);
         base64Image = await blobToBase64(imageBlob);
     } else if (type === 'U' && updateItem[0].image) {
-        base64Image = updateItem[0].image;
+        if(localStorage.getItem('imageRemove') !== 'Y') {
+            base64Image = updateItem[0].image;
+        } else {
+            base64Image = null;
+            localStorage.removeItem('imageRemove');
+        }
+
     }
 
     if (valid) {
