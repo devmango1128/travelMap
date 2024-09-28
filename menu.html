@@ -14,8 +14,12 @@
         </div>
         <div class="menu-container">
             <span class="title">설정</span>
-            <div class="menu-box" onclick="goMenu('storage.html')">
-                백업 및 복구
+            <div class="menu-box">
+                <ul>
+                    <li onclick="goMenu('storage.html')">백업하기</li>
+                    <li class="b-border"></li>
+                    <li onclick="goMenu('restored.html')">복구하기</li>
+                </ul>
             </div>
             <div class="menu-box">
                 <ul>
@@ -57,21 +61,62 @@
 
         if ('storage' in navigator && 'estimate' in navigator.storage) {
             navigator.storage.estimate().then(estimate => {
-                const quota = estimate.quota;// 할당된 총 용량 (바이트 단위)
-                const usage = estimate.usage;// 현재 사용 중인 용량 (바이트 단위)
+                const quota = estimate.quota; // 할당된 총 용량 (바이트 단위)
+                const usage = estimate.usage; // 현재 사용 중인 용량 (바이트 단위)
 
                 const li1 = document.createElement('li');
-                li1.innerHTML = `저장 가능한 용량: ${(quota / (1024 * 1024)).toFixed(2)} MB`;
+                li1.innerHTML = `저장 용량`;
                 ul.appendChild(li1);
-                const li11 = document.createElement('li');
-                li11.className = 'b-border'
-                ul.appendChild(li11);
-                const li2 = document.createElement('li');
-                li2.innerHTML = `사용 중인 용량: ${(usage / (1024 * 1024)).toFixed(2)} MB`;
-                ul.appendChild(li2);
-                const li3 = document.createElement('li');
-                li3.innerHTML = `남은 용량: ${((quota - usage) / (1024 * 1024)).toFixed(2)} MB`;
-                ul.appendChild(li3);
+
+                const remaining = quota - usage;
+
+                const usagePercentage = (usage / quota) * 100;
+                const remainingPercentage = (remaining / quota) * 100;
+
+                // 컨테이너 생성
+                const container = document.createElement('div');
+                container.className = 'storage-bar-container';
+                container.style.position = 'relative'; // 숫자 표시를 위해 위치를 상대적으로 설정
+
+                // 사용된 용량 막대 생성
+                const usedBar = document.createElement('div');
+                usedBar.className = 'storage-bar';
+                usedBar.style.width = `${usagePercentage}%`;
+                usedBar.style.backgroundColor = '#3498db'; // 사용 중인 용량의 색상
+
+                // 남은 용량 막대 생성
+                const remainingBar = document.createElement('div');
+                remainingBar.className = 'storage-bar';
+                remainingBar.style.width = `${remainingPercentage}%`;
+                remainingBar.style.backgroundColor = '#2ecc71'; // 남은 용량의 색상
+
+                // 사용된 용량 텍스트 생성
+                const usedText = document.createElement('div');
+                usedText.className = 'storage-text';
+                usedText.style.left = '10px'; // 그래프 왼쪽에 위치
+                usedText.innerHTML = `${(usage / (1024 * 1024 * 1024)).toFixed(2)} GB 사용`;
+
+                // 남은 용량 텍스트 생성
+                const remainingText = document.createElement('div');
+                remainingText.className = 'storage-text';
+                remainingText.style.right = '10px'; // 그래프 오른쪽에 위치
+                remainingText.innerHTML = `${(remaining / (1024 * 1024 * 1024)).toFixed(2)} GB 남음`;
+
+                // 막대 그래프 컨테이너에 추가
+                container.appendChild(usedBar);
+                container.appendChild(remainingBar);
+                container.appendChild(usedText);
+                container.appendChild(remainingText);
+
+                ul.appendChild(container);
+                //
+                // const li11 = document.createElement('li');
+                // li11.className = 'b-border';
+                // ul.appendChild(li11);
+                //
+                // const li2 = document.createElement('li');
+                // li2.innerHTML = `${(usage / (1024 * 1024 * 1024)).toFixed(2)} / ${((quota - usage) / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+                // ul.appendChild(li2);
             });
         } else {
 
