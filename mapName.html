@@ -10,7 +10,7 @@
         <div class="header-container">
             <div class="empty"></div>
             <span onclick="goMenu('mapNames.html')">지도뿌셔</span>
-            <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
+            <img src="src/images/menu_icon.png" alt="" class="menu" onclick="goMenu('menu.html')"/>
         </div>
         <div class="map-name-container">
             <span id="animated-text"></span>
@@ -72,7 +72,7 @@
                 valid = false;
                 return false;
             }
-        })
+        });
 
         if(valid) saveMapName(db, mapName);
     }

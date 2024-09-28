@@ -126,7 +126,7 @@
                                 modifyButton.textContent = '수정하기';
                                 modifyButton.addEventListener('click', (e) => {
                                     e.stopPropagation(); // 이벤트 전파 중지
-                                    fnModify(e, data); // 수정 함수 호출
+                                    fnModify(e, data, index); // 수정 함수 호출
                                 });
 
                                 // 구분선 추가

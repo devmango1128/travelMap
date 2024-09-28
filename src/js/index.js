@@ -992,7 +992,7 @@ async function fnDelete(event, data) {
     };
 }
 
-function fnModify(event, data) {
+function fnModify(event, data, index) {
 
     const div = event.target.closest('.name-box');
 
@@ -1015,13 +1015,27 @@ function fnModify(event, data) {
     }
 
     input.focus();
-    input.addEventListener('blur', () => {
+    input.addEventListener('blur', async () => {
         const newTitDiv = document.createElement('div');
         newTitDiv.className = 'tit-name';
-        newTitDiv.textContent = input.value || currentText; // 빈값일 경우 원래 텍스트 유지
+        // 빈값일 경우 원래 텍스트 유지
+        newTitDiv.textContent = input.value || currentText;
         input.replaceWith(newTitDiv);
 
-        saveNewMapName(data, newTitDiv.textContent);
+        const db = await openIndexedDB("MapColorDB", 1);
+        const allDatas = await getAllData(db, "mapNames");
+        allDatas.sort((a, b) => b.createDate - a.createDate);
+
+        // 동일한 mapName이 이미 존재하는지 확인
+        const isDuplicate = allDatas.some((data2, index2) => index !== index2 && data2.mapName === newTitDiv.textContent);
+
+        if (isDuplicate) {
+            newTitDiv.textContent = currentText;
+            input.replaceWith(newTitDiv);
+            alert('이미 등록된 지도 주제예요.');
+        } else {
+            saveNewMapName(data, newTitDiv.textContent);
+        }
     });
 
     // Enter 키를 누르면 tit-name으로 되돌리고 데이터 저장
