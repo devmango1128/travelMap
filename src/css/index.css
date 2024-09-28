@@ -469,6 +469,7 @@ textarea:focus {
     font-weight: bold;
     margin-top: 6px;
     height: 20px;
+    line-height: 35px;
 }
 
 .map-names-container div.name-box div.day span {
