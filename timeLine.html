@@ -244,9 +244,10 @@
     }
 
     function contentsDelete(index) {
+
         filteredItems[0].data.splice(index, 1);
 
-        updateIndexedDB(filteredItems[0]).then(() => {
+        updateIndexedDB(filteredItems[0].data).then(() => {
             location.reload();
         }).catch((error) => {
             console.error("데이터 삭제 중 오류 발생", error);
