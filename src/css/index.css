@@ -1392,7 +1392,7 @@ input[type="file"] {
     align-items: center;
     height: 100vh;
     padding: 0 10px;
-    font-size: 12px;
+    font-size: 13px;
     font-family: "NanumGothic", serif;
     gap: 10px;
 }
@@ -1487,7 +1487,7 @@ input[type="file"] {
 
 .storage-container .backup-info-area .backup-sub-area ul li.desc
 , .storage-container .backup-exam-area .backup-sub-area ul li.desc {
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .storage-container .backup-btn-area {
