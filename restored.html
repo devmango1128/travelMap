@@ -13,20 +13,74 @@
   <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
 </div>
 <div class="storage-container">
-  <div>
-      백업받기
+  <div class="backup-info-area">
+    <span>복원하기 시 주의사항</span>
+    <div class="backup-sub-area">
+      <ul>
+        <li>
+          - 복원하기 전 [지도뿌셔] - [설정]에서 저장 용량을 확인해주세요.
+        </li>
+        <li class="desc">
+          <em class="star">*</em> 용량이 부족한 경우 용량을 확보해주세요.
+        </li>
+        <li>
+          - <text class="star">이미 저장된 데이터가 있는 상태에서 복원하면 데이터가 덮어씌어져요.</text>
+        </li>
+        <li class="desc">
+          <em class="star">*</em> 덮어씌어지면 기존 데이터는 복구 불가능해요.
+        </li>
+      </ul>
+    </div>
   </div>
-  <div>
-    <ul>
-      <li>
-        기기 변경 시 백업파일경로에 저장된 파일을 이동시켜 불러오기 해주세요.
-      </li>
-    </ul>
-    <ul>
-      <li>
-        백업하려는 폰 브라우저 저장 용량이 부족 할 경우 불러오기 되지 않을 수 있어요.
-      </li>
-    </ul>
+  <div class="backup-exam-area">
+    <span>복원하는 방법</span>
+    <div class="backup-sub-area">
+      <ul>
+        <li>
+          1. 하단 [복원하기] 버튼을 눌러주세요.
+        </li>
+        <li>
+          2. 복원 과정이 진행돼요.
+        </li>
+        <li class="desc">
+          <em class="star">*</em> 앱을 종료하거나 다른 앱으로 이동하지 말고 잠시 기다려주세요.
+          <br>
+          <em class="star">*</em> 내려받는 데이터량에 따라 시간이 다소 소요될 수 있어요.
+        </li>
+        <li>
+          3. 복원이 완료되었어요. 다시 [지도뿌셔] 앱을 이용해보세요.
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="backup-detail-area" id="restored-detail-area">
+    <div class="detail-sub-area">
+      <ul class="backup-detail-ul">
+        <li>
+          <div class="tit">복원일시</div>
+          <div id="restored-date">-</div>
+        </li>
+        <li>
+          <div class="tit">복원기기</div>
+          <div id="restored-device">-</div>
+        </li>
+        <li>
+          <div class="tit">복원데이터용량</div>
+          <div id="restored-capacity">-</div>
+        </li>
+        <li>
+          <div class="tit">복원파일명</div>
+          <div id="restored-path">-</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="backup-btn-area" id="restored-btn-area">
+    <input type="file" id="restoreFileInput" accept=".json" />
+    <div id="restoreBtn" class="backup-btn">복원하기</div>
+  </div>
+  <div class="backup-btn-area go-map-btn-area" id="go-mapNames">
+    <div class="backup-btn" onclick="goMenu('mapNames.html')">지도뿌셔 시작!</div>
   </div>
 </div>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -38,5 +92,29 @@
 <script>
   document.addEventListener('DOMContentLoaded', async function() {
 
+    document.getElementById('restoreBtn').addEventListener('click', function() {
+      document.getElementById('restoreFileInput').click();
+    });
+
+    document.getElementById('restoreFileInput').addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        startRestored();
+      }
+    });
+
+    const restoredInfo = JSON.parse(localStorage.getItem('restoredInfo'));
+
+    if (restoredInfo) {
+
+      const date = document.getElementById('restored-date');
+      date.innerText = `${restoredInfo.date}`;
+      const device = document.getElementById('restored-device');
+      device.innerText = `${restoredInfo.device}`;
+      const capacity = document.getElementById('restored-capacity');
+      capacity.innerText = `${restoredInfo.fileSize}`;
+      const path = document.getElementById('restored-path');
+      path.innerText = `${restoredInfo.fileName}`;
+    }
   });
 </script>

@@ -751,36 +751,39 @@ async function saveMapInfos(mapName, data) {
     };
 }
 
-function deleteMapInfo() {
+async function deleteMapInfo() {
 
     if (confirm("정말 모든 데이터를 삭제하시겠습니까?")) {
-
-        const request = indexedDB.open("MapColorDB", 1);
-
-        request.onerror = (event) => console.error("Database error:", event.target.errorCode);
-
-        request.onsuccess = (event) => {
-            const db = event.target.result;
-            const transaction = db.transaction(["mapNames"], "readwrite");
-            const objectStore = transaction.objectStore("mapNames");
-
-            const clearRequest = objectStore.clear();
-
-            clearRequest.onsuccess = () => {
-                console.log("All data cleared successfully.");
-                alert("데이터가 삭제되었습니다.");
-            };
-
-            clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
-        };
-
-        request.onupgradeneeded = (event) => {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains("mapNames")) {
-                db.createObjectStore("mapNames", { keyPath: "mapName" });
-            }
-        };
+        await realDeleteMapInfo();
+        alert("데이터가 삭제되었습니다.");
     }
+}
+
+function realDeleteMapInfo() {
+    const request = indexedDB.open("MapColorDB", 1);
+
+    request.onerror = (event) => console.error("Database error:", event.target.errorCode);
+
+    request.onsuccess = (event) => {
+        const db = event.target.result;
+        const transaction = db.transaction(["mapNames"], "readwrite");
+        const objectStore = transaction.objectStore("mapNames");
+
+        const clearRequest = objectStore.clear();
+
+        clearRequest.onsuccess = () => {
+            console.log("All data cleared successfully.");
+        };
+
+        clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
+    };
+
+    request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains("mapNames")) {
+            db.createObjectStore("mapNames", { keyPath: "mapName" });
+        }
+    };
 }
 
 function nextPage(reqGubun, data) {
@@ -1162,4 +1165,92 @@ function saveBackupInfo(fileSize, fileName) {
     capacity.innerText = `${backupInfo.fileSize}`;
     const path = document.getElementById('backup-path');
     path.innerText = `${backupInfo.fileName}`;
+}
+
+async function startRestored() {
+    const fileInput = document.getElementById('restoreFileInput');
+    const file = fileInput.files[0];
+
+    if(file) {
+        await realDeleteMapInfo();
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = async function(event) {
+        const jsonData = JSON.parse(event.target.result);
+
+        await restoreDataToIndexedDB(jsonData);
+
+        const restoreInfo = {
+            date: new Date().toISOString(),
+            device: getDeviceType(),
+            fileSize: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
+            fileName: file.name
+        };
+
+        displayRestoreInfo(restoreInfo);
+    };
+
+    reader.readAsText(file);
+}
+
+async function restoreDataToIndexedDB(data) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("MapColorDB", 1);
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction("mapNames", "readwrite");
+            const objectStore = transaction.objectStore("mapNames");
+
+            data.forEach(item => {
+                objectStore.put(item); // 복원 데이터를 IndexedDB에 저장
+            });
+
+            transaction.oncomplete = () => {
+                console.log('복원이 완료되었습니다!');
+                resolve();
+            };
+
+            transaction.onerror = (event) => {
+                console.error('IndexedDB 복원 오류:', event.target.errorCode);
+                reject(event.target.error);
+            };
+        };
+
+        request.onerror = (event) => {
+            console.error('IndexedDB 열기 오류:', event.target.errorCode);
+            reject(event.target.error);
+        };
+    });
+}
+
+function displayRestoreInfo(restoredInfo) {
+    document.getElementById('restored-btn-area').style.display = 'none';
+    document.getElementById('restored-detail-area').style.display = 'flex';
+    document.getElementById('go-mapNames').style.display = 'flex';
+    localStorage.setItem('restoredInfo', JSON.stringify(restoredInfo));
+
+    if (restoredInfo) {
+        const date = document.getElementById('restored-date');
+        date.innerText = `${restoredInfo.date}`;
+        const device = document.getElementById('restored-device');
+        device.innerText = `${restoredInfo.device}`;
+        const capacity = document.getElementById('restored-capacity');
+        capacity.innerText = `${restoredInfo.fileSize}`;
+        const path = document.getElementById('restored-path');
+        path.innerText = `${restoredInfo.fileName}`;
+    }
+}
+
+function getDeviceType() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    if (/android/i.test(userAgent)) {
+        return "Android";
+    }
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "iOS";
+    }
+    return "PC";
 }
