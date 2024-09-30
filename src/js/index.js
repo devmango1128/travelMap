@@ -1254,3 +1254,53 @@ function getDeviceType() {
     }
     return "PC";
 }
+
+function toDevMail() {
+    const subject = encodeURIComponent('지도뿌셔 의견/문의글입니다.');
+    const mailToLink = `mailto:devmango1128@gmail.com?subject=${subject}`;
+    window.location.href = mailToLink;
+}
+
+function review() {
+    window.location.href = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128&pcampaignid=web_share';
+}
+
+async function recommend() {
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: '지도뿌셔',
+                text: '지도뿌셔 앱을 추천해요!',
+                url: 'https://devmango1128.github.io/travelMap/'
+            });
+            console.log('공유 성공!');
+        } catch (error) {
+            console.error('공유 실패:', error);
+        }
+    } else {
+        alert('이 브라우저는 추천기능을 지원하지 않습니다.');
+        return;
+    }
+}
+
+function goApp(div) {
+
+    let url = '';
+
+    switch (div) {
+        case 'L' :
+            url = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128&pcampaignid=web_share';
+            break;
+        case 'P' :
+            url = 'https://play.google.com/store/apps/details?id=com.pomodoro.devmango1128&pcampaignid=web_share';
+            break;
+        case 'F' :
+            url = 'https://play.google.com/store/apps/details?id=com.fartsound.devmango1128&pcampaignid=web_share';
+            break;
+        case 'T' :
+            url = 'https://play.google.com/store/apps/details?id=com.selectmenu.devmango1128&pcampaignid=web_share';
+            break;
+    }
+
+    window.location.href = url;
+}
