@@ -1509,7 +1509,6 @@ input[type="file"] {
 }
 
 .storage-container .backup-progress-area {
-    flex: 1;
     width: 100%;
     flex-wrap: nowrap;
     display: none;
