@@ -1392,7 +1392,7 @@ input[type="file"] {
     align-items: center;
     height: 100vh;
     padding: 0 10px;
-    font-size: 10px;
+    font-size: 12px;
     font-family: "NanumGothic", serif;
     gap: 10px;
 }
