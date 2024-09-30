@@ -1090,3 +1090,102 @@ async function saveNewMapName(data, newName) {
 function clearLocalStorage() {
     localStorage.clear();
 }
+
+function startBackup() {
+    const dbRequest = indexedDB.open('MapColorDB', 1);
+
+    dbRequest.onsuccess = async function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction('mapNames', 'readonly');
+        const objectStore = transaction.objectStore('mapNames');
+
+        const request = objectStore.getAll();
+        request.onsuccess = async function (event) {
+            const data = event.target.result;
+
+            let totalItems = data.length;
+            let backedUpItems = 0;
+
+            const backup = [];
+
+            for (const item of data) {
+                if (item.image && item.image instanceof Blob) {
+                    item.imageBase64 = await blobToBase64(item.image);
+                }
+
+                backup.push(item);
+
+                backedUpItems++;
+
+                const btn = document.getElementById('backup-btn-area');
+                btn.style.display = 'none';
+                const backupProgress = document.getElementById('backup-progress-area');
+                backupProgress.style.display = 'flex';
+
+                updateProgress(backedUpItems, totalItems);
+            }
+
+            const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
+
+            const fileName = `mapApp_backup.json`;
+            saveFile(blob, fileName);
+
+            saveBackupInfo(blob.size, fileName);
+
+            updateProgress(totalItems, totalItems);
+        };
+    };
+}
+
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
+
+function updateProgress(backedUpItems, totalItems) {
+    const percent = Math.round((backedUpItems / totalItems) * 100);
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.width = percent + '%';
+    let text = percent + '%';
+    if(percent === 100) text += ' 백업 완료';
+    progressBar.textContent = text;
+}
+
+function saveFile(blob, fileName) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function saveBackupInfo(fileSize, fileName) {
+    const backupInfo = {
+        date: new Date().toLocaleString(),
+        device: navigator.userAgent,
+        fileSize: (fileSize / (1024 * 1024)).toFixed(2) + ' MB',
+        fileName: fileName
+    };
+
+    localStorage.setItem('backupInfo', JSON.stringify(backupInfo));
+
+    const date = document.getElementById('backup-date');
+    date.innerText = `${backupInfo.date}`;
+    const device = document.getElementById('backup-device');
+    device.innerText = `${backupInfo.device}`;
+    const capacity = document.getElementById('backup-capacity');
+    capacity.innerText = `${backupInfo.fileSize}`;
+    const path = document.getElementById('backup-path');
+    path.innerText = `${backupInfo.fileName}`;
+
+    // setTimeout(() => {
+    //     localStorage.removeItem('backupInfo');
+    // }, 30 * 24 * 60 * 60 * 1000);
+}

@@ -29,7 +29,7 @@
               <div id="backup-capacity">-</div>
             </li>
             <li>
-              <div class="tit">백업파일경로</div>
+              <div class="tit">백업파일명</div>
               <div id="backup-path">-</div>
             </li>
           </ul>
@@ -48,7 +48,7 @@
               <em class="star">*</em> 기기 변경 : 백업 후 변경 기기로 백업 파일을 옮겨주세요.
             </li>
             <li>
-              - 저장정보는 30일간 보관돼요.
+              - 저장정보는 로컬 스토리지로 보관돼요.
             </li>
             <li class="desc">
               <em class="star">*</em> 캐시 또는 쿠키 삭제 시 정보가 사라질 수 있어요.
@@ -82,11 +82,13 @@
           </ul>
         </div>
       </div>
-      <div class="backup-btn-area">
-        <div class="backup-btn">백업하기</div>
+      <div class="backup-btn-area" id="backup-btn-area">
+        <div class="backup-btn" onclick="startBackup()">백업하기</div>
       </div>
-      <div class="backup-load-area">
-        <div>백업중입니다.</div>
+      <div class="backup-progress-area" id="backup-progress-area">
+        <div class="progress-container">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
       </div>
     </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -97,6 +99,19 @@
 </html>
 <script>
   document.addEventListener('DOMContentLoaded', async function() {
+    const backupInfo = JSON.parse(localStorage.getItem('backupInfo'));
 
+    if (backupInfo) {
+
+      const date = document.getElementById('backup-date');
+      date.innerText = `${backupInfo.date}`;
+      const device = document.getElementById('backup-device');
+      device.innerText = `${backupInfo.device}`;
+      const capacity = document.getElementById('backup-capacity');
+      capacity.innerText = `${backupInfo.fileSize}`;
+      const path = document.getElementById('backup-path');
+      path.innerText = `${backupInfo.fileName}`;
+
+    }
   });
 </script>

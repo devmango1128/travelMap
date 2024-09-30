@@ -1508,11 +1508,30 @@ input[type="file"] {
     font-size: 16px;
 }
 
-.storage-container .backup-load-area {
+.storage-container .backup-progress-area {
     flex: 1;
     width: 100%;
     flex-wrap: nowrap;
     display: none;
+    margin-bottom: 15px;
+}
+
+.storage-container .progress-container {
+    width: 100%;
+    background-color: #e5e5e5;
+    border-radius: 8px;
+}
+
+.storage-container .progress-bar {
+    width: 0;
+    height: 30px;
+    background-color: #3496ff;
+    text-align: left;
+    color: #fff;
+    border-radius: 8px;
+    align-content: center;
+    padding-left: 5px;
+    font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif;
 }
 
 .star {
