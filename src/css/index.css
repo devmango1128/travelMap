@@ -1388,7 +1388,7 @@ input[type="file"] {
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
     padding: 0 10px;
@@ -1408,11 +1408,10 @@ input[type="file"] {
 }
 
 .storage-container .backup-detail-area {
-    display: flex;
+    display: none;
     width: 100%;
     flex-wrap: nowrap;
     border-radius: 8px;
-    margin-top: 60px;
     background-color: #e5e5e5;
 }
 
@@ -1442,6 +1441,10 @@ input[type="file"] {
     flex: 3;
     font-weight: bold;
     font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif;
+}
+
+.storage-container .backup-info-area {
+    margin-top: 60px;
 }
 
 .storage-container .backup-info-area
@@ -1506,31 +1509,6 @@ input[type="file"] {
     width: 100%;
     font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif;
     font-size: 16px;
-}
-
-.storage-container .backup-progress-area {
-    width: 100%;
-    flex-wrap: nowrap;
-    display: none;
-    margin-bottom: 15px;
-}
-
-.storage-container .progress-container {
-    width: 100%;
-    background-color: #e5e5e5;
-    border-radius: 8px;
-}
-
-.storage-container .progress-bar {
-    width: 0;
-    height: 30px;
-    background-color: #3496ff;
-    text-align: left;
-    color: #fff;
-    border-radius: 8px;
-    align-content: center;
-    padding-left: 5px;
-    font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif;
 }
 
 .star {

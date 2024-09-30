@@ -13,28 +13,6 @@
       <img src="src/images/menu_icon.png" class="menu" onclick="goMenu('menu.html')"/>
     </div>
     <div class="storage-container">
-      <div class="backup-detail-area">
-        <div class="detail-sub-area">
-          <ul class="backup-detail-ul">
-            <li>
-              <div class="tit">백업일시</div>
-              <div id="backup-date">-</div>
-            </li>
-            <li>
-              <div class="tit">백업기기</div>
-              <div id="backup-device">-</div>
-            </li>
-            <li>
-              <div class="tit">백업데이터용량</div>
-              <div id="backup-capacity">-</div>
-            </li>
-            <li>
-              <div class="tit">백업파일명</div>
-              <div id="backup-path">-</div>
-            </li>
-          </ul>
-        </div>
-      </div>
       <div class="backup-info-area">
         <span>백업시 주의사항</span>
         <div class="backup-sub-area">
@@ -82,13 +60,30 @@
           </ul>
         </div>
       </div>
+      <div class="backup-detail-area" id="backup-detail-area">
+        <div class="detail-sub-area">
+          <ul class="backup-detail-ul">
+            <li>
+              <div class="tit">백업일시</div>
+              <div id="backup-date">-</div>
+            </li>
+            <li>
+              <div class="tit">백업기기</div>
+              <div id="backup-device">-</div>
+            </li>
+            <li>
+              <div class="tit">백업데이터용량</div>
+              <div id="backup-capacity">-</div>
+            </li>
+            <li>
+              <div class="tit">백업파일명</div>
+              <div id="backup-path">-</div>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="backup-btn-area" id="backup-btn-area">
         <div class="backup-btn" onclick="startBackup()">백업하기</div>
-      </div>
-      <div class="backup-progress-area" id="backup-progress-area">
-        <div class="progress-container">
-          <div id="progress-bar" class="progress-bar"></div>
-        </div>
       </div>
     </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

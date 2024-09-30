@@ -1119,20 +1119,13 @@ function startBackup() {
 
                 const btn = document.getElementById('backup-btn-area');
                 btn.style.display = 'none';
-                const backupProgress = document.getElementById('backup-progress-area');
-                backupProgress.style.display = 'flex';
-
-                updateProgress(backedUpItems, totalItems);
             }
 
             const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
 
             const fileName = `mapApp_backup.json`;
-            saveFile(blob, fileName);
-
+            await saveFile(blob, fileName);
             saveBackupInfo(blob.size, fileName);
-
-            updateProgress(totalItems, totalItems);
         };
     };
 }
@@ -1146,20 +1139,12 @@ function blobToBase64(blob) {
     });
 }
 
-function updateProgress(backedUpItems, totalItems) {
-    const percent = Math.round((backedUpItems / totalItems) * 100);
-    const progressBar = document.getElementById('progress-bar');
-    progressBar.style.width = percent + '%';
-    let text = percent + '%';
-    if(percent === 100) text += ' 백업 완료';
-    progressBar.textContent = text;
-}
-
-function saveFile(blob, fileName) {
-    saveAs(blob, fileName);
+async function saveFile(blob, fileName) {
+    await saveAs(blob, fileName);
 }
 
 function saveBackupInfo(fileSize, fileName) {
+    document.getElementById('backup-detail-area').style.display = 'flex';
     const backupInfo = {
         date: new Date().toLocaleString(),
         device: navigator.userAgent,
