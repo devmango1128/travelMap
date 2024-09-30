@@ -1156,14 +1156,15 @@ function updateProgress(backedUpItems, totalItems) {
 }
 
 function saveFile(blob, fileName) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    saveAs(blob, fileName);
+    // const url = URL.createObjectURL(blob);
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.download = fileName;
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
+    // URL.revokeObjectURL(url);
 }
 
 function saveBackupInfo(fileSize, fileName) {
@@ -1184,8 +1185,4 @@ function saveBackupInfo(fileSize, fileName) {
     capacity.innerText = `${backupInfo.fileSize}`;
     const path = document.getElementById('backup-path');
     path.innerText = `${backupInfo.fileName}`;
-
-    // setTimeout(() => {
-    //     localStorage.removeItem('backupInfo');
-    // }, 30 * 24 * 60 * 60 * 1000);
 }
