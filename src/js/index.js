@@ -1262,7 +1262,7 @@ function toDevMail() {
 }
 
 function review() {
-    window.location.href = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128&pcampaignid=web_share';
+    window.location.href = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128&pcampaignid=web_share'+ new Date().getTime();;
 }
 
 async function recommend() {
@@ -1289,16 +1289,16 @@ function goApp(div) {
 
     switch (div) {
         case 'L' :
-            url = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128&pcampaignid=web_share';
+            url = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128&pcampaignid=web_share'+ new Date().getTime();;
             break;
         case 'P' :
-            url = 'https://play.google.com/store/apps/details?id=com.pomodoro.devmango1128&pcampaignid=web_share';
+            url = 'https://play.google.com/store/apps/details?id=com.pomodoro.devmango1128&pcampaignid=web_share'+ new Date().getTime();;
             break;
         case 'F' :
-            url = 'https://play.google.com/store/apps/details?id=com.fartsound.devmango1128&pcampaignid=web_share';
+            url = 'https://play.google.com/store/apps/details?id=com.fartsound.devmango1128&pcampaignid=web_share'+ new Date().getTime();;
             break;
         case 'T' :
-            url = 'https://play.google.com/store/apps/details?id=com.selectmenu.devmango1128&pcampaignid=web_share';
+            url = 'https://play.google.com/store/apps/details?id=com.selectmenu.devmango1128&pcampaignid=web_share'+ new Date().getTime();;
             break;
     }
 
