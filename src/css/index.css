@@ -1409,31 +1409,109 @@ input[type="file"] {
 
 .storage-container .backup-detail-area {
     display: flex;
-    flex: 1;
     width: 100%;
     flex-wrap: nowrap;
-    border: 1px solid #e5e5e5;
     border-radius: 8px;
     margin-top: 60px;
+    background-color: #e5e5e5;
 }
 
-.storage-container .backup-info-area {
-    display: flex;
-    flex: 1;
-    width: 100%;
-    flex-wrap: nowrap;
-    border: 1px solid #e5e5e5;
+.storage-container div.detail-sub-area {
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
     border-radius: 8px;
+    width: 100%;
+    margin: 10px 10px;
 }
 
-.storage-container .backup-exam-area {
+.storage-container div.detail-sub-area ul li {
     display: flex;
-    flex: 1;
-    width: 100%;
-    flex-wrap: nowrap;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
+    padding: 5px 10px;
+    text-align: left;
+}
+
+.storage-container div.detail-sub-area ul li:last-child {
     margin-bottom: 10px;
+}
+
+.storage-container div.detail-sub-area ul li div {
+    flex: 7;
+}
+
+.storage-container div.detail-sub-area ul li div.tit {
+    flex: 3;
+    font-weight: bold;
+    font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif;
+}
+
+.storage-container .backup-info-area
+, .storage-container .backup-exam-area {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    border-radius: 8px;
+    background-color: #e5e5e5;
+    flex-direction: column;
+}
+
+.storage-container .backup-info-area span
+, .storage-container .backup-exam-area span {
+    font-weight: bold;
+    font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.storage-container .backup-info-area .backup-sub-area
+, .storage-container .backup-exam-area .backup-sub-area {
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin: 10px 10px;
+    text-align: left;
+}
+
+.storage-container .backup-info-area .backup-sub-area ul li
+, .storage-container .backup-exam-area .backup-sub-area ul li {
+    padding: 5px 10px;
+}
+
+.storage-container .backup-info-area .backup-sub-area ul li:last-child
+, .storage-container .backup-exam-area .backup-sub-area ul li:last-child {
+    margin-bottom: 10px;
+}
+
+.storage-container .backup-btn-area {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.storage-container .backup-btn-area div.backup-btn {
+    font-weight: bold;
+    color: #fff;
+    border: 1px solid #3496ff;
+    background-color: #3496ff;
+    height: 25px;
+    padding: 15px 5px;
+    line-height: 25px;
+    border-radius: 5px;
+    width: 100%;
+    font-family: 'NanumGothicExtraBold', 'NanumGothic', sans-serif;
+    font-size: 16px;
+}
+
+.storage-container .backup-load-area {
+    flex: 1;
+    width: 100%;
+    flex-wrap: nowrap;
+    display: none;
+}
+
+.star {
+   color: #ff3b5d;
 }
 
 .storage-bar-container {

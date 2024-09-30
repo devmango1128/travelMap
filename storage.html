@@ -14,52 +14,73 @@
     </div>
     <div class="storage-container">
       <div class="backup-detail-area">
-        <ul class="backup-detail-ul">
-          <li>
-            <div>백업일시</div>
-            <div>-</div>
-          </li>
-          <li>
-            <div>백업기기</div>
-            <div>-</div>
-          </li>
-          <li>
-            <div>백업데이터용량</div>
-            <div>-</div>
-          </li>
-          <li>
-            <div>백업파일경로</div>
-            <div>-</div>
-          </li>
-        </ul>
+        <div class="detail-sub-area">
+          <ul class="backup-detail-ul">
+            <li>
+              <div class="tit">백업일시</div>
+              <div id="backup-date">-</div>
+            </li>
+            <li>
+              <div class="tit">백업기기</div>
+              <div id="backup-device">-</div>
+            </li>
+            <li>
+              <div class="tit">백업데이터용량</div>
+              <div id="backup-capacity">-</div>
+            </li>
+            <li>
+              <div class="tit">백업파일경로</div>
+              <div id="backup-path">-</div>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="backup-info-area">
         <span>백업시 주의사항</span>
-        <ul>
-          <li>
-            - 지도뿌셔는 브라우저DB로 관리돼요.
-          </li>
-          <li>
-            - 핸드폰 초기화 : 백업 후 백업 파일을 다른 저장매체로 옮겨주세요.
-          </li>
-          <li>
-            - 기기 변경 : 백업 후 변경 기기로 백업 파일을 옮겨주세요.
-          </li>
-        </ul>
+        <div class="backup-sub-area">
+          <ul>
+            <li>
+              - 지도뿌셔는 브라우저DB로 관리돼요.
+            </li>
+            <li>
+              <em class="star">*</em> 핸드폰 초기화 : 백업 후 백업 파일을 다른 저장매체로 옮겨주세요.
+              <br>
+              <em class="star">*</em> 기기 변경 : 백업 후 변경 기기로 백업 파일을 옮겨주세요.
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="backup-exam-area">
         <span>백업 방법</span>
-        <ul>
-          <li>
-            1. [백업하기] 버튼을 눌러주세요.
-          </li>
-          <li>
-            2. 백업받은 파일을 변경기기로 옮겨주세요.
-          </li>
-          <li>
-            3. 변경기기에서 [복구하기] 버튼을 눌러주세요.
-          </li>
-        </ul>
+        <div class="backup-sub-area">
+          <ul>
+            <li>
+              1. 하단 [백업하기] 버튼을 눌러주세요.
+            </li>
+            <li>
+              2. 백업과정이 진행돼요.
+            </li>
+            <li>
+              <em class="star">*</em> 앱을 종료하거나 다른 앱으로 이동하지 말고 잠시 기다려주세요.
+              <br>
+              <em class="star">*</em> 저장된 데이터량에 따라 시간이 다소 소요될 수 있어요.
+            </li>
+            <li>
+              3. 백업이 완료되면 백업받은 파일을 변경기기로 옮겨주세요.
+            </li>
+            <li>
+              <em class="star">*</em> 백업받은 파일은 JSON 확장자를 가져요.
+              <br>
+              <em class="star">*</em> 해당 확장자로 클라우드 업로드, 메신저 전송이 안 될 경우 압축 후 진행해주세요.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="backup-btn-area">
+        <div class="backup-btn">백업하기</div>
+      </div>
+      <div class="backup-load-area">
+        <div>백업중입니다.</div>
       </div>
     </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
