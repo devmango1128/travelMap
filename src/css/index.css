@@ -1482,6 +1482,11 @@ input[type="file"] {
     margin-bottom: 10px;
 }
 
+.storage-container .backup-info-area .backup-sub-area ul li.desc
+, .storage-container .backup-exam-area .backup-sub-area ul li.desc {
+    font-size: 10px;
+}
+
 .storage-container .backup-btn-area {
     display: flex;
     flex: 1;
