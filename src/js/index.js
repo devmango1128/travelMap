@@ -1296,7 +1296,7 @@ function toDevMail() {
 }
 
 function review() {
-    window.location.href = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128&pcampaignid=web_share'+ new Date().getTime();;
+    window.location.href = 'https://play.google.com/store/apps/details?id=com.colormap.devmango1128&pcampaignid=web_share'+ new Date().getTime();;
 }
 
 async function recommend() {
@@ -1305,7 +1305,7 @@ async function recommend() {
             await navigator.share({
                 title: '지도뿌셔',
                 text: '지도뿌셔 앱을 추천해요!',
-                url: 'https://devmango1128.github.io/travelMap/'
+                url: 'https://play.google.com/store/apps/details?id=com.colormap.devmango1128'
             });
             console.log('공유 성공!');
         } catch (error) {
