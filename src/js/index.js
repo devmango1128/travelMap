@@ -135,6 +135,8 @@ function loadGeoJSON() {
                             maxWidth: 280
                         };
 
+                        let imgURL = '';
+
                         if(data) {
                             popupContent += '<div class="lable-area" style="overflow-y:auto; max-height:200px; width:100%;">';
                             if (Array.isArray(data)) {
@@ -155,11 +157,10 @@ function loadGeoJSON() {
                                         popupContent += `</div>`;
 
                                         if (map.image) {
-                                            const imgURL = URL.createObjectURL(base64ToBlob(map.image));
-                                            popupContent += `<div class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
-
-                                            setTimeout(() => URL.revokeObjectURL(imgURL), 100);
+                                            imgURL = URL.createObjectURL(base64ToBlob(map.image));
+                                            popupContent += `<div id="mapImage" class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
                                         }
+
                                         const formattedDescription = map.description.replace(/\n/g, '<br>');
                                         popupContent += (map ? `<div class="label-desc">${formattedDescription}</div>` : "");
                                         if (map.tags && map.tags.length > 0) {
@@ -172,6 +173,20 @@ function loadGeoJSON() {
                         }
 
                         layer.bindPopup(popupContent, popupOptions).openPopup();
+
+                        setTimeout(() => {
+                            const mapImageElement = document.getElementById('mapImage');
+                            if (mapImageElement) {
+                                mapImageElement.addEventListener('click', () => showImagePreview(imgURL));
+                            }
+                        }, 100);
+
+                        layer.on('popupopen', () => {
+                            const mapImageElement = document.getElementById('mapImage');
+                            if (mapImageElement) {
+                                mapImageElement.addEventListener('click', () => showImagePreview(imgURL));
+                            }
+                        });
                     }
                 });
 
@@ -1322,4 +1337,41 @@ function goApp(div) {
     }
 
     window.location.href = url;
+}
+
+function showImagePreview(imgURL) {
+
+    const existingPreview = document.querySelector('.image-preview-layer');
+    if (existingPreview) {
+        existingPreview.remove();
+    }
+
+    const previewLayer = document.createElement('div');
+    previewLayer.className = 'image-preview-layer';
+    previewLayer.style.position = 'fixed';
+    previewLayer.style.top = '0';
+    previewLayer.style.left = '0';
+    previewLayer.style.width = '100vw';
+    previewLayer.style.height = '100vh';
+    previewLayer.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    previewLayer.style.display = 'flex';
+    previewLayer.style.alignItems = 'center';
+    previewLayer.style.justifyContent = 'center';
+    previewLayer.style.zIndex = '9999';
+    previewLayer.style.cursor = 'pointer';
+
+    const largeImg = document.createElement('img');
+    largeImg.src = imgURL;
+    largeImg.style.maxWidth = '80vw';
+    largeImg.style.maxHeight = '80vh';
+    largeImg.style.borderRadius = '8px';
+    largeImg.style.objectFit = 'contain';
+
+    previewLayer.appendChild(largeImg);
+
+    previewLayer.addEventListener('click', () => {
+        document.body.removeChild(previewLayer);
+    });
+
+    document.body.appendChild(previewLayer);
 }

@@ -254,43 +254,6 @@
             console.error("데이터 삭제 중 오류 발생", error);
         });
     }
-
-    function showImagePreview(imgURL) {
-
-        const existingPreview = document.querySelector('.image-preview-layer');
-        if (existingPreview) {
-            existingPreview.remove();
-        }
-
-        const previewLayer = document.createElement('div');
-        previewLayer.className = 'image-preview-layer';
-        previewLayer.style.position = 'fixed';
-        previewLayer.style.top = '0';
-        previewLayer.style.left = '0';
-        previewLayer.style.width = '100vw';
-        previewLayer.style.height = '100vh';
-        previewLayer.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-        previewLayer.style.display = 'flex';
-        previewLayer.style.alignItems = 'center';
-        previewLayer.style.justifyContent = 'center';
-        previewLayer.style.zIndex = '9999';
-        previewLayer.style.cursor = 'pointer';
-
-        const largeImg = document.createElement('img');
-        largeImg.src = imgURL;
-        largeImg.style.maxWidth = '80vw';
-        largeImg.style.maxHeight = '80vh';
-        largeImg.style.borderRadius = '8px';
-        largeImg.style.objectFit = 'contain';
-
-        previewLayer.appendChild(largeImg);
-
-        previewLayer.addEventListener('click', () => {
-            document.body.removeChild(previewLayer);
-        });
-
-        document.body.appendChild(previewLayer);
-    }
 </script>
 </body>
 </html>
