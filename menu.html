@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="header-container">
-            <img src="src/images/back.png" class="back" onclick="window.history.back()" alt=""/>
+            <img src="src/images/back.png" class="back" onclick="goBack()" alt=""/>
             <span onclick="goMenu('mapName.html')">지도뿌셔</span>
             <div class="empty"></div>
         </div>
@@ -121,4 +121,20 @@
 
         usageStorage.appendChild(ul);
     });
+
+    function goBack() {
+
+        const previousPage = document.referrer;
+
+        if (previousPage && previousPage !== "") {
+
+            const includes = previousPage.includes('storage.html') || previousPage.includes('restored.html');
+
+            if (includes) window.history.go(-3);
+            else window.location.href = previousPage;
+
+        } else {
+            window.location.href = 'mapNames.html';
+        }
+    }
 </script>
