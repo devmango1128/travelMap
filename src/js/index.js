@@ -536,7 +536,7 @@ async function saveMapInfo() {
     let base64Image = null;
 
     if (file) {
-        const imageBlob = await compressImage(file, 50, 48, 0.9);
+        const imageBlob = await compressImage(file, 250, 198, 1);
         base64Image = await blobToBase64(imageBlob);
     } else if (type === 'U' && updateItem[0].image) {
         if(localStorage.getItem('imageRemove') !== 'Y') {
@@ -583,6 +583,25 @@ function base64ToBlob(base64, mimeType) {
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mimeType });
+}
+
+function base64ToBlob2(base64Data, contentType = '', sliceSize = 512) {
+    const byteCharacters = atob(base64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
 }
 
 function compressImage(file, maxWidth, maxHeight, quality) {

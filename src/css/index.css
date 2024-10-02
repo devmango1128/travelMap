@@ -984,6 +984,8 @@ textarea:focus {
     font-size: 1.0em;
     display: inline-block;
     margin-bottom: 3px;
+    font-weight: bold;
+    font-family: NanumGothicExtraBold, serif;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-tit {
@@ -1552,4 +1554,12 @@ input[type="file"] {
 
 #remaining-bar {
     background-color: #03c713;
+}
+
+.image-preview-layer img {
+    transition: transform 0.3s ease;
+}
+
+.image-preview-layer img:hover {
+    transform: scale(1.05);
 }
