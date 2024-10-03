@@ -27,7 +27,7 @@
             <input type="file" id="fileInput" accept="image/*" />
             <div class="thumbnail-area">
                 <div class="thumbnail-wrapper">
-                    <img id="thumbnail" class="file-upload-thumbnail" style="display: none;">
+                    <img id="thumbnail" class="file-upload-thumbnail" style="display: none;" alt="">
                     <span id="removeFileBtn" class="remove-btn" style="display: none;" onclick="removeFile()"></span>
                 </div>
             </div>
@@ -197,6 +197,10 @@
                     document.getElementById('thumbnail').style.display = 'none';
                     document.getElementById('removeFileBtn').style.display = 'none';
                 }
+            });
+
+            document.querySelector('.file-upload-label').addEventListener('click', function() {
+                document.getElementById('fileInput').click();
             });
 
             const updateItem = JSON.parse(localStorage.getItem('updateItem'));
