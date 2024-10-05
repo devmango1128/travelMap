@@ -1159,24 +1159,17 @@ function startBackup() {
             }
 
             const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
-
+            const base64Data = await blobToBase64(blob);
             const fileName = `mapApp_backup.json`;
 
-            if (isAndroid()) {
-                // Android 네이티브로 처리
-                const base64Data = await blobToBase64(blob);
+            if (window.Android) {
                 window.Android.saveBackupFile(base64Data, fileName);
             } else {
-                // 웹 환경 처리
                 await saveFile(blob, fileName);
             }
             saveBackupInfo(blob.size, fileName);
         };
     };
-}
-
-function isAndroid() {
-    return navigator.userAgent.toLowerCase().indexOf("android") > -1;
 }
 
 function blobToBase64(blob) {
