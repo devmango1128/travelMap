@@ -551,7 +551,7 @@ async function saveMapInfo() {
     let base64Image = null;
 
     if (file) {
-        const imageBlob = await compressImage(file, 250, 198, 1);
+        const imageBlob = await compressImage(file, 250, 198, 1.0);
         base64Image = await blobToBase64(imageBlob);
     } else if (type === 'U' && updateItem[0].image) {
         if(localStorage.getItem('imageRemove') !== 'Y') {
@@ -1159,7 +1159,7 @@ function startBackup() {
             }
 
             const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
-            const fileName = `mapApp_backup_${formatDate(new Date())}.json`;
+            const fileName = `mapApp_backup_${fileFormatDate(new Date())}.json`;
 
             if (window.Android) {
                 const base64Data = await blobToBase64Android(blob);
@@ -1173,7 +1173,7 @@ function startBackup() {
     };
 }
 
-function formatDate(date) {
+function fileFormatDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
     const day = String(date.getDate()).padStart(2, '0');
