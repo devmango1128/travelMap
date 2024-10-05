@@ -1311,6 +1311,8 @@ async function recommend() {
         } catch (error) {
             console.error('공유 실패:', error);
         }
+    } else if (window.Android) {
+        window.Android.share('지도뿌셔', '지도뿌셔 앱을 추천해요!', 'https://play.google.com/store/apps/details?id=com.colormap.devmango1128');
     } else {
         alert('이 브라우저는 추천기능을 지원하지 않습니다.');
         return;
