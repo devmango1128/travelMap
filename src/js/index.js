@@ -1159,12 +1159,13 @@ function startBackup() {
             }
 
             const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
-            const base64Data = await blobToBase64(blob);
             const fileName = `mapApp_backup.json`;
 
             if (window.Android) {
+                const base64Data = await blobToBase64Android(blob);
                 window.Android.saveBackupFile(base64Data, fileName);
             } else {
+                const base64Data = await blobToBase64(blob);
                 await saveFile(blob, fileName);
             }
             saveBackupInfo(blob.size, fileName);
@@ -1176,6 +1177,18 @@ function blobToBase64(blob) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
+
+function blobToBase64Android(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const base64data = reader.result.split(',')[1];
+            resolve(base64data);
+        };
         reader.onerror = reject;
         reader.readAsDataURL(blob);
     });
