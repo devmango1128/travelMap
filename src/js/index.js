@@ -551,7 +551,7 @@ async function saveMapInfo() {
     let base64Image = null;
 
     if (file) {
-        const imageBlob = await compressImage(file, 250, 198, 1.0);
+        const imageBlob = await compressImage(file, 350, 300, 1.0);
         base64Image = await blobToBase64(imageBlob);
     } else if (type === 'U' && updateItem[0].image) {
         if(localStorage.getItem('imageRemove') !== 'Y') {
@@ -634,15 +634,15 @@ function compressImage(file, maxWidth, maxHeight, quality) {
                 let height = img.height;
 
                 // 비율 유지하며 크기 조정
-                if (width > maxWidth || height > maxHeight) {
-                    if (width > height) {
-                        height = Math.round((height *= maxWidth / width));
-                        width = maxWidth;
-                    } else {
-                        width = Math.round((width *= maxHeight / height));
-                        height = maxHeight;
-                    }
-                }
+                // if (width > maxWidth || height > maxHeight) {
+                //     if (width > height) {
+                //         height = Math.round((height *= maxWidth / width));
+                //         width = maxWidth;
+                //     } else {
+                //         width = Math.round((width *= maxHeight / height));
+                //         height = maxHeight;
+                //     }
+                // }
 
                 canvas.width = width;
                 canvas.height = height;
