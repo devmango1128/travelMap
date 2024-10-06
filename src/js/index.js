@@ -207,7 +207,7 @@ function loadGeoJSON() {
             }
         }).addTo(map);
 
-        updateLabelSizes();
+        await updateLabelSizes();
 
         await loadRegions(mapName);
     });
@@ -363,58 +363,62 @@ function geoLayer() {
                 map.setView(center, 10);
                 layer.fire('click');
 
-                setTimeout(() => {
-                    if (layer.getPopup() && map.hasLayer(layer.getPopup())) {
-                        map.closePopup(layer.getPopup());
-                    }
-                }, 2000);
+                //2초후 자동 닫힘 임시 삭제
+                // setTimeout(() => {
+                //     if (layer.getPopup() && map.hasLayer(layer.getPopup())) {
+                //         map.closePopup(layer.getPopup());
+                //     }
+                // }, 2000);
             }
         });
     }
 }
 
 function loadRegions(mapName) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(["mapNames"], "readonly");
+        const objectStore = transaction.objectStore("mapNames");
+        const request = objectStore.getAll();
 
-    const transaction = db.transaction(["mapNames"], "readonly");
-    const objectStore = transaction.objectStore("mapNames");
-    const request = objectStore.getAll();
+        request.onsuccess = function(event) {
+            const results = event.target.result;
 
-    request.onsuccess = async function(event) {
-
-        const results = event.target.result;
-
-        results.forEach(function(item) {
-            if(item.mapName === mapName) {
-                mapNames[mapName] = item.data;
-            }
-        });
-
-        if (geojsonLayer) {
-            await geojsonLayer.eachLayer(function(layer) {
-                const districtCode = layer.feature.properties.SIG_CD; // 구 코드 가져오기
-                const sigunguCd = districtCode.substring(0, 2) + districtCode; // 시 + 구 이름으로 key 생성
-
-                if(mapNames[mapName]) {
-                    if (Array.isArray(mapNames[mapName])) {
-                        mapNames[mapName].forEach(mapNm => {
-                            if (mapNm.sigunguCd === sigunguCd && mapNm.color) {
-                                layer.setStyle({
-                                    fillColor: mapNm.color,
-                                    fillOpacity: 1
-                                });
-                            }
-                        });
-                    }
+            results.forEach(function(item) {
+                if (item.mapName === mapName) {
+                    mapNames[mapName] = item.data;
                 }
             });
-        }
 
-        geoLayer();
-    };
+            if (geojsonLayer) {
+                geojsonLayer.eachLayer(function(layer) {
+                    const districtCode = layer.feature.properties.SIG_CD;
+                    const sigunguCd = districtCode.substring(0, 2) + districtCode;
 
-    request.onerror = function(event) {
-        console.error("LoadRegions Error loading regions from IndexedDB: " + event.target.errorCode);
-    };
+                    if (mapNames[mapName]) {
+                        if (Array.isArray(mapNames[mapName])) {
+                            mapNames[mapName].forEach(mapNm => {
+                                if (mapNm.sigunguCd === sigunguCd && mapNm.color) {
+
+                                    layer.setStyle({
+                                        fillColor: mapNm.color,
+                                        fillOpacity: 1
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+            geoLayer(); // 데이터 로드 후 geoLayer() 호출
+            resolve();  // Promise 완료
+        };
+
+        request.onerror = function(event) {
+            console.error("LoadRegions Error loading regions from IndexedDB: " + event.target.errorCode);
+            reject(event.target.errorCode);
+        };
+    });
 }
 
 function moveToCurrentLocation() {
@@ -560,7 +564,6 @@ async function saveMapInfo() {
             base64Image = null;
             localStorage.removeItem('imageRemove');
         }
-
     }
 
     if (valid) {
@@ -633,7 +636,7 @@ function compressImage(file, maxWidth, maxHeight, quality) {
                 let width = img.width;
                 let height = img.height;
 
-                // 비율 유지하며 크기 조정
+                // 비율 유지하며 크기 조정 임시 삭제
                 // if (width > maxWidth || height > maxHeight) {
                 //     if (width > height) {
                 //         height = Math.round((height *= maxWidth / width));
@@ -746,43 +749,54 @@ function deepEqual(obj1, obj2) {
 
 
 async function saveMapInfos(mapName, data) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(["mapNames"], "readwrite");
+        const objectStore = transaction.objectStore("mapNames");
 
-    const transaction = db.transaction(["mapNames"], "readwrite");
-    const objectStore = transaction.objectStore("mapNames");
-    const request = objectStore.getAll();
+        const request = objectStore.getAll();
 
-    request.onsuccess = function(event) {
-        const allData = event.target.result;
-        const resultMapInfo = allData.filter(item => item.mapName === mapName);
+        request.onsuccess = function(event) {
+            const allData = event.target.result;
+            const resultMapInfo = allData.filter(item => item.mapName === mapName);
 
-        if (resultMapInfo.length > 0) {
-            const itemToUpdate = resultMapInfo[0];
+            if (resultMapInfo.length > 0) {
+                const itemToUpdate = resultMapInfo[0];
 
-            if (!Array.isArray(itemToUpdate.data)) {
-                itemToUpdate.data = [];
+                if (!Array.isArray(itemToUpdate.data)) {
+                    itemToUpdate.data = [];
+                }
+
+                itemToUpdate.data.push(data);
+
+                const updateRequest = objectStore.put(itemToUpdate);
+
+                updateRequest.onsuccess = function() {
+                    console.log("saveMapInfos Data updated successfully:", itemToUpdate);
+                };
+
+                updateRequest.onerror = function(event) {
+                    console.error("saveMapInfos infos Update error: " + event.target.errorCode);
+                    reject(event.target.error);
+                };
             }
+        };
 
-            itemToUpdate.data.push(data);
+        request.onerror = function(event) {
+            console.error("saveMapInfos Request error: " + event.target.errorCode);
+            reject(event.target.error);
+        };
 
-            const updateRequest = objectStore.put(itemToUpdate);
+        // 트랜잭션 완료 후 resolve 호출
+        transaction.oncomplete = function() {
+            console.log("Transaction completed successfully.");
+            resolve();
+        };
 
-            updateRequest.onsuccess = function() {
-                console.log("saveMapInfos Data updated successfully:", itemToUpdate);
-            };
-
-            updateRequest.onerror = function(event) {
-                console.error("saveMapInfos infos Update error: " + event.target.errorCode);
-            };
-        }
-    };
-
-    request.onerror = function(event) {
-        console.error("saveMapInfos Request error: " + event.target.errorCode);
-    };
-
-    transaction.onerror = function(event) {
-        console.error("saveMapInfos Transaction error: " + event.target.errorCode);
-    };
+        transaction.onerror = function(event) {
+            console.error("Transaction error: " + event.target.errorCode);
+            reject(event.target.errorCode);
+        };
+    });
 }
 
 async function deleteMapInfo() {
