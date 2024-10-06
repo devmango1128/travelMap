@@ -676,49 +676,58 @@ function compressImage(file, maxWidth, maxHeight, quality) {
 }
 
 async function uptMapInfos(updateItem, mapName, data) {
-    const transaction = db.transaction(["mapNames"], "readwrite");
-    const objectStore = transaction.objectStore("mapNames");
-    const request = objectStore.getAll();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(["mapNames"], "readwrite");
+        const objectStore = transaction.objectStore("mapNames");
+        const request = objectStore.getAll();
 
-    request.onsuccess = function(event) {
-        const allData = event.target.result;
-        const resultMapInfo = allData.filter(item => item.mapName === mapName);
+        request.onsuccess = function (event) {
+            const allData = event.target.result;
+            const resultMapInfo = allData.filter(item => item.mapName === mapName);
 
-        if (resultMapInfo.length > 0) {
-            const itemToUpdate = resultMapInfo[0];
+            if (resultMapInfo.length > 0) {
+                const itemToUpdate = resultMapInfo[0];
 
-            if (!Array.isArray(itemToUpdate.data)) {
-                itemToUpdate.data = [];
+                if (!Array.isArray(itemToUpdate.data)) {
+                    itemToUpdate.data = [];
+                }
+
+                const existingIndex = itemToUpdate.data.findIndex(existingData => deepEqual(existingData, updateItem[0]));
+
+                if (existingIndex !== -1) {
+                    itemToUpdate.data.splice(existingIndex, 1);
+                }
+
+                itemToUpdate.data.push(data);
+
+                const updateRequest = objectStore.put(itemToUpdate);
+
+                updateRequest.onsuccess = function () {
+                    localStorage.removeItem('updateItem');
+                    console.log("saveMapInfos Data updated successfully:", itemToUpdate);
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error("saveMapInfos infos Update error: " + event.target.errorCode);
+                };
             }
+        };
 
-            const existingIndex = itemToUpdate.data.findIndex(existingData => deepEqual(existingData, updateItem[0]));
+        request.onerror = function (event) {
+            console.error("saveMapInfos Request error: " + event.target.errorCode);
+        };
 
-            if (existingIndex !== -1) {
-                itemToUpdate.data.splice(existingIndex, 1);
-            }
+        transaction.onerror = function (event) {
+            console.error("saveMapInfos Transaction error: " + event.target.errorCode);
+            reject(event.target.errorCode);
+        };
 
-            itemToUpdate.data.push(data);
-
-            const updateRequest = objectStore.put(itemToUpdate);
-
-            updateRequest.onsuccess = function() {
-                localStorage.removeItem('updateItem');
-                console.log("saveMapInfos Data updated successfully:", itemToUpdate);
-            };
-
-            updateRequest.onerror = function(event) {
-                console.error("saveMapInfos infos Update error: " + event.target.errorCode);
-            };
-        }
-    };
-
-    request.onerror = function(event) {
-        console.error("saveMapInfos Request error: " + event.target.errorCode);
-    };
-
-    transaction.onerror = function(event) {
-        console.error("saveMapInfos Transaction error: " + event.target.errorCode);
-    };
+        // 트랜잭션 완료 후 resolve 호출
+        transaction.oncomplete = function() {
+            console.log("Transaction completed successfully.");
+            resolve();
+        };
+    });
 }
 
 function deepEqual(obj1, obj2) {
