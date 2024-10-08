@@ -882,7 +882,8 @@ textarea:focus {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    width: 80px;
+    /*width: 80px;*/
+    white-space: nowrap;
     margin-left: auto;
     margin-right: auto;
 }
