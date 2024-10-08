@@ -57,7 +57,7 @@ textarea:focus {
 .main-container div {
     font-family: 'NanumGothicExtraBold', sans-serif;
     color: #fff;
-    font-size: 3em;
+    font-size: 3rem;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -84,7 +84,7 @@ textarea:focus {
     display: inline-block;
     font-weight: bold;
     color: #282828;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     letter-spacing: -1.0px;
     line-height: 50px;
     height: 50px;
@@ -128,7 +128,7 @@ textarea:focus {
     font-weight: bold;
     width: 100%;
     display: inline-block;
-    font-size: 1.2em;
+    font-size: 1.1rem;
 }
 
 .menu-container span.dev-title {
@@ -136,7 +136,7 @@ textarea:focus {
     font-weight: bold;
     width: 100%;
     display: inline-block;
-    font-size: 1.2em;
+    font-size: 1.1rem;
 }
 
 .menu-container .menu-box {
@@ -146,7 +146,7 @@ textarea:focus {
     margin: 10px 0 10px 0;
     width: 100%;
     font-family: 'NanumGothic', sans-serif;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     box-sizing: border-box;
 }
 
@@ -184,7 +184,7 @@ textarea:focus {
 
 .map-name-container .error-message {
     color: #f43c3c;
-    font-size: 0.6em;
+    font-size: 0.6rem;
     display: inline-block;
     text-align: left;
     width: 100%;
@@ -196,7 +196,7 @@ textarea:focus {
     font-weight: bold;
     margin-bottom: 10px;
     color: #282828;
-    font-size: 1.0em;
+    font-size: 1.0rem;
     border: 1px solid #e2e2e2;
     height: 25px;
     padding: 10px 5px;
@@ -213,7 +213,7 @@ textarea:focus {
 .map-name-container .next-btn {
     font-weight: bold;
     color: #fff;
-    font-size: 1.0em;
+    font-size: 1.0rem;
     border: 1px solid #3496ff;
     background-color: #3496ff;
     height: 25px;
@@ -226,7 +226,7 @@ textarea:focus {
 .map-name-container .cancel-btn {
     font-weight: bold;
     color: #3496ff;
-    font-size: 1.0em;
+    font-size: 1.0rem;
     border: 1px solid #3496ff;
     background-color: #ffffff;
     height: 25px;
@@ -244,7 +244,7 @@ textarea:focus {
     animation: blink 0.7s infinite;
     font-weight: bold;
     color: #282828;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     width: 100%;
     margin-bottom: 0;
     position: absolute;
@@ -271,7 +271,7 @@ textarea:focus {
 .map-names-container div.plus-area-div {
     border: 1px solid #282828;
     border-radius: 50px;
-    font-size: 0.7em;
+    font-size: 0.7rem;
     padding: 5px 10px;
     display: flex;
     margin-left: auto;
@@ -290,7 +290,7 @@ textarea:focus {
 
 .map-names-container div.plus-text-div{
     color: #282828;
-    font-size: 1em;
+    font-size: 0.8rem;
 }
 
 .map-names-container div.name-box {
@@ -310,7 +310,7 @@ textarea:focus {
     margin-top: 20px;
     margin-left: 20px;
     color: #fff;
-    font-size: 1.1em;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
@@ -320,7 +320,7 @@ textarea:focus {
     margin-top: 20px;
     margin-left: 20px;
     color: #fff;
-    font-size: 1.18em;
+    font-size: 1.18rem;
     font-weight: bold;
     background-color: transparent;
     border: none;
@@ -340,7 +340,7 @@ textarea:focus {
     display: flex;
     margin-top: 6px;
     color: #fff;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: bold;
     justify-content: flex-end;
     padding-right: 20px;
@@ -349,7 +349,7 @@ textarea:focus {
 .map-names-container div.name-box div.menu-div div.menu-area {
     position: absolute;
     background-color: #ffffff;
-    font-size: 0.5em;
+    font-size: 0.7rem;
     width: 100px;
     border-radius: 4px;
     padding: 5px;
@@ -379,7 +379,7 @@ textarea:focus {
 }
 
 .map-names-container div.name-box div.hr-div {
-    padding: 0px 20px;
+    padding: 0 20px;
     height: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -391,7 +391,7 @@ textarea:focus {
 
 .map-names-container div.name-box div.statis-div {
     display: flex;
-    padding: 10px 0px 20px 0px;
+    padding: 10px 0 20px 0;
 }
 
 .map-names-container div.name-box div img.pin {
@@ -405,7 +405,7 @@ textarea:focus {
 
 .map-names-container div.name-box div.count {
     color: #fff;
-    font-size: 1.9em;
+    font-size: 1.9rem;
     font-weight: bold;
     height: 30px;
     float: left;
@@ -414,7 +414,7 @@ textarea:focus {
 
 .map-names-container div.name-box div.count span {
     color: #fff;
-    font-size: 0.5em;
+    font-size: 1rem;
     font-weight: bold;
     display: inline-block;
     line-height: 30px;
@@ -422,7 +422,7 @@ textarea:focus {
 
 .map-names-container div.name-box div.count span.point-cnt {
     color: #fff;
-    font-size: 0.8em;
+    font-size: 1.4rem;
     font-weight: bold;
     line-height: 10px;
     height: 10px;
@@ -430,7 +430,7 @@ textarea:focus {
 
 .map-names-container div.name-box div.count span.point {
     color: #fff;
-    font-size: 0.7em;
+    font-size: 1.4rem;
     font-weight: bold;
     margin-top: 15px;
 }
@@ -465,7 +465,7 @@ textarea:focus {
 
 .map-names-container div.name-box div.day {
     color: #fff;
-    font-size: 1.9em;
+    font-size: 1.9rem;
     font-weight: bold;
     margin-top: 6px;
     height: 20px;
@@ -474,14 +474,14 @@ textarea:focus {
 
 .map-names-container div.name-box div.day span {
     color: #fff;
-    font-size: 0.5em;
+    font-size: 1rem;
     font-weight: bold;
     margin-top: 10px;
 }
 
 .map-names-container div.name-box div.day span.point-day {
     color: #fff;
-    font-size: 0.8em;
+    font-size: 1.4rem;
     font-weight: bold;
     line-height: 10px;
     height: 10px;
@@ -495,7 +495,7 @@ textarea:focus {
     margin-left: 10px;
     margin-top: 20px;
     color: #ffffff;
-    font-size: 0.7em;
+    font-size: 0.8rem;
     padding: 5px 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: rgba(0, 0, 0, 0.1);
@@ -530,7 +530,7 @@ textarea:focus {
 .sigungu-container .page-title span.map-cnt {
     font-weight: normal;
     color: #b6b4b4;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     font-family: NanumGothic, serif;
     vertical-align: bottom;
 }
@@ -542,12 +542,12 @@ textarea:focus {
 }
 
 .sigungu-container ul li {
-    padding: 10px 0px 10px 5px;
+    padding: 10px 0 10px 5px;
     margin: 2px 0;
     background-color: #3496ff;
     color: #fff;
     border-radius: 5px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     cursor: pointer;
     width: 100%;
     display: inline-block;
@@ -571,11 +571,11 @@ textarea:focus {
 
 .sigungu-container ul.detailList li {
     padding: 7px 10px;
-    margin: 2px 0px;
+    margin: 2px 0;
     background-color: #fff;
     color: #282828;
     border-radius: 5px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     cursor: pointer;
     width: 100%;
     display: inline-block;
@@ -660,21 +660,21 @@ textarea:focus {
 
 .map-info-container .page-title {
     display: inline-block;
-    margin: 10px 0px 15px 0px;
+    margin: 10px 0 15px 0;
     font-weight: bold;
     width: 100%;
 }
 
 .map-info-container .page-title span {
     display: inline-block;
-    margin: 10px 0px 10px 0px;
+    margin: 10px 0 10px 0;
     font-weight: normal;
     color: #b6b4b4;
-    font-size: 0.8em;
+    font-size: 0.8rem;
 }
 
 .map-info-container .color-area {
-    font-size: 1em;
+    font-size: 1rem;
     color: #282828;
     display: inline-block;
     width: 100%;
@@ -705,7 +705,7 @@ textarea:focus {
 .map-info-container .circle.checked::after {
     content: '✓';
     color: #ffffff;
-    font-size: 1em;
+    font-size: 1rem;
     position: absolute;
     top: 48%;
     left: 50%;
@@ -714,7 +714,7 @@ textarea:focus {
 }
 
 .map-info-container .date-area {
-    font-size: 1em;
+    font-size: 1rem;
     color: #282828;
     display: flex;
     flex-wrap: wrap;
@@ -731,7 +731,7 @@ textarea:focus {
 }
 
 .map-info-container .desc-area {
-    font-size: 1em;
+    font-size: 1rem;
     color: #282828;
     display: inline-block;
     width: 100%;
@@ -750,7 +750,7 @@ textarea:focus {
 .map-info-container .next-btn {
     font-weight: bold;
     color: #fff;
-    font-size: 1.0em;
+    font-size: 1.0rem;
     border: 1px solid #3496ff;
     background-color: #3496ff;
     height: 50px;
@@ -770,7 +770,7 @@ textarea:focus {
     width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     font-weight: 600;
 }
 
@@ -789,7 +789,7 @@ textarea:focus {
     border-radius: 20px;
     margin: 1px;
     display: inline-flex;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     height: 15px;
     align-items: center;
     gap: 5px;
@@ -817,7 +817,7 @@ textarea:focus {
 
 .map-info-container .error-message {
     color: #f43c3c;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     margin-left: 10px;
 }
 
@@ -845,7 +845,7 @@ textarea:focus {
 .map-timeLine-container .page-title span.map-cnt {
     font-weight: normal;
     color: #b6b4b4;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     font-family: NanumGothic, serif;
     vertical-align: bottom;
 }
@@ -859,7 +859,7 @@ textarea:focus {
 
 .map-timeLine-container .no-data div.no-sub-data {
     text-align: center;
-    font-size: 0.8em;
+    font-size: 0.8rem;
 }
 
 .map-timeLine-container .no-data div.no-sub-data img.no-data-img {
@@ -875,7 +875,7 @@ textarea:focus {
 .map-timeLine-container .no-data div.plus-area-div {
     border: 1px solid #b6b4b4;
     border-radius: 50px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     padding: 5px 10px;
     display: flex;
     text-align: center;
@@ -897,13 +897,13 @@ textarea:focus {
 .map-timeLine-container .no-data div.plus-img-div .plus-img {
     width: 15px;
     height: 15px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .map-timeLine-container .no-data div.plus-text-div {
     color: #282828;
     line-height: 15px;
-    font-size: 1em;
+    font-size: 0.7rem;
 }
 
 .map-timeLine-container .year-title {
@@ -917,7 +917,7 @@ textarea:focus {
     border: 1px solid #b6b4b4;
     border-radius: 35px;
     color: #282828;
-    font-size: 0.9em;
+    font-size: 0.9rem;
 }
 
 .map-timeLine-container .cbp_tmtimeline {
@@ -960,14 +960,14 @@ textarea:focus {
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmtime span:last-child {
-    font-size: 0.8em;
+    font-size: 0.8rem;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel {
     background: #97c6f9;
     color: #fff;
     padding: 0.8em;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     font-weight: 300;
     line-height: 1.4;
     position: relative;
@@ -982,7 +982,7 @@ textarea:focus {
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-date {
-    font-size: 1.0em;
+    font-size: 1.0rem;
     display: inline-block;
     margin-bottom: 3px;
     font-weight: bold;
@@ -992,7 +992,7 @@ textarea:focus {
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-tit {
     float: left;
     flex: 1;
-    font-size: 0.9em;
+    font-size: 0.9rem;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-del {
@@ -1002,7 +1002,7 @@ textarea:focus {
     padding: 2px 8px;
     background: #f86b84;
     color: #fff;
-    font-size: 0.8em;
+    font-size: 0.8rem;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-upt {
@@ -1012,7 +1012,7 @@ textarea:focus {
     padding: 2px 8px;
     color: #fff;
     margin-right: 5px;
-    font-size: 0.8em;
+    font-size: 0.7rem;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-contents {
@@ -1085,7 +1085,7 @@ textarea:focus {
 
 #map .label{
     font-weight: normal;
-    font-size: 0.3em;
+    font-size: 0.3rem;
     pointer-events: none;
     white-space: nowrap;
 }
@@ -1175,7 +1175,7 @@ textarea:focus {
 
 .label-tit {
     color: #3496ff;
-    font-size: 1.0em;
+    font-size: 1.0rem;
     align-items: center;
     display: flex;
     height: 30px;
@@ -1186,12 +1186,13 @@ textarea:focus {
 
 .label-date {
     font-weight: bold;
+    font-size: 1rem;
 }
 
 .label-desc {
     color: #b6b4b4;
     font-weight: normal;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -1202,7 +1203,7 @@ textarea:focus {
 }
 
 .hash-area {
-    font-size: 0.8em;
+    font-size: 0.8rem;
 }
 
 .hash {
@@ -1223,7 +1224,7 @@ textarea:focus {
     text-align: center;
     box-sizing: border-box;
     justify-items: center;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     margin-left: auto;
 }
 
@@ -1251,7 +1252,7 @@ textarea:focus {
     display: inline-block;
     position: fixed;
     color: #fff;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     font-weight: normal;
     margin-left: 55px;
     background-color: #3496ff;
@@ -1267,7 +1268,7 @@ textarea:focus {
     display: inline-block;
     position: fixed;
     color: #3496ff;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     font-weight: normal;
     background-color: #fff;
     border: 1px solid #3496ff;
