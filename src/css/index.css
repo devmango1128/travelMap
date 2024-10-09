@@ -290,7 +290,7 @@ textarea:focus {
 
 .map-names-container div.plus-text-div{
     color: #282828;
-    font-size: 0.8rem;
+    line-height: 15px;
 }
 
 .map-names-container div.name-box {
@@ -495,7 +495,7 @@ textarea:focus {
     margin-left: 10px;
     margin-top: 20px;
     color: #ffffff;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     padding: 5px 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: rgba(0, 0, 0, 0.1);
@@ -982,7 +982,7 @@ textarea:focus {
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-date {
-    font-size: 1.0rem;
+    font-size: 0.9rem;
     display: inline-block;
     margin-bottom: 3px;
     font-weight: bold;
@@ -1002,7 +1002,7 @@ textarea:focus {
     padding: 2px 8px;
     background: #f86b84;
     color: #fff;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel p span.time-upt {
@@ -1012,7 +1012,7 @@ textarea:focus {
     padding: 2px 8px;
     color: #fff;
     margin-right: 5px;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
 }
 
 .map-timeLine-container .cbp_tmtimeline > li .cbp_tmlabel span.span-contents {
@@ -1186,7 +1186,7 @@ textarea:focus {
 
 .label-date {
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .label-desc {
@@ -1224,7 +1224,7 @@ textarea:focus {
     text-align: center;
     box-sizing: border-box;
     justify-items: center;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin-left: auto;
 }
 
