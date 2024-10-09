@@ -1192,7 +1192,7 @@ textarea:focus {
 .label-desc {
     color: #b6b4b4;
     font-weight: normal;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -1203,7 +1203,7 @@ textarea:focus {
 }
 
 .hash-area {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 
 .hash {
