@@ -55,12 +55,11 @@
 
         document.getElementById('shareButton').addEventListener('click', () => {
             html2canvas(document.body).then(canvas => {
-                const base64Image = canvas.toDataURL('image/png');
-                if (window.webkit && window.webkit.messageHandlers.shareImage) {
-                    // iOS 네이티브로 Base64 이미지 전달
-                    window.webkit.messageHandlers.shareImage.postMessage(base64Image);
+                const base64Image = canvas.toDataURL('image/png');  // Base64로 변환
+                if (window.Android) {
+                    window.Android.shareImage(base64Image);  // Android 네이티브로 전달
                 } else {
-                    console.error('iOS 인터페이스가 존재하지 않습니다.');
+                    console.error('Android 인터페이스가 존재하지 않습니다.');
                 }
             });
         });
