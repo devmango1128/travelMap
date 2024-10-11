@@ -54,7 +54,7 @@
         await loadGeoJSON();
 
         document.getElementById('shareButton').addEventListener('click', () => {
-            html2canvas(document.body).then(canvas => {
+            html2canvas(document.getElementById('map'),{scale:2, useCORS:true}).then(canvas => {
                 const base64Image = canvas.toDataURL('image/png');  // Base64로 변환
                 if (window.Android) {
                     window.Android.shareImage(base64Image);  // Android 네이티브로 전달
