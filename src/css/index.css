@@ -1122,6 +1122,18 @@ textarea:focus {
     height: 50px;
 }
 
+.set_share {
+    position: fixed;
+    top: 165px;
+    z-index: 999;
+    max-width: 1023px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+}
+
 .set_map .btn_control {
     margin-bottom: 9px;
 }
@@ -1141,11 +1153,11 @@ textarea:focus {
     background-position: -22px -2px;
 }
 
-.set_map .ico_comm {
+.set_map .ico_comm, .set_share .ico_comm {
     margin: auto;
 }
 
-.ico_comm {
+.ico_comm, .ico_share {
     display: block;
     overflow: hidden;
     font-size: 1px;
@@ -1157,6 +1169,12 @@ textarea:focus {
 .ico_comm {
     background: url('../images/map.png') no-repeat;
     background-size: 250px auto;
+}
+
+.ico_share {
+    background-position: 0 -1px !important;
+    background-image: url('../images/share_icon.png');
+    background-size: 17px auto;
 }
 
 .color-blue {
