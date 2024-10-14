@@ -34,7 +34,7 @@
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/teastman/Leaflet.PolygonPattern/dist/Leaflet.PolygonPattern.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="src/js/index.js"></script>
 </body>
@@ -54,12 +54,27 @@
         await loadGeoJSON();
 
         document.getElementById('shareButton').addEventListener('click', () => {
-            html2canvas(document.getElementById('map'),{scale:2, useCORS:true}).then(canvas => {
-                const base64Image = canvas.toDataURL('image/png');  // Base64로 변환
+
+            const mapElement = document.getElementById('map');
+            const rect = mapElement.getBoundingClientRect();  // 요소의 정확한 크기와 위치 정보를 가져옴
+
+            // 지도 크기 설정
+            mapElement.style.width = `${rect.width}px`;
+            mapElement.style.height = `${rect.height}px`;
+
+            html2canvas(mapElement,{ useCORS: true }).then(canvas => {
+                const base64Image = canvas.toDataURL('image/png');
+                document.body.appendChild(canvas);
+
                 if (window.Android) {
                     window.Android.shareImage(base64Image);  // Android 네이티브로 전달
                 } else {
-                    console.error('Android 인터페이스가 존재하지 않습니다.');
+                    const link = document.createElement('a');
+                    link.href = base64Image;
+                    link.download = 'map_capture.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
                 }
             });
         });

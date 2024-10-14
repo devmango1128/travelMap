@@ -35,7 +35,8 @@ function initMap() {
         crs: L.CRS.EPSG3857,
         zoomControl: true,
         attributionControl: false,
-        layers: []
+        layers: [],
+        preferCanvas: true
     });
 
     const whiteBackground = L.tileLayer('', { attribution: '', maxZoom: 18 });
