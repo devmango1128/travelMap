@@ -228,15 +228,48 @@ function escapeHtml(unsafe) {
         .replace(/"/g, '\\"');
 }
 
-function popupUpdate(index, siNm, gigunguNm, filteredItems, evnet) {
+async function popupUpdate(index, siNm, gigunguNm, filteredItems, evnet) {
     event.preventDefault();
 
     const filteredData = JSON.parse(filteredItems);
     const newData = filteredData.splice(index, 1);
     localStorage.setItem('sigunguNm', siNm + ' ' + gigunguNm);
-    localStorage.setItem('updateItem', JSON.stringify(newData));
 
+    // 이미지 압축 처리
+    if(newData[0].image) {
+        const compressedBase64 = await compressImage2(newData[0].image);
+        newData[0].image = compressedBase64;
+    }
+
+    localStorage.setItem('updateItem', JSON.stringify(newData));
     window.location.href = 'mapInfo.html';
+}
+
+
+function compressImage2(base64Image) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = base64Image;
+
+        img.onload = function () {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const width = img.width * 0.5;
+            const height = img.height * 0.5;
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7); // 0.7은 압축 품질 (0.0 ~ 1.0)
+            resolve(compressedBase64);
+        };
+
+        img.onerror = function () {
+            reject(new Error('이미지 로드 실패'));
+        };
+    });
 }
 
 function popupDelete(index, filteredItems, event) {
@@ -693,7 +726,12 @@ async function uptMapInfos(updateItem, mapName, data) {
                     itemToUpdate.data = [];
                 }
 
-                const existingIndex = itemToUpdate.data.findIndex(existingData => deepEqual(existingData, updateItem[0]));
+                const existingIndex = itemToUpdate.data.findIndex(existingData =>
+                    deepEqual(
+                        { ...existingData, image: undefined },
+                        { ...updateItem[0], image: undefined }
+                    )
+                );
 
                 if (existingIndex !== -1) {
                     itemToUpdate.data.splice(existingIndex, 1);
