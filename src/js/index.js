@@ -159,7 +159,7 @@ function loadGeoJSON() {
 
                                         if (map.image) {
                                             imgURL = URL.createObjectURL(base64ToBlob(map.image));
-                                            popupContent += `<div id="mapImage" class="label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
+                                            popupContent += `<div class="mapImage label-image" style="margin-bottom:5px;"><img src="${imgURL}" style="width: 50px; display: block; margin-top: 10px;"></div>`;
                                         }
 
                                         const formattedDescription = map.description.replace(/\n/g, '<br>');
@@ -176,17 +176,17 @@ function loadGeoJSON() {
                         layer.bindPopup(popupContent, popupOptions).openPopup();
 
                         setTimeout(() => {
-                            const mapImageElement = document.getElementById('mapImage');
-                            if (mapImageElement) {
-                                mapImageElement.addEventListener('click', () => showImagePreview(imgURL));
-                            }
+                            const mapImageElements = document.querySelectorAll('.mapImage');
+                            mapImageElements.forEach((element) => {
+                                element.addEventListener('click', (event) => showImagePreview(event.target.src));
+                            });
                         }, 100);
 
-                        layer.on('popupopen', () => {
-                            const mapImageElement = document.getElementById('mapImage');
-                            if (mapImageElement) {
-                                mapImageElement.addEventListener('click', () => showImagePreview(imgURL));
-                            }
+                        layer.on('popupopen', (event) => {
+                            const mapImageElements = document.querySelectorAll('.mapImage');
+                            mapImageElements.forEach((element) => {
+                                element.addEventListener('click', (event) => showImagePreview(event.target.src));
+                            });
                         });
                     }
                 });
@@ -277,7 +277,7 @@ function popupDelete(index, filteredItems, event) {
     event.preventDefault();
 
     const filteredData = JSON.parse(filteredItems);
-
+    console.log(filteredData, index);
     filteredData.splice(index, 1);
     updateIndexedDB(filteredData).then(() => {
         location.reload();
@@ -286,34 +286,43 @@ function popupDelete(index, filteredItems, event) {
     });
 }
 
-
 async function updateIndexedDB(updatedItem) {
-
     const db = await openIndexedDB('MapColorDB', 1);
     const tx = db.transaction('mapNames', 'readwrite');
     const store = tx.objectStore('mapNames');
     const mapName = localStorage.getItem("mapName");
 
-    const request = store.get(mapName);
+    return new Promise((resolve, reject) => {
+        const request = store.get(mapName);
 
-    request.onsuccess = function(event) {
-        const data = event.target.result;
+        request.onsuccess = function(event) {
+            const data = event.target.result;
 
-        if (data) {
-            data.data = updatedItem;
-            store.put(data);
+            if (data) {
+                // 업데이트된 데이터를 저장
+                data.data = updatedItem;
+                const updateRequest = store.put(data);
 
-            console.log("IndexedDB에 업데이트 완료", data);
-        } else {
-            console.error("데이터를 찾을 수 없습니다.");
-        }
-    };
+                updateRequest.onsuccess = function() {
+                    console.log("IndexedDB에 업데이트 완료", data);
+                    resolve(); // 성공 시 resolve 호출
+                };
 
-    request.onerror = function(event) {
-        console.error("IndexedDB 요청 오류", event);
-    };
+                updateRequest.onerror = function(event) {
+                    console.error("IndexedDB 업데이트 오류", event);
+                    reject(event); // 오류 발생 시 reject 호출
+                };
+            } else {
+                console.error("데이터를 찾을 수 없습니다.");
+                reject(new Error("데이터를 찾을 수 없습니다."));
+            }
+        };
 
-    await tx.complete;
+        request.onerror = function(event) {
+            console.error("IndexedDB 요청 오류", event);
+            reject(event);
+        };
+    });
 }
 
 function formatDateToYYMMDD(dateString) {
@@ -987,75 +996,79 @@ function updateSigunguList(allData, mapName, sigunguData) {
 }
 
 function goSidoDetail(obj, code) {
-
     const mapName = localStorage.getItem("mapName");
     const transaction = db.transaction(["mapNames"], "readonly");
     const objectStore = transaction.objectStore("mapNames");
     const request = objectStore.getAll();
 
     request.onsuccess = function(event) {
-
         const results = event.target.result;
 
-        results.forEach(function (item) {
+        results.forEach(function(item) {
             if (item.mapName === mapName) {
                 mapNames[mapName] = item.data;
             }
         });
-    }
 
-    const nextElement = obj.nextElementSibling;
+        // 데이터가 준비된 후에 리스트 생성
+        renderDetailList();
+    };
 
-    if (nextElement && nextElement.id === 'detailList') {
-        nextElement.parentNode.removeChild(nextElement);
-        return;
-    }
+    function renderDetailList() {
+        const nextElement = obj.nextElementSibling;
 
-    let element = document.getElementById('detailList');
+        if (nextElement && nextElement.id === 'detailList') {
+            nextElement.parentNode.removeChild(nextElement);
+            return;
+        }
 
-    if (element) {
-        element.parentNode.removeChild(element);
-    }
+        let element = document.getElementById('detailList');
 
-    const ul = document.createElement('ul');
-    ul.id = 'detailList';
-    ul.classList.add('detailList');
+        if (element) {
+            element.parentNode.removeChild(element);
+        }
 
-    $.getJSON(sigunguJsonUrl, function(data) {
-        data.features.forEach(function(feature) {
-            if (feature.properties.SIG_CD.startsWith(code)) {
-                const li = document.createElement('li');
-                li.textContent = feature.properties.SIG_KOR_NM;
+        const ul = document.createElement('ul');
+        ul.id = 'detailList';
+        ul.classList.add('detailList');
 
-                const sigunguCd = code + feature.properties.SIG_CD;
+        $.getJSON(sigunguJsonUrl, function(data) {
+            data.features.forEach(function(feature) {
+                if (feature.properties.SIG_CD.startsWith(code)) {
+                    const li = document.createElement('li');
+                    li.textContent = feature.properties.SIG_KOR_NM;
 
-                function handleEvent() {
-                    localStorage.setItem('sigunguCd', sigunguCd);
-                    localStorage.setItem('sigunguNm', obj.innerText + ' ' + feature.properties.SIG_KOR_NM);
-                    nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
+                    const sigunguCd = code + feature.properties.SIG_CD;
+
+                    function handleEvent() {
+                        localStorage.setItem('sigunguCd', sigunguCd);
+                        localStorage.setItem('sigunguNm', obj.innerText + ' ' + feature.properties.SIG_KOR_NM);
+                        nextPage(2, { sigunguCd, sigunguNm : obj.innerText + ' ' + feature.properties.SIG_KOR_NM });
+                    }
+
+                    // mapNames[mapName]이 준비된 후에 point 클래스를 적용
+                    if (mapNames[mapName]) {
+                        mapNames[mapName].forEach(data => {
+                            if (data.sigunguCd.substring(2, 8) === feature.properties.SIG_CD) {
+                                li.classList.add('point');
+                            }
+                        });
+                    }
+
+                    li.addEventListener('click', handleEvent);
+                    ul.appendChild(li);
                 }
+            });
+            obj.parentNode.insertBefore(ul, obj.nextSibling);
 
-                if(mapNames[mapName]) {
-                    mapNames[mapName].forEach(data => {
-                        if(data.sigunguCd.substring(2, 8) === feature.properties.SIG_CD) {
-                            li.classList.add('point');
-                        }
-                    })
-                }
+            const dlUl = document.getElementById('detailList');
+            const lis = dlUl.querySelectorAll('li');
 
-                li.addEventListener('click', handleEvent);
-                ul.appendChild(li);
+            if (lis.length % 2 !== 0) {
+                lis[lis.length - 1].classList.add('full-width');
             }
         });
-        obj.parentNode.insertBefore(ul, obj.nextSibling);
-
-        const dlUl = document.getElementById('detailList');
-        const lis = dlUl.querySelectorAll('li');
-
-        if (lis.length % 2 !== 0) {
-            lis[lis.length - 1].classList.add('full-width');
-        }
-    });
+    }
 }
 
 function daysSince(startDate) {
