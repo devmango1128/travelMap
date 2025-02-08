@@ -21,7 +21,7 @@ request.onupgradeneeded = (event) => {
     db.createObjectStore("mapNames", { keyPath: "mapName" });
 };
 
-const sigunguJsonUrl = "src/data/sigungu_new.json";
+const sigunguJsonUrl = "src/data/sigungu_new_new.json";
 const center = [35.9665, 127.6780];
 const mapNames = {};
 let geojsonLayer;
@@ -130,7 +130,8 @@ function loadGeoJSON() {
                         const sigCd = feature.properties.SIG_CD;
                         const siNm = sigunguList[sigCd.substring(0, 2)];
                         const data = mapNames[mapName];
-                        let popupContent = `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}', event)"><img src="src/images/plus_icon_w.png" class="plus-img">추가</button></b>`;
+                        const popCon = sigCd ? `<b class="label-tit">${feature.properties.SIG_KOR_NM} <button class="map-reg-btn" onclick="registerLocation('${mapName}','${sigCd}', event)"><img src="src/images/plus_icon_w.png" class="plus-img">추가</button></b>`:`지도뿌셔는 시군구 등록만 지원합니다.<br/>독도는 우리땅!!`;
+                        let popupContent = popCon;
                         let popupOptions = {
                             minWidth: 230,
                             maxWidth: 280
