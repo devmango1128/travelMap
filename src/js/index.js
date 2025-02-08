@@ -24,6 +24,7 @@ request.onupgradeneeded = (event) => {
 const sigunguJsonUrl = "src/data/sigungu_new_new.json";
 const center = [35.9665, 127.6780];
 const mapNames = {};
+let districtLabels = [];
 let geojsonLayer;
 let gubun;
 let map;
@@ -51,6 +52,20 @@ function initMap() {
 
     whiteBackground.addTo(map);
 
+    map.on('zoomend', () => {
+        let zoomLevel = map.getZoom();
+        let thresholdZoom = 8;
+
+        if (zoomLevel > thresholdZoom) {
+            districtLabels.forEach((label) => {
+              label.addTo(map);
+            });
+        } else {
+            districtLabels.forEach((label) => {
+              if(excludedRegionCodes.includes(label.options.regionCode)) label.remove();
+            });
+        }
+    });
     map.on('zoomend', updateLabelSizes);
 }
 
@@ -197,20 +212,35 @@ function loadGeoJSON() {
                 const regionCode = feature.properties.SIG_CD.substring(0, 2);
 
                 const isExcludedRegion = excludedRegionCodes.includes(regionCode);
-                if (!isExcludedRegion) {
-                    const districtLabel = L.marker(center, {
-                        icon: L.divIcon({
-                            className: 'label',
-                            html: cityName,
-                            iconSize: adjustLabelSize(map)
-                        })
-                    }).addTo(map);
+                // if (!isExcludedRegion) {
+                //     const districtLabel = L.marker(center, {
+                //         icon: L.divIcon({
+                //             className: 'label',
+                //             html: cityName,
+                //             iconSize: adjustLabelSize(map)
+                //         })
+                //     }).addTo(map);
+                // }
+
+                const label = {
+                    icon: L.divIcon({
+                        className: 'label',
+                        html: cityName,
+                        iconSize: adjustLabelSize(map)
+                    }),
+                    regionCode
+                };
+
+                const districtLabel = L.marker(center, label).addTo(map);
+                if (isExcludedRegion) {
+                    map.removeLayer(districtLabel);
                 }
+
+                districtLabels.push(districtLabel);
             }
         }).addTo(map);
 
         await updateLabelSizes();
-
         await loadRegions(mapName);
     });
 }
