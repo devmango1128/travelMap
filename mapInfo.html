@@ -180,6 +180,12 @@
                 await circleClicked(firstCircle, firstCircle.style.backgroundColor);
             }
 
+            document.getElementById('fileInput').addEventListener('click', function (event) {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    event.preventDefault();
+                }
+            });
+
             document.getElementById('fileInput').addEventListener('change', function() {
                 const fileInput = document.getElementById('fileInput');
                 const file = fileInput.files[0];
