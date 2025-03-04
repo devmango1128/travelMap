@@ -183,6 +183,15 @@
             document.getElementById('fileInput').addEventListener('click', function (event) {
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                     event.preventDefault();
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then((stream) => {
+                            stream.getTracks().forEach(track => track.stop());
+                            console.log("카메라 접근 차단됨");
+                        })
+                        .catch((error) => {
+                            console.warn("카메라 접근이 불가능하거나 거부됨", error);
+                        });
+                    this.click();
                 }
             });
 
