@@ -318,12 +318,11 @@ function popupDelete(index, filteredItems, event) {
 }
 
 async function updateIndexedDB(updatedItem) {
-    const db = await openIndexedDB('MapColorDB', 1);
-    const tx = db.transaction('mapNames', 'readwrite');
-    const store = tx.objectStore('mapNames');
-    const mapName = localStorage.getItem("mapName");
-
     return new Promise((resolve, reject) => {
+        const db = openIndexedDB('MapColorDB', 1);
+        const tx = db.transaction('mapNames', 'readwrite');
+        const store = tx.objectStore('mapNames');
+        const mapName = localStorage.getItem("mapName");
         const request = store.get(mapName);
 
         request.onsuccess = function(event) {
@@ -572,21 +571,22 @@ function applyDotPattern(layer) {
     });
 }
 
-function saveMapName(db, mapName) {
+async function saveMapName(db, mapName) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(["mapNames"], "readwrite");
+        const objectStore = transaction.objectStore("mapNames");
+        const mapNameObject = {mapName: mapName, createDate: Date.now()};
+        const request = objectStore.put(mapNameObject);
 
-    const transaction = db.transaction(["mapNames"], "readwrite");
-    const objectStore = transaction.objectStore("mapNames");
-    const mapNameObject = { mapName: mapName, createDate : Date.now() };
-    const request = objectStore.put(mapNameObject);
+        request.onsuccess = function (event) {
+            console.log("Map name saved successfully.");
+            nextPage(0, mapName);
+        };
 
-    request.onsuccess = function(event) {
-        console.log("Map name saved successfully.");
-        nextPage(0, mapName);
-    };
-
-    request.onerror = function(event) {
-        console.error("Error saving map name:", event.target.errorCode);
-    };
+        request.onerror = function (event) {
+            console.error("Error saving map name:", event.target.errorCode);
+        };
+    });
 }
 
 async function saveMapInfo() {
@@ -895,31 +895,33 @@ async function deleteMapInfo() {
     }
 }
 
-function realDeleteMapInfo() {
-    const request = indexedDB.open("MapColorDB", 1);
+async function realDeleteMapInfo() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("MapColorDB", 1);
 
-    request.onerror = (event) => console.error("Database error:", event.target.errorCode);
+        request.onerror = (event) => console.error("Database error:", event.target.errorCode);
 
-    request.onsuccess = (event) => {
-        const db = event.target.result;
-        const transaction = db.transaction(["mapNames"], "readwrite");
-        const objectStore = transaction.objectStore("mapNames");
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction(["mapNames"], "readwrite");
+            const objectStore = transaction.objectStore("mapNames");
 
-        const clearRequest = objectStore.clear();
+            const clearRequest = objectStore.clear();
 
-        clearRequest.onsuccess = () => {
-            console.log("All data cleared successfully.");
+            clearRequest.onsuccess = () => {
+                console.log("All data cleared successfully.");
+            };
+
+            clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
         };
 
-        clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
-    };
-
-    request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains("mapNames")) {
-            db.createObjectStore("mapNames", { keyPath: "mapName" });
-        }
-    };
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains("mapNames")) {
+                db.createObjectStore("mapNames", {keyPath: "mapName"});
+            }
+        };
+    });
 }
 
 function nextPage(reqGubun, data) {
@@ -1127,18 +1129,19 @@ function mapNamesNextPage(mapName) {
 }
 
 async function fnDelete(event, data) {
+    return new Promise((resolve, reject) => {
+        const db = openIndexedDB("MapColorDB", 1);
+        const transaction = db.transaction("mapNames", "readwrite");
+        const objectStore = transaction.objectStore("mapNames");
+        const deleteRequest = objectStore.delete(data.mapName);
 
-    const db = await openIndexedDB("MapColorDB", 1);
-    const transaction = db.transaction("mapNames", "readwrite");
-    const objectStore = transaction.objectStore("mapNames");
-    const deleteRequest = objectStore.delete(data.mapName);
-
-    deleteRequest.onsuccess = () => {
-        location.reload();
-    };
-    deleteRequest.onerror = (event) => {
-        console.error("Error deleting map:", event.target.error);
-    };
+        deleteRequest.onsuccess = () => {
+            location.reload();
+        };
+        deleteRequest.onerror = (event) => {
+            console.error("Error deleting map:", event.target.error);
+        };
+    });
 }
 
 function fnModify(event, data, index) {
@@ -1208,22 +1211,27 @@ async function saveNewMapName(data, newName) {
 
         const deleteRequest = objectStore.delete(originalMapName);
 
-        deleteRequest.onsuccess = () => {
+        await new Promise((resolve, reject) => {
+            deleteRequest.onsuccess = resolve;
+            deleteRequest.onerror = (event) => {
+                console.error("Error deleting old map name:", event.target.error);
+                reject(event.target.error);
+            };
+        });
 
-            const updateRequest = objectStore.put(data);
+        const updateRequest = objectStore.put(data);
 
+        return new Promise((resolve, reject) => {
             updateRequest.onsuccess = () => {
                 console.log(`Map name updated from ${originalMapName} to ${newName}`);
+                resolve();
             };
 
             updateRequest.onerror = (event) => {
                 console.error("Error updating map name:", event.target.error);
+                reject(event.target.error);
             };
-        };
-
-        deleteRequest.onerror = (event) => {
-            console.error("Error deleting old map name:", event.target.error);
-        };
+        });
 
     } catch (error) {
         console.error("Failed to update map name:", error);

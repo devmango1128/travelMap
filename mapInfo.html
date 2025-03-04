@@ -168,7 +168,7 @@
             });
 
             document.querySelectorAll('.circle').forEach((circle) => {
-                circle.addEventListener('touchstart', function(event) {
+                circle.addEventListener('touchstart', function() {
                     document.querySelectorAll('input').forEach((input) => {
                         input.blur();
                     });
@@ -180,7 +180,7 @@
                 await circleClicked(firstCircle, firstCircle.style.backgroundColor);
             }
 
-            document.getElementById('fileInput').addEventListener('click', function (event) {
+            document.getElementById('fileInput').addEventListener('click', function () {
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                     navigator.mediaDevices.getUserMedia({ video: true })
                         .then((stream) => {
