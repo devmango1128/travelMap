@@ -308,7 +308,6 @@ function popupDelete(index, filteredItems, event) {
     event.preventDefault();
 
     const filteredData = JSON.parse(filteredItems);
-    console.log(filteredData, index);
     filteredData.splice(index, 1);
     updateIndexedDB(filteredData).then(() => {
         location.reload();
@@ -317,7 +316,7 @@ function popupDelete(index, filteredItems, event) {
     });
 }
 
-async function updateIndexedDB(updatedItem) {
+function updateIndexedDB(updatedItem) {
     return new Promise((resolve, reject) => {
         const db = openIndexedDB('MapColorDB', 1);
         const tx = db.transaction('mapNames', 'readwrite');
@@ -334,7 +333,7 @@ async function updateIndexedDB(updatedItem) {
                 const updateRequest = store.put(data);
 
                 updateRequest.onsuccess = function() {
-                    console.log("IndexedDB에 업데이트 완료", data);
+                    console.log("IndexedDB에 업데이트 완료");
                     resolve(); // 성공 시 resolve 호출
                 };
 
@@ -859,7 +858,7 @@ async function saveMapInfos(mapName, data) {
                 const updateRequest = objectStore.put(itemToUpdate);
 
                 updateRequest.onsuccess = function() {
-                    console.log("saveMapInfos Data updated successfully:", itemToUpdate);
+                    console.log("saveMapInfos Data updated successfully");
                 };
 
                 updateRequest.onerror = function(event) {
