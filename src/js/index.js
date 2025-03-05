@@ -1519,3 +1519,212 @@ function showImagePreview(imgURL) {
 
     document.body.appendChild(previewLayer);
 }
+
+async function optimizeExistingImages() {
+    const request = indexedDB.open("MapColorDB", 1);
+
+    request.onsuccess = async (event) => {
+        const db = event.target.result;
+
+        // 데이터 가져오는 트랜잭션
+        const transaction = db.transaction("mapNames", "readonly");
+        const objectStore = transaction.objectStore("mapNames");
+        const getAllRequest = objectStore.getAll();
+
+        getAllRequest.onsuccess = async (event) => {
+            const allData = event.target.result;
+
+            for (const item of allData) {
+                if (Array.isArray(item.data)) {
+                    for (let i = 0; i < item.data.length; i++) {
+                        if (item.data[i].image && item.data[i].image.startsWith("data:image")) {
+                            console.log(`압축 중: ${item.data[i].sigunguCd}`);
+
+                            // 기존 Base64 이미지를 Blob으로 변환
+                            const oldBlob = base64ToBlob(item.data[i].image);
+                            const compressedBlob = await compressImage(oldBlob, 300, 300, 0.6);
+                            const compressedBase64 = await blobToBase64(compressedBlob);
+
+                            // 압축된 이미지로 교체
+                            item.data[i].image = compressedBase64;
+                        }
+                    }
+                }
+
+                // 새로운 트랜잭션을 생성하여 데이터 저장
+                try {
+                    await new Promise((resolve, reject) => {
+                        const updateTransaction = db.transaction("mapNames", "readwrite");
+                        const updateObjectStore = updateTransaction.objectStore("mapNames");
+
+                        const putRequest = updateObjectStore.put(item);
+                        putRequest.onsuccess = resolve;
+                        putRequest.onerror = (event) => {
+                            console.error("IndexedDB 저장 오류:", event.target.error);
+                            reject(event.target.error);
+                        };
+                    });
+                } catch (error) {
+                    console.error("데이터 저장 실패:", error);
+                }
+            }
+
+            console.log("모든 기존 이미지 압축 완료!");
+        };
+
+        getAllRequest.onerror = (event) => {
+            console.error("IndexedDB에서 데이터를 가져오는 중 오류 발생:", event.target.error);
+        };
+    };
+
+    request.onerror = (event) => {
+        console.error("IndexedDB 열기 실패:", event.target.error);
+    };
+}
+
+async function ensureSettingsStore() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("MapColorDB", 1);
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains("settings")) {
+                db.createObjectStore("settings", { keyPath: "key" });
+                console.log("settings ObjectStore 생성됨.");
+            }
+        };
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            resolve(db.objectStoreNames.contains("settings"));
+        };
+
+        request.onerror = (event) => {
+            console.error("IndexedDB 열기 실패:", event.target.error);
+            reject(event.target.error);
+        };
+    });
+}
+
+async function isOptimizationNeeded() {
+    const storeExists = await ensureSettingsStore();
+    if (!storeExists) return true;
+
+    return new Promise((resolve) => {
+        const request = indexedDB.open("MapColorDB", 1);
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction("settings", "readonly");
+            const objectStore = transaction.objectStore("settings");
+            const getRequest = objectStore.get("optimizationFlag");
+
+            getRequest.onsuccess = (event) => {
+                resolve(!event.target.result);
+            };
+
+            getRequest.onerror = () => resolve(true);
+        };
+
+        request.onerror = () => resolve(true);
+    });
+}
+
+async function setOptimizationFlag() {
+    const storeExists = await ensureSettingsStore();
+    if (!storeExists) return;
+
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("MapColorDB", 1);
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction("settings", "readwrite");
+            const objectStore = transaction.objectStore("settings");
+            const putRequest = objectStore.put({ key: "optimizationFlag", value: true });
+
+            putRequest.onsuccess = () => {
+                console.log("최적화 플래그 저장 완료");
+                resolve();
+            };
+
+            putRequest.onerror = (event) => {
+                console.error("최적화 플래그 저장 실패:", event.target.error);
+                reject(event.target.error);
+            };
+        };
+
+        request.onerror = (event) => {
+            console.error("IndexedDB 열기 실패:", event.target.error);
+            reject(event.target.error);
+        };
+    });
+}
+
+async function optimizeExistingImages() {
+    const request = indexedDB.open("MapColorDB", 1);
+
+    request.onsuccess = async (event) => {
+        const db = event.target.result;
+        const transaction = db.transaction("mapNames", "readonly");
+        const objectStore = transaction.objectStore("mapNames");
+        const getAllRequest = objectStore.getAll();
+
+        getAllRequest.onsuccess = async (event) => {
+            const allData = event.target.result;
+
+            for (const item of allData) {
+                if (Array.isArray(item.data)) {
+                    for (let i = 0; i < item.data.length; i++) {
+                        if (item.data[i].image && item.data[i].image.startsWith("data:image")) {
+                            console.log(`압축 중: ${item.data[i].sigunguCd}`);
+
+                            const oldBlob = base64ToBlob(item.data[i].image);
+                            const compressedBlob = await compressImage(oldBlob, 300, 300, 0.6);
+                            const compressedBase64 = await blobToBase64(compressedBlob);
+                            item.data[i].image = compressedBase64;
+                        }
+                    }
+                }
+
+                try {
+                    await new Promise((resolve, reject) => {
+                        const updateTransaction = db.transaction("mapNames", "readwrite");
+                        const updateStore = updateTransaction.objectStore("mapNames");
+                        const putRequest = updateStore.put(item);
+
+                        putRequest.onsuccess = resolve;
+                        putRequest.onerror = (event) => {
+                            console.error("IndexedDB 저장 오류:", event.target.error);
+                            reject(event.target.error);
+                        };
+                    });
+                } catch (error) {
+                    console.error("데이터 저장 실패:", error);
+                }
+            }
+
+            console.log("모든 기존 이미지 압축 완료!");
+            await setOptimizationFlag();
+        };
+
+        getAllRequest.onerror = (event) => {
+            console.error("IndexedDB에서 데이터를 가져오는 중 오류 발생:", event.target.error);
+        };
+    };
+
+    request.onerror = (event) => {
+        console.error("IndexedDB 열기 실패:", event.target.error);
+    };
+}
+
+(async function () {
+    if (await isOptimizationNeeded()) {
+        console.log("이미지 최적화가 필요함, 최적화 시작");
+        await optimizeExistingImages();
+    } else {
+        console.log("이미 최적화 완료됨");
+    }
+})();
+
+

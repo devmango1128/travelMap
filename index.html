@@ -25,6 +25,8 @@
         const db = await openIndexedDB("MapColorDB", 1);
         const datas = await getAllData(db, "mapNames");
 
+        await isOptimizationNeeded();
+
         setTimeout(function () {
             if(datas.length === 0) window.location.href = "mapName.html";
             else window.location.href = "mapNames.html";
