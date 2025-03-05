@@ -711,15 +711,15 @@ function compressImage(file, maxWidth, maxHeight, quality) {
                 let height = img.height;
 
                 // 비율 유지하며 크기 조정 임시 삭제
-                // if (width > maxWidth || height > maxHeight) {
-                //     if (width > height) {
-                //         height = Math.round((height *= maxWidth / width));
-                //         width = maxWidth;
-                //     } else {
-                //         width = Math.round((width *= maxHeight / height));
-                //         height = maxHeight;
-                //     }
-                // }
+                if (width > maxWidth || height > maxHeight) {
+                    if (width > height) {
+                        height = Math.round((height *= maxWidth / width));
+                        width = maxWidth;
+                    } else {
+                        width = Math.round((width *= maxHeight / height));
+                        height = maxHeight;
+                    }
+                }
 
                 canvas.width = width;
                 canvas.height = height;

@@ -180,19 +180,6 @@
                 await circleClicked(firstCircle, firstCircle.style.backgroundColor);
             }
 
-            document.getElementById('fileInput').addEventListener('click', function () {
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    navigator.mediaDevices.getUserMedia({ video: true })
-                        .then((stream) => {
-                            stream.getTracks().forEach(track => track.stop());
-                        })
-                        .catch((error) => {
-                            console.warn("카메라 접근이 불가능하거나 거부됨", error);
-                        });
-                    this.click();
-                }
-            });
-
             document.getElementById('fileInput').addEventListener('change', function() {
                 const fileInput = document.getElementById('fileInput');
                 const file = fileInput.files[0];
