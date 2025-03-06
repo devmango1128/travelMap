@@ -911,7 +911,21 @@ async function realDeleteMapInfo() {
                 console.log("All data cleared successfully.");
             };
 
-            clearRequest.onerror = (event) => console.error("Error clearing data:", event.target.errorCode);
+            clearRequest.onerror = (event) => {
+                console.error("Error clearing data:", event.target.errorCode);
+                reject(event.target.errorCode);
+            }
+
+            // 트랜잭션 완료 후 resolve 호출
+            transaction.oncomplete = function() {
+                console.log("realDeleteMapInfo Transaction completed successfully.");
+                resolve();
+            };
+
+            transaction.onerror = function(event) {
+                console.error("realDeleteMapInfo Transaction error: " + event.target.errorCode);
+                reject(event.target.errorCode);
+            };
         };
 
         request.onupgradeneeded = (event) => {
@@ -1348,14 +1362,16 @@ function saveBackupInfo(fileSize, fileName) {
 async function startRestored() {
     const fileInput = document.getElementById('restoreFileInput');
     const file = fileInput.files[0];
-
+    
     if(file) {
+        console.log('startRestored 복구 파일 있음')
         await realDeleteMapInfo();
     }
 
     const reader = new FileReader();
 
     reader.onload = async function(event) {
+        console.log('startRestored event.target.result', event.target.result);
         const jsonData = JSON.parse(event.target.result);
 
         await restoreDataToIndexedDB(jsonData);
