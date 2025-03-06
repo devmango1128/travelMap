@@ -303,13 +303,13 @@ function compressImage2(base64Image) {
     });
 }
 
-function popupDelete(index, filteredItems, event) {
+async function popupDelete(index, filteredItems, event) {
 
     event.preventDefault();
 
     const filteredData = JSON.parse(filteredItems);
     filteredData.splice(index, 1);
-    updateIndexedDB(filteredData).then(() => {
+    await updateIndexedDB(filteredData).then(() => {
         location.reload();
     }).catch((error) => {
         console.error("데이터 삭제 중 오류 발생", error);
@@ -317,14 +317,14 @@ function popupDelete(index, filteredItems, event) {
 }
 
 function updateIndexedDB(updatedItem) {
-    return new Promise((resolve, reject) => {
-        const db = openIndexedDB('MapColorDB', 1);
+    return new Promise(async (resolve, reject) => {
+        const db = await openIndexedDB('MapColorDB', 1);
         const tx = db.transaction('mapNames', 'readwrite');
         const store = tx.objectStore('mapNames');
         const mapName = localStorage.getItem("mapName");
         const request = store.get(mapName);
 
-        request.onsuccess = function(event) {
+        request.onsuccess = function (event) {
             const data = event.target.result;
 
             if (data) {
@@ -332,12 +332,12 @@ function updateIndexedDB(updatedItem) {
                 data.data = updatedItem;
                 const updateRequest = store.put(data);
 
-                updateRequest.onsuccess = function() {
+                updateRequest.onsuccess = function () {
                     console.log("IndexedDB에 업데이트 완료");
                     resolve(); // 성공 시 resolve 호출
                 };
 
-                updateRequest.onerror = function(event) {
+                updateRequest.onerror = function (event) {
                     console.error("IndexedDB 업데이트 오류", event);
                     reject(event); // 오류 발생 시 reject 호출
                 };
@@ -347,7 +347,7 @@ function updateIndexedDB(updatedItem) {
             }
         };
 
-        request.onerror = function(event) {
+        request.onerror = function (event) {
             console.error("IndexedDB 요청 오류", event);
             reject(event);
         };
