@@ -62,18 +62,18 @@
         const ul = document.createElement('ul');
 
         if ('storage' in navigator && 'estimate' in navigator.storage) {
-            navigator.storage.estimate().then(estimate => {
-                const quota = estimate.quota; // 할당된 총 용량 (바이트 단위)
-                const usage = estimate.usage; // 현재 사용 중인 용량 (바이트 단위)
+            navigator.storage.estimate().then(async estimate => {
+                const quota = estimate.quota || 0; // 할당된 총 용량 (바이트 단위)
+                const usage = await getIndexedDBUsage() || estimate.usage; // 현재 사용 중인 용량 (바이트 단위)
 
                 const li1 = document.createElement('li');
                 li1.innerHTML = `저장 용량`;
                 ul.appendChild(li1);
 
-                const remaining = quota - usage;
+                const remaining = Math.max(0, quota - usage);
 
-                const usagePercentage = (usage / quota) * 100;
-                const remainingPercentage = (remaining / quota) * 100;
+                const usagePercentage = quota > 0 ? (usage / quota) * 100 : 0;
+                const remainingPercentage = quota > 0 ? (remaining / quota) * 100 : 0;
 
                 // 컨테이너 생성
                 const container = document.createElement('div');
@@ -136,5 +136,51 @@
         } else {
             window.location.href = 'mapNames.html';
         }
+    }
+
+    async function getIndexedDBUsage() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open("MapColorDB", 1);
+
+            request.onsuccess = async (event) => {
+                const db = event.target.result;
+                const transaction = db.transaction(db.objectStoreNames, "readonly");
+                let totalSize = 0;
+
+                const sizePromises = [];
+                for (const storeName of db.objectStoreNames) {
+                    const store = transaction.objectStore(storeName);
+                    const getAllRequest = store.getAll();
+
+                    sizePromises.push(
+                        new Promise((res) => {
+                            getAllRequest.onsuccess = () => {
+                                const data = getAllRequest.result;
+                                let storeSize = 0;
+
+                                data.forEach((item) => {
+                                    storeSize += new Blob([JSON.stringify(item)]).size;
+                                });
+
+                                totalSize += storeSize;
+                                res();
+                            };
+
+                            getAllRequest.onerror = () => {
+                                res(); // 실패해도 진행되도록 처리
+                            };
+                        })
+                    );
+                }
+
+                if (sizePromises.length > 0) {
+                    await Promise.all(sizePromises);
+                }
+
+                resolve(totalSize);
+            };
+
+            request.onerror = () => reject("IndexedDB를 열 수 없습니다.");
+        });
     }
 </script>
