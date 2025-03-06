@@ -1127,17 +1127,19 @@ function mapNamesNextPage(mapName) {
     nextPage(1, mapName);
 }
 
-async function fnDelete(event, data) {
-    return new Promise((resolve, reject) => {
-        const db = openIndexedDB("MapColorDB", 1);
+function fnDelete(event, data) {
+    return new Promise(async (resolve, reject) => {
+        const db = await openIndexedDB("MapColorDB", 1);
         const transaction = db.transaction("mapNames", "readwrite");
         const objectStore = transaction.objectStore("mapNames");
         const deleteRequest = objectStore.delete(data.mapName);
 
         deleteRequest.onsuccess = () => {
+            resolve();
             location.reload();
         };
         deleteRequest.onerror = (event) => {
+            reject(event.target.error);
             console.error("Error deleting map:", event.target.error);
         };
     });
