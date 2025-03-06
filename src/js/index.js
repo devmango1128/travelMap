@@ -1360,6 +1360,7 @@ function saveBackupInfo(fileSize, fileName) {
 }
 
 async function startRestored() {
+    console.log('startRestored');
     const fileInput = document.getElementById('restoreFileInput');
     const file = fileInput.files[0];
     
