@@ -21,7 +21,7 @@ request.onupgradeneeded = (event) => {
     db.createObjectStore("mapNames", { keyPath: "mapName" });
 };
 
-const sigunguJsonUrl = "src/data/sigungu_new_new.json";
+const sigunguJsonUrl = "src/data/sigungu_new_new_new.json";
 const center = [35.9665, 127.6780];
 const mapNames = {};
 let districtLabels = [];
