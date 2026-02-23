@@ -259,18 +259,12 @@ function escapeHtml(unsafe) {
         .replace(/"/g, '\\"');
 }
 
-async function popupUpdate(index, siNm, gigunguNm, filteredItems, evnet) {
+function popupUpdate(index, siNm, gigunguNm, filteredItems, evnet) {
     event.preventDefault();
 
     const filteredData = JSON.parse(filteredItems);
     const newData = filteredData.splice(index, 1);
     localStorage.setItem('sigunguNm', siNm + ' ' + gigunguNm);
-
-    // 이미지 압축 처리
-    if(newData[0].image) {
-        const compressedBase64 = await compressImage2(newData[0].image);
-        newData[0].image = compressedBase64;
-    }
 
     localStorage.setItem('updateItem', JSON.stringify(newData));
     window.location.href = 'mapInfo.html';
