@@ -216,11 +216,29 @@
                     imgDiv2.appendChild(img2);
 
                     const day = document.createElement("div");
-                    const createDate = daysSince(data.createDate);
-                    const startDate = formatDate(new Date(data.createDate));
+
+                    // 데이터 중 가장 오래된 날짜 찾기
+                    let oldestDate = null;
+                    filteredItems.forEach(item => {
+                        if (Array.isArray(item.data)) {
+                            item.data.forEach(d => {
+                                if (d.strDate) {
+                                    const dateObj = new Date(d.strDate);
+                                    if (!oldestDate || dateObj < oldestDate) {
+                                        oldestDate = dateObj;
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    // 데이터가 있으면 가장 오래된 날짜 기준, 없으면 생성일 기준
+                    const baseDate = oldestDate ? oldestDate.getTime() : data.createDate;
+                    const dayCount = daysSince(baseDate);
+                    const startDate = formatDate(new Date(baseDate));
                     const endDate = formatDate(new Date(Date.now()));
 
-                    day.innerHTML = '<span class="point-day">D+' + createDate + '</span><span> ' + startDate + '</span><span> ~ ' + endDate + '</span>';
+                    day.innerHTML = '<span class="point-day">D+' + dayCount + '</span><span> ' + startDate + '</span><span> ~ ' + endDate + '</span>';
                     day.className = 'day';
                     imgDiv2.appendChild(day);
 

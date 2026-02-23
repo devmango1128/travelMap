@@ -116,14 +116,78 @@
 
             document.getElementById('pageTitle').innerHTML = mapName + '  <span>' + sigunguNm + '</span>';
 
+            // 년도 드롭다운 생성 함수
+            function createYearDropdown(fp) {
+                const currentYear = new Date().getFullYear();
+                const minYear = 1950;
+
+                const yearInput = fp.currentYearElement;
+                if (!yearInput) return;
+
+                // 기존 년도 input을 select로 교체
+                const yearSelect = document.createElement('select');
+                yearSelect.className = 'flatpickr-year-select';
+                yearSelect.style.cssText = `
+                    appearance: none;
+                    -webkit-appearance: none;
+                    background: transparent;
+                    border: none;
+                    font-size: 14px;
+                    font-weight: bold;
+                    padding: 5px 20px 5px 5px;
+                    cursor: pointer;
+                    color: #3c3c3c;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 5px center;
+                    min-width: 70px;
+                    text-align: center;
+                `;
+
+                // 옵션 생성 (현재년도부터 과거순으로)
+                for (let year = currentYear; year >= minYear; year--) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year + '년';
+                    if (year === fp.currentYear) {
+                        option.selected = true;
+                    }
+                    yearSelect.appendChild(option);
+                }
+
+                // 년도 변경 이벤트
+                yearSelect.addEventListener('change', function() {
+                    fp.changeYear(parseInt(this.value));
+                });
+
+                // 기존 년도 input 숨기고 select 추가
+                yearInput.style.display = 'none';
+                yearInput.parentNode.insertBefore(yearSelect, yearInput);
+
+                // 년도가 변경될 때 select도 업데이트
+                fp._yearSelect = yearSelect;
+            }
+
+            // 년도 select 업데이트 함수
+            function updateYearSelect(fp) {
+                if (fp._yearSelect) {
+                    fp._yearSelect.value = fp.currentYear;
+                }
+            }
+
             const startDatePicker = flatpickr("#strDatePicker", {
                 locale: "ko",
                 dateFormat: "Y-m-d",
                 defaultDate: new Date(),
                 disableMobile: true,
                 maxDate: "today",
+                onReady: function(selectedDates, dateStr, instance) {
+                    createYearDropdown(instance);
+                },
+                onYearChange: function(selectedDates, dateStr, instance) {
+                    updateYearSelect(instance);
+                },
                 onDayCreate: function(dObj, dStr, fp, dayElem) {
-
                     const date = new Date(dayElem.dateObj);
 
                     if (date.getDay() === 6) {  // 토요일
@@ -144,8 +208,13 @@
                 defaultDate: new Date(),
                 disableMobile: true,
                 maxDate: "today",
+                onReady: function(selectedDates, dateStr, instance) {
+                    createYearDropdown(instance);
+                },
+                onYearChange: function(selectedDates, dateStr, instance) {
+                    updateYearSelect(instance);
+                },
                 onDayCreate: function(dObj, dStr, fp, dayElem) {
-
                     const date = new Date(dayElem.dateObj);
 
                     if (date.getDay() === 6) {  // 토요일

@@ -1313,6 +1313,37 @@ textarea:focus {
     background: #ffaa00 !important;
 }
 
+/* 년도 드롭다운 스타일 */
+.flatpickr-year-select {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.flatpickr-year-select:focus {
+    outline: none;
+}
+
+/* 월 폰트 크기를 년도에 맞춤 */
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month span.cur-month {
+    font-size: 14px !important;
+    font-weight: bold;
+}
+
+/* 모바일에서 select 박스 크기 조정 */
+@media (max-width: 768px) {
+    .flatpickr-year-select {
+        font-size: 14px !important;
+        min-width: 80px !important;
+        padding: 8px 25px 8px 8px !important;
+    }
+
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month span.cur-month {
+        font-size: 14px !important;
+    }
+}
+
 .file-upload-area {
     display: flex;
     width: 100%;
