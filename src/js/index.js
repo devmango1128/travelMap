@@ -1479,6 +1479,24 @@ function goApp(div) {
     let url = '';
 
     switch (div) {
+        case 'A' :
+            url = 'https://play.google.com/store/apps/details?id=com.devmango161128.newlotto';
+            break;
+        case 'B' :
+            url = 'https://play.google.com/store/apps/details?id=com.devmango161128.sudopang';
+            break;
+        case 'C' :
+            url = 'https://play.google.com/store/apps/details?id=com.devmango.unitconversion';
+            break;
+        case 'D' :
+            url = 'https://play.google.com/store/apps/details?id=com.devmango161128.memorypang';
+            break;
+        case 'E' :
+            url = 'https://play.google.com/store/apps/details?id=com.devmango161128.puzzlepang';
+            break;
+        case 'G' :
+            url = 'https://play.google.com/store/apps/details?id=com.devmango161128.costco';
+            break;
         case 'L' :
             url = 'https://play.google.com/store/apps/details?id=com.lotto.devmango1128';
             break;
