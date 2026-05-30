@@ -28,6 +28,7 @@ let districtLabels = [];
 let geojsonLayer;
 let gubun;
 let map;
+let labelsVisible = true;
 
 function initMap() {
     map = L.map('map', {
@@ -53,6 +54,7 @@ function initMap() {
     whiteBackground.addTo(map);
 
     map.on('zoomend', () => {
+        if (!labelsVisible) return;
         let zoomLevel = map.getZoom();
         let thresholdZoom = 8;
 
@@ -67,6 +69,28 @@ function initMap() {
         }
     });
     map.on('zoomend', updateLabelSizes);
+}
+
+function toggleDistrictLabels() {
+    labelsVisible = !labelsVisible;
+    const btn = document.getElementById('labelToggleButton');
+
+    if (labelsVisible) {
+        btn.classList.remove('label-hidden');
+        // 현재 줌 레벨에 따라 라벨 복원
+        let zoomLevel = map.getZoom();
+        let thresholdZoom = 8;
+        districtLabels.forEach((label) => {
+            if (zoomLevel > thresholdZoom || !excludedRegionCodes.includes(label.options.regionCode)) {
+                label.addTo(map);
+            }
+        });
+    } else {
+        btn.classList.add('label-hidden');
+        districtLabels.forEach((label) => {
+            label.remove();
+        });
+    }
 }
 
 const excludedRegionCodes = [
